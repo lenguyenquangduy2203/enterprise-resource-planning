@@ -1,0 +1,26 @@
+node_modules/
+.env
+*.log
+target/
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+.pytest_cache
+
+# Virtual environment
+venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
