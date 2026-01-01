@@ -1,5 +1,48 @@
 # Enterprise Resource Planning System
 
+## Build & Run
+
+### 1. Build base images (required)
+
+Base Dockerfiles are located in ./dev/base and are not published.
+
+Build them locally before running the system.
+
+```bash
+docker build -f ./dev/base/Dockerfile.25-jdk-base-build \
+  -t jdk25-build-base ./dev/base
+```
+
+```bash
+docker build -f ./dev/base/Dockerfile.25-jdk-base-run \
+  -t jdk25-runtime-base ./dev/base
+```
+
+### 2. Build and start services
+
+```bash
+DOCKER_BUILDKIT=1 docker compose up --build
+```
+
+Detached mode:
+
+```bash
+DOCKER_BUILDKIT=1 docker compose up -d --build
+```
+
+### 3. Clean rebuild (if needed)
+
+```bash
+docker compose down -v
+docker compose up --build
+```
+
+### Notes
+
+Base images must be rebuilt only when files in ./dev/base change
+
+MySQL initialization scripts run only on a fresh volume
+
 ## ⚠️ MySQL Init Script Not Executed (Docker Volume Gotcha)
 
 ### Problem
@@ -7,15 +50,12 @@
 After starting the MySQL container, the database runs normally but:
 
 - `01-init.sql` is not executed
-
 - Only default databases (mysql, information_schema, etc.) exist
-
 - No custom databases or tables are created
 
 Even though:
 
 - 01-init.sql exists in `/docker-entrypoint-initdb.d`
-
 - The file path and permissions are correct
 
 Root Cause
@@ -27,9 +67,7 @@ If the Docker volume mapped to `/var/lib/mysql` already exists, MySQL considers 
 This commonly happens when:
 
 - docker `compose down` is run without `-v`
-
 - A named volume (e.g. mysql_data) is reused
-
 - The container is recreated but the volume persists
 
 How MySQL Init Scripts Work (Important)
@@ -37,9 +75,7 @@ How MySQL Init Scripts Work (Important)
 MySQL runs files in `/docker-entrypoint-initdb.d` only if:
 
 - `/var/lib/mysql` is empty
-
 - The container is starting for the first time
-
 - The scripts have valid extensions (.sql, .sh, .sql.gz)
 
 If any of these conditions are not met, init scripts are skipped.
@@ -69,7 +105,7 @@ docker logs mysql_db
 
 You should see lines similar to:
 
-```shell
+```sh
 [Entrypoint]: Initializing database
 [Entrypoint]: Running /docker-entrypoint-initdb.d/01-init.sql
 ```

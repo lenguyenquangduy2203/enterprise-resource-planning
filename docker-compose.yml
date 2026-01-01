@@ -19,6 +19,18 @@ services:
       - ./database:/docker-entrypoint-initdb.d
     networks:
       - erp
+  configurer:
+    build: ./backend/infrastructure/configurer
+    image: configurer
+    ports:
+      - "8888:8888"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - erp
 
 volumes:
   mysql_data:

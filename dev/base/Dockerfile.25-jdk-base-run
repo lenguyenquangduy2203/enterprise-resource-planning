@@ -1,0 +1,6 @@
+FROM eclipse-temurin:25-jre
+
+# Create non-root user once, reuse everywhere
+RUN useradd -r -u 1001 appuser
+WORKDIR /app
+USER appuser
