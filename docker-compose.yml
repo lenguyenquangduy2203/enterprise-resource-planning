@@ -46,6 +46,18 @@ services:
       retries: 10
     networks:
       - erp
+  gateway:
+    build: ./backend/infrastructure/gateway
+    image: gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      configurer:
+        condition: service_healthy
+      registry:
+        condition: service_healthy
+    networks:
+      - erp
 
 volumes:
   mysql_data:
