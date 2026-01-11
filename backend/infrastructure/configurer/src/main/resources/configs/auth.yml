@@ -1,0 +1,23 @@
+server:
+  port: 9000
+
+spring:
+  security:
+    oauth2:
+      authorizationserver:
+        issuer: http://auth-server:9000
+        client:
+          gateway-client:
+            registration:
+              client-id: gateway-client
+              client-secret: "{bcrypt}$2a$10$e0MYzXyjpJS2n8zG6F9KZ.e0mQF6K7W5P8u3zG9nq7R6zO5pZyY1y"
+              client-name: Gateway Client
+              client-authentication-methods:
+                - client_secret_basic
+              authorization-grant-types:
+                - authorization_code
+                - refresh_token
+              redirect-uris:
+                - http://127.0.0.1:8080/login/oauth2/code/gateway-client-oidc
+              scopes:
+                - openid

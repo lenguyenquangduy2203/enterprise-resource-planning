@@ -1,0 +1,14 @@
+spring:
+    application:
+        name: auth
+    datasource:
+        url: jdbc:mysql://mysql:3306/auth
+        username: ${MYSQL_USER}
+        password: ${MYSQL_PASSWORD}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    jpa:
+        hibernate:
+            ddl-auto: update
+            dialect: org.hibernate.dialect.MySQL8Dialect
+        show-sql: true
+
