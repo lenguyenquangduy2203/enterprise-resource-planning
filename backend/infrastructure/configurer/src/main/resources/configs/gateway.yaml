@@ -22,7 +22,21 @@ resilience4j:
         permittedNumberOfCallsInHalfOpenState: 3
         minimumNumberOfCalls: 5
     instances:
-      serviceACircuitBreaker:
+      authCircuitBreaker:
         baseConfig: default
-      serviceBCircuitBreaker:
-        baseConfig: default
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://auth-server:9000
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: http://auth:9001
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
