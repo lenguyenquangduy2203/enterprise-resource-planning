@@ -3,28 +3,24 @@ package dev.edu.gateway.configs;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.web.server.SecurityWebFilterChain;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebFluxSecurity
 public class ResourceServerConfig {
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) {
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
-            // Apply security to all auth endpoints
-            .securityMatcher("/auth/**")
-            .authorizeHttpRequests(auth -> auth
-                // Public endpoints
-                .requestMatchers("/auth/login", "/auth/refresh", "/auth/actuator/health").permitAll()
-                // Protected endpoints
-                .requestMatchers("/auth/accounts/**").hasAuthority("ROLE_ADMIN") 
-                // Later will use mapped permissions instead of roles
-                // Everything else under /auth must be authenticated
-                .anyRequest().authenticated()
+            .csrf(ServerHttpSecurity.CsrfSpec::disable)
+            .authorizeExchange(ex -> ex
+                .pathMatchers(
+                    "/actuator/health",
+                    "/actuator/refresh"
+                ).permitAll()
+                .anyExchange().authenticated()
             )
-            // Resource Server (JWT)
             .oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(Customizer.withDefaults())
             );

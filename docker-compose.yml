@@ -58,6 +58,19 @@ services:
         condition: service_healthy
     networks:
       - erp
+  auth-server:
+    build: ./backend/infrastructure/auth
+    image: auth-server
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "9000:9000"
+    depends_on:
+      configurer:
+        condition: service_healthy
+    networks:
+      - erp
 
 volumes:
   mysql_data:

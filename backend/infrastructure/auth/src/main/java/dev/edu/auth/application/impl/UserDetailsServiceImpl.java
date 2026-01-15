@@ -1,5 +1,6 @@
 package dev.edu.auth.application.impl;
 
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,13 +21,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         var account = accountRepository.findByUsername(username)
             .orElseThrow(() -> new UsernameNotFoundException(username));
         
+        if (!account.isActive()) {
+            throw new DisabledException("Account is not active");
+        }
+        
         return User.builder()
             .username(account.getUsername())
             .password(account.getPassword())
             .disabled(!account.isActive())
             .authorities(
                 account.getRoles().stream()
-                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getCode()))
+                    .map(role -> new SimpleGrantedAuthority(role.getCode()))
                     .toList()
             )
             .build();

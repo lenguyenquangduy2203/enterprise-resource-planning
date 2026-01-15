@@ -12,25 +12,25 @@ CREATE TABLE account (
 INSERT INTO account (username, password, status) VALUES
 (
     'admin',
-    '{bcrypt}$2a$10$7EqJtq98hPqEX7fNZaFWoOHiJXfM8c9nR5P7xKpFZK6b8v2yQ4H9K',
+    '{bcrypt}$2b$10$4VuLqNyxzIGYvbVXLuRAH.x69iMRLXp9YywK1LbvkuTfx7szmnOLu',
     'ACTIVE'
 ),
 -- RAW PASSWORD: admin123
 (
     'hr01',
-    '{bcrypt}$2a$10$N9qo8uLOickgx2ZMRZo5i.ejFhD4MZpGZJp0K1ZJ8b6x9zQF4d5Hy',
+    '{bcrypt}$2b$10$e3QKwydRGUdFd/5OT1Cz5edwV1OcskiJZlXKUMSVGyFh.fh9jnyju',
     'ACTIVE'
 ),
 -- RAW PASSWORD: hr123
 (
     'inv01',
-    '{bcrypt}$2a$10$CwTycUXWue0Thq9StjUM0uJ8ZxLkUQkKxXWcZ1T1QpZ6B1s8yYy',
+    '{bcrypt}$2b$10$vN1g3VIgZ9nDXkCpCY628.yS2DZ6zzufmMF6VfHyajjtRZribjXR.',
     'ACTIVE'
 ),
 -- RAW PASSWORD: inv123
 (
     'employee01',
-    '{bcrypt}$2a$10$9b1GQk3uX9tZ8yZ7kP5ZV.X8J0T3xH1mKzQzM2pB6F6mJ7xM3O',
+    '{bcrypt}$2b$10$G3GcTEKYG/GaEcfdl4n87.RacZXy5knb99hrU6OSIxgwnEaGYkjcS',
     'ACTIVE'
 );
 -- RAW PASSWORD: emp123
