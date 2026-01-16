@@ -7,6 +7,10 @@ management:
       exposure:
         include: health,refresh
 
+logging:
+  level:
+    org.springframework.security: DEBUG
+
 spring:
   security:
     oauth2:
@@ -16,7 +20,7 @@ spring:
           gateway-client:
             registration:
               client-id: gateway-client
-              client-secret: "{bcrypt}$2a$10$e0MYzXyjpJS2n8zG6F9KZ.e0mQF6K7W5P8u3zG9nq7R6zO5pZyY1y"
+              client-secret: "{bcrypt}$2b$10$h5gWyudu9gGNAqbtvAopCOM9zzHVqqaCjvoH4mHB1E.Ae3GKe6u2m"
               client-name: Gateway Client
               client-authentication-methods:
                 - client_secret_basic
@@ -25,5 +29,20 @@ spring:
                 - refresh_token
               redirect-uris:
                 - http://127.0.0.1:8080/login/oauth2/code/gateway-client-oidc
+              scopes:
+                - openid
+          fresh-client:
+            registration:
+              client-id: fresh-client
+              client-secret: "{bcrypt}$2b$10$1EdZjebMhcotUER/exwPwOdBuOi3peBhkCvSj8yl/7F1qdsGuU.Hi"
+              client-name: Fresh Client
+              client-authentication-methods:
+                - client_secret_basic
+              authorization-grant-types:
+                - authorization_code
+                - refresh_token
+              redirect-uris:
+                - http://127.0.0.1:5173/login/oauth2/code/fresh-client-oidc
+                - http://127.0.0.1:5173/auth/callback
               scopes:
                 - openid

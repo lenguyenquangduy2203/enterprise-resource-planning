@@ -71,6 +71,19 @@ services:
         condition: service_healthy
     networks:
       - erp
+  # fresh-client:
+  #   platform: linux/amd64
+  #   build:
+  #     context: ./frontend/fresh-client
+  #     dockerfile: Dockerfile
+  #   image: fresh-client
+  #   ports:
+  #     - "5173:5173"
+  #   depends_on:
+  #     auth-server:
+  #       condition: service_completed_successfully
+  #   networks:
+  #     - erp
 
 volumes:
   mysql_data:
