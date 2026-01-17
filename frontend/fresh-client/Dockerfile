@@ -1,5 +1,5 @@
-# Force amd64 to avoid Rollup / Vite ARM optional-deps bug
-FROM --platform=linux/amd64 denoland/deno:1.40.2
+# Force amd64 to avoid Rollup / Vite ARM optional-deps bug --platform=linux/amd64
+FROM denoland/deno:latest
 
 # App directory
 WORKDIR /app
@@ -8,11 +8,10 @@ WORKDIR /app
 COPY . .
 
 # Build Fresh app
-RUN deno task build \
-    && deno cache _fresh/server.js
+RUN deno cache _fresh/server.js
 
 # Fresh default port
 EXPOSE 5173
 
 # Run Fresh production server
-CMD ["deno", "serve", "-A", "_fresh/server.js"]
+CMD ["deno", "task", "start"]

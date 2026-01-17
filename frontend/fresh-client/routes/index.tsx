@@ -14,7 +14,7 @@ export const handler = define.handlers({
 				`?response_type=code` +
 				`&client_id=fresh-client` +
 				`&redirect_uri=${
-					encodeURIComponent(`http://127.0.0.1:5173/auth/callback`)
+					encodeURIComponent(`http://0.0.0.0:5173/auth/callback`)
 				}` +
 				`&scope=openid` +
 				`&state=erp` +

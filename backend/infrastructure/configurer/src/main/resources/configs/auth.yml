@@ -42,7 +42,7 @@ spring:
                 - authorization_code
                 - refresh_token
               redirect-uris:
-                - http://127.0.0.1:5173/login/oauth2/code/fresh-client-oidc
-                - http://127.0.0.1:5173/auth/callback
+                - http://0.0.0.0:5173/login/oauth2/code/fresh-client-oidc
+                - http://0.0.0.0:5173/auth/callback
               scopes:
                 - openid

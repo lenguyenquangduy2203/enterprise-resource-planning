@@ -1,11 +1,11 @@
 {
 	"lock": false,
-	"nodeModulesDir": "manual",
+	"nodeModulesDir": true,
 	"tasks": {
 		"check": "deno fmt --check . && deno lint . && deno check",
 		"dev": "vite",
 		"build": "vite build",
-		"start": "deno serve -A _fresh/server.js",
+		"start": "deno serve --host 0.0.0.0 --port 5173 -A _fresh/server.js",
 		"update": "deno run -A -r jsr:@fresh/update ."
 	},
 	"lint": {

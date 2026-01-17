@@ -18,6 +18,10 @@ docker build -f ./dev/base/Dockerfile.25-jdk-base-run \
   -t jdk25-runtime-base ./dev/base
 ```
 
+```bash
+cd ./frontend/fresh-client && deno task build
+```
+
 ### 2. Build and start services
 
 ```bash

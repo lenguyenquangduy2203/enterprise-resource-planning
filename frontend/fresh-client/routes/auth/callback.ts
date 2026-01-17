@@ -11,7 +11,7 @@ export const handler = define.handlers({
 
 		// Exchange code for token
 		const tokenResponse = await fetch(
-			`http://localhost:9000/oauth2/token`,
+			`http://auth-server:9000/oauth2/token`,
 			{
 				method: "POST",
 				headers: {
@@ -25,7 +25,7 @@ export const handler = define.handlers({
 					grant_type: "authorization_code",
 					client_id: "fresh-client",
 					code,
-					redirect_uri: "http://127.0.0.1:5173/auth/callback",
+					redirect_uri: "http://0.0.0.0:5173/auth/callback",
 					code_verifier: verifier,
 				}),
 			},
