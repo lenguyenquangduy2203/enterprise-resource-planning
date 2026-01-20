@@ -1,6 +1,7 @@
 import { Head } from "fresh/runtime";
 import { challenge, define } from "../utils.ts";
 import { getCookies } from "@std/http";
+import PemContainer from "../islands/PemContainer.tsx";
 
 export const handler = define.handlers({
 	GET(ctx) {
@@ -24,15 +25,11 @@ export const handler = define.handlers({
 			return Response.redirect(authUrl, 302);
 		}
 
-		return {
-			data: {
-				token: accessToken,
-			},
-		};
+		return { data: {} };
 	},
 });
 
-export default define.page<typeof handler>(({ data }) => {
+export default define.page<typeof handler>(() => {
 	return (
 		<>
 			<Head>
@@ -40,7 +37,8 @@ export default define.page<typeof handler>(({ data }) => {
 			</Head>
 			<main>
 				<h1>Welcome</h1>
-				<p>Your token is ${data.token}</p>
+				<p>Your permissions are:</p>
+				<PemContainer />
 			</main>
 		</>
 	);

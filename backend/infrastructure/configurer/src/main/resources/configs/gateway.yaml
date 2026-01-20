@@ -26,8 +26,46 @@ resilience4j:
       #   baseConfig: default
 
 spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowed-origins:
+                  - http://localhost:5173
+                  - http://0.0.0.0:5173
+                allowed-methods:
+                  - GET
+                  - OPTIONS
+                allowed-headers:
+                  - "*"
+                allow-credentials: true
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: http://auth-server:9000
+    policy-overlay:
+      role-permissions:
+        ROLE_ADMIN:
+          - system.admin
+          - account.read
+          - account.write
+          - employee.read
+          - employee.write
+          - inventory.read
+          - inventory.write
+          - warehouse.manage
+        ROLE_HR_MANAGER:
+          - employee.read
+          - employee.write
+          - account.read
+        ROLE_WAREHOUSE:
+          - inventory.read
+          - inventory.write
+          - warehouse.manage
+        ROLE_EMPLOYEE:
+          - employee.read
+          - inventory.read
