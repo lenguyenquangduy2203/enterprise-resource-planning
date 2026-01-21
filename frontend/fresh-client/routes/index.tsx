@@ -1,33 +1,9 @@
 import { Head } from "fresh/runtime";
 import { challenge, define } from "../utils.ts";
-// import { getCookies } from "@std/http";
 import PemContainer from "../islands/PemContainer.tsx";
 import { HomeController } from "../controllers/auth/HomeController.ts";
 
 export const handler = define.handlers({
-	// GET(ctx) {
-	// 	const headers = ctx.req.headers;
-	// 	const cookies = getCookies(headers);
-	// 	const accessToken = cookies["access_token"];
-
-	// 	// 🚨 FORCE LOGIN
-	// 	if (!accessToken) {
-	// 		const authUrl = `http://localhost:9000/oauth2/authorize` +
-	// 			`?response_type=code` +
-	// 			`&client_id=fresh-client` +
-	// 			`&redirect_uri=${
-	// 				encodeURIComponent(`http://0.0.0.0:5173/auth/callback`)
-	// 			}` +
-	// 			`&scope=openid` +
-	// 			`&state=erp` +
-	// 			"&code_challenge=" + challenge +
-	// 			"&code_challenge_method=S256";
-
-	// 		return Response.redirect(authUrl, 302);
-	// 	}
-
-	// 	return { data: {} };
-	// },
 	GET: HomeController((accessToken) => {
 		if (!accessToken) {
 			const authUrl = `http://localhost:9000/oauth2/authorize` +
