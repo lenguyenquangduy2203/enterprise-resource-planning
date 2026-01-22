@@ -26,7 +26,13 @@ public class ResourceServerConfig {
             .authorizeExchange(ex -> ex
                 .pathMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .pathMatchers("/me/permissions").authenticated()
-                .pathMatchers("/actuator/health", "/actuator/refresh").permitAll()
+                .pathMatchers(
+                    "/actuator/health", 
+                    "/actuator/refresh", 
+                    "/hr/actuator/health"
+                ).permitAll()
+                .pathMatchers(HttpMethod.GET, "/hr/employees/**").hasAuthority("SCOPE_employee.read")
+                .pathMatchers(HttpMethod.POST, "/hr/employees/**").hasAuthority("SCOPE_employee.write")
                 .anyExchange().authenticated()
             )
             .oauth2ResourceServer(oauth2 ->

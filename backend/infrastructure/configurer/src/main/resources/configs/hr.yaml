@@ -1,0 +1,13 @@
+server:
+  port: 8081
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://registry:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,refresh

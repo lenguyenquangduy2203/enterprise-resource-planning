@@ -21,13 +21,20 @@ resilience4j:
         waitDurationInOpenState: 10000
         permittedNumberOfCallsInHalfOpenState: 3
         minimumNumberOfCalls: 5
-    # instances:
-      # authCircuitBreaker:
-      #   baseConfig: default
+    instances:
+      hrCircuitBreaker:
+        baseConfig: default
 
 spring:
   cloud:
     gateway:
+      routes:
+        - id: hr
+          uri: http://hr:8081
+          predicates:
+            - Path=/hr/**
+          filters:
+            - StripPrefix=1
       server:
         webflux:
           globalcors:
