@@ -1,6 +1,6 @@
 package dev.edu.hr.adapters.payloads;
 
-public record DepartmentSelectOptionResponse(
+public record DepartmentSelectOption(
     String code,
     String name
 ) {}

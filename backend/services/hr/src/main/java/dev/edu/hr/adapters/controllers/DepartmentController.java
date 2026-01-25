@@ -4,8 +4,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.edu.hr.adapters.mappers.EmployeeOnboardingResultMapper;
-import dev.edu.hr.adapters.payloads.DepartmentSelectOptionResponse;
-import dev.edu.hr.adapters.payloads.PositionSelectOptionResponse;
+import dev.edu.hr.adapters.payloads.DepartmentSelectOption;
+import dev.edu.hr.adapters.payloads.PositionSelectOption;
 import dev.edu.hr.application.queries.GetAllDepartmentsQuery;
 import dev.edu.hr.application.queries.GetPositionsInDepartmentByCodeQuery;
 import dev.edu.hr.application.services.EmployeeOnboardingQueryHandler;
@@ -26,18 +26,18 @@ public class DepartmentController {
     private final EmployeeOnboardingResultMapper resultMapper;
 
     @GetMapping
-    public ResponseEntity<List<DepartmentSelectOptionResponse>> getDepartmentSelections() {
-        var result = queryHandler.handle(new GetAllDepartmentsQuery());
-        var response = resultMapper.toDepartmentSelectOptionResponse(result);
-
+    public ResponseEntity<List<DepartmentSelectOption>> getDepartmentSelections() {
+        var result = new GetAllDepartmentsQuery().accept(queryHandler);
+        var response = resultMapper.toDepartmentSelectOptionsResponse(result);
+        
         return ResponseEntity.ok(response);
     }
     
     @GetMapping("/{code}/positions")
-    public ResponseEntity<List<PositionSelectOptionResponse>> getPositionSelection(@PathVariable String code) {
-        var result = queryHandler.handle(new GetPositionsInDepartmentByCodeQuery(code));
-        var response = resultMapper.toPositionSelectOptionResponse(result);
-
+    public ResponseEntity<List<PositionSelectOption>> getPositionSelection(@PathVariable String code) {
+        var result = new GetPositionsInDepartmentByCodeQuery(code).accept(queryHandler);
+        var response = resultMapper.toPositionSelectOptionsResponse(result);
+        
         return ResponseEntity.ok(response);
     }
 }

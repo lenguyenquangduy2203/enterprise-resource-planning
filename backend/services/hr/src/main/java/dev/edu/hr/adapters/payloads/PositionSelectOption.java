@@ -1,6 +1,6 @@
 package dev.edu.hr.adapters.payloads;
 
-public record PositionSelectOptionResponse(
+public record PositionSelectOption(
     String code,
     String name
 ) {}
