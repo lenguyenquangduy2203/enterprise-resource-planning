@@ -38,6 +38,20 @@ public class Employee {
     @Column(name = "account_id", unique = true)
     private Long accountId;
 
+    public static Employee onboard(String fullname, String email, String level, Position position) {
+        if (position == null) {
+            throw new IllegalArgumentException("Position must be provided");
+        }
+    
+        var employee = new Employee();
+        employee.fullname = fullname;
+        employee.email = email;
+        employee.level = level;
+        employee.position = position;
+
+        return employee;
+    }
+
     public boolean hasAccount() {
         return accountId != null;
     }
@@ -46,6 +60,7 @@ public class Employee {
         if (this.accountId != null) {
             throw new IllegalStateException("Employee already has an account");
         }
+        
         this.accountId = accountId;
     }
 

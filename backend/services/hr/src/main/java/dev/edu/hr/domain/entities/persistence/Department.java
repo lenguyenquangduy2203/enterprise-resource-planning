@@ -3,6 +3,7 @@ package dev.edu.hr.domain.entities.persistence;
 import java.util.HashSet;
 import java.util.Set;
 
+import dev.edu.hr.application.errors.PositionNotFound;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -54,5 +55,12 @@ public class Department {
 
     public void removeManager() {
         this.manager = null;
+    }
+
+    public Position findPositionByCode(String positionCode) {
+        return this.positions.stream()
+            .filter(pos -> pos.getCode().equals(positionCode))
+            .findFirst()
+            .orElseThrow(() -> new PositionNotFound(positionCode));
     }
 }

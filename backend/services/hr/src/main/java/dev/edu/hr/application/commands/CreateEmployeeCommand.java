@@ -7,7 +7,8 @@ public record CreateEmployeeCommand(
     String fullname,
     String email,
     String level,
-    Long positionId
+    String departmentCode,
+    String positionCode
 ) implements Command<EmployeeOnboardingCommandHandler> {
     @Override
     public void accept(EmployeeOnboardingCommandHandler handler) {
