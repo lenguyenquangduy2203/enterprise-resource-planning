@@ -24,6 +24,8 @@ resilience4j:
     instances:
       hrCircuitBreaker:
         baseConfig: default
+      authCircuitBreaker:
+        baseConfig: default
 
 spring:
   cloud:
@@ -33,6 +35,12 @@ spring:
           uri: http://hr:8081
           predicates:
             - Path=/hr/**
+          filters:
+            - StripPrefix=1
+        - id: auth
+          uri: http://auth-server:9000
+          predicates:
+            - Path=/auth/**
           filters:
             - StripPrefix=1
       server:
@@ -57,22 +65,23 @@ spring:
     policy-overlay:
       role-permissions:
         ROLE_ADMIN:
-          - system.admin
           - account.read
           - account.write
           - employee.read
           - employee.write
           - inventory.read
           - inventory.write
-          - warehouse.manage
+          - warehouse.read
         ROLE_HR_MANAGER:
           - employee.read
           - employee.write
           - account.read
+          - account.write
+          - department.read
         ROLE_WAREHOUSE:
           - inventory.read
-          - inventory.write
-          - warehouse.manage
+          - inventory.write_own
+          - warehouse.read
         ROLE_EMPLOYEE:
-          - employee.read
+          - employee.read_own
           - inventory.read

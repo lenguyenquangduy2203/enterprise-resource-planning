@@ -16,10 +16,13 @@ public class JwtConfig {
         return context -> {
             if (OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())) {
                 String username = context.getPrincipal().getName();
-                var account = accountRepository
-                    .findByUsername(username)
+                var account = accountRepository.findByUsername(username)
                     .orElseThrow();
                 context.getClaims().claim("accountId", account.getId());
+                if (account.getEmployeeId() != null) {
+                    context.getClaims().claim("employeeId", account.getEmployeeId());
+                }
+
                 context.getClaims().claim(
                     "roles",
                     account.getRoles().stream()

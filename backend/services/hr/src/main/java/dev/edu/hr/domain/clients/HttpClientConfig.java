@@ -30,4 +30,9 @@ public class HttpClientConfig {
 
         return factory.createClient(AuthClient.class);
     }
+
+    @Bean
+    RestClient.Builder restClientBuilder() {
+        return RestClient.builder();
+    }
 }

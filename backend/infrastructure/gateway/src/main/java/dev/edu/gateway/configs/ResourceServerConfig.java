@@ -29,10 +29,17 @@ public class ResourceServerConfig {
                 .pathMatchers(
                     "/actuator/health", 
                     "/actuator/refresh", 
-                    "/hr/actuator/health"
+                    "/hr/actuator/health",
+                    "/auth/actuator/health"
                 ).permitAll()
+                .pathMatchers(HttpMethod.GET, "/hr/employees/*", "/hr/employees/*/**")
+                    .hasAnyAuthority(
+                        "SCOPE_employee.read", 
+                        "SCOPE_employee.read_own")
                 .pathMatchers(HttpMethod.GET, "/hr/employees/**").hasAuthority("SCOPE_employee.read")
                 .pathMatchers(HttpMethod.POST, "/hr/employees/**").hasAuthority("SCOPE_employee.write")
+                .pathMatchers(HttpMethod.GET, "/hr/departments/**").hasAuthority("SCOPE_department.read")
+                .pathMatchers(HttpMethod.POST, "/auth/accounts/**").hasAuthority("SCOPE_account.write")
                 .anyExchange().authenticated()
             )
             .oauth2ResourceServer(oauth2 ->

@@ -2,6 +2,7 @@ package dev.edu.auth.domain.models;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,6 +37,9 @@ public class Account {
     @Column(nullable = false, length = 50)
     private String status;
 
+    @Column(name = "employee_id", columnDefinition = "BINARY(16)", unique = true)
+    private UUID employeeId;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "account_role",
@@ -48,5 +52,9 @@ public class Account {
 
     public boolean isActive() {
         return "ACTIVE".equalsIgnoreCase(this.status);
+    }
+
+    public boolean isEmployeeAccount() {
+        return employeeId != null;
     }
 }

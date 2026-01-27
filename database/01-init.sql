@@ -1,39 +1,57 @@
 CREATE DATABASE IF NOT EXISTS auth;
 USE auth;
 
+CREATE TABLE principal_counter (
+    department_code VARCHAR(50) NOT NULL,
+    position_code   VARCHAR(50) NOT NULL,
+    next_value      BIGINT NOT NULL,
+    PRIMARY KEY (department_code, position_code)
+);
+
+INSERT INTO principal_counter (department_code, position_code, next_value) VALUES
+('IT', 'ADMIN', 1),
+('HR',  'HR_MGR', 1),
+('INV', 'WH_MGR', 1),
+('IT',  'EMP',    1);
+
 CREATE TABLE account (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    status VARCHAR(50) NOT NULL
+    status VARCHAR(50) NOT NULL,
+    employee_id BINARY(16) NULL UNIQUE -- logical FK to hr.employee(id)
 );
 
 -- Accounts
-INSERT INTO account (username, password, status) VALUES
+INSERT INTO account (username, password, status, employee_id) VALUES
 (
-    'admin',
-    '{bcrypt}$2b$10$4VuLqNyxzIGYvbVXLuRAH.x69iMRLXp9YywK1LbvkuTfx7szmnOLu',
-    'ACTIVE'
+    'ITADMIN001',
+    '{bcrypt}$2b$10$aL2zjKoLD/nd2ZkYf0zFLOxaxz1ErAlF.Kdi/4Ln0S820GOyxOMVe',
+    'ACTIVE',
+    UNHEX(REPLACE('9d95a9ff-1539-430f-8364-3c67290363e0', '-', ''))
 ),
--- RAW PASSWORD: admin123
+-- RAW PASSWORD: itadmin001
 (
-    'hr01',
-    '{bcrypt}$2b$10$e3QKwydRGUdFd/5OT1Cz5edwV1OcskiJZlXKUMSVGyFh.fh9jnyju',
-    'ACTIVE'
+    'HRHR_MGR001',
+    '{bcrypt}$2b$10$ATqKUMGtWzuQg77LfzgOa.Ua4oGow99Hy0SJLP3OgdtaJ66U9dJtu',
+    'ACTIVE',
+    UNHEX(REPLACE('feddfe75-ba1e-4085-afd6-b4caac70b481', '-', ''))
 ),
--- RAW PASSWORD: hr123
+-- RAW PASSWORD: hrhr_mgr001
 (
-    'inv01',
-    '{bcrypt}$2b$10$vN1g3VIgZ9nDXkCpCY628.yS2DZ6zzufmMF6VfHyajjtRZribjXR.',
-    'ACTIVE'
+    'INVWH_MGR001',
+    '{bcrypt}$2b$10$6gsRPiz2YG3nrw27csH9jOWXF4RV57tCM1YAYRcGICbPs7XNU5m2O',
+    'ACTIVE',
+    UNHEX(REPLACE('38164cdc-2557-40e8-8a9e-2876eef5528e', '-', ''))
 ),
--- RAW PASSWORD: inv123
+-- RAW PASSWORD: invwh_mgr001
 (
-    'employee01',
-    '{bcrypt}$2b$10$G3GcTEKYG/GaEcfdl4n87.RacZXy5knb99hrU6OSIxgwnEaGYkjcS',
-    'ACTIVE'
+    'ITEMP001',
+    '{bcrypt}$2b$10$gs1zpwS9qVwxMudk3ssBluuBw30p6jRM1SlSEDyWEAQI4qvR9EWRi',
+    'ACTIVE',
+    UNHEX(REPLACE('7c9ae089-037c-4996-a953-cb0601033bcd', '-', ''))
 );
--- RAW PASSWORD: emp123
+-- RAW PASSWORD: itemp001
 
 CREATE TABLE role (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -80,10 +98,10 @@ CREATE TABLE employee (
 
 -- Employees (UUID stored as BINARY(16))
 INSERT INTO employee (id, fullname, email, level, position_id, account_id) VALUES
-(UNHEX(REPLACE(UUID(), '-', '')), 'Nguyen Van Admin', 'admin@erp.com', 'Senior', 1, 1),
-(UNHEX(REPLACE(UUID(), '-', '')), 'Tran Thi HR',     'hr@erp.com',    'Senior', 2, 2),
-(UNHEX(REPLACE(UUID(), '-', '')), 'Le Van Kho',      'inv@erp.com',   'Mid',    3, 3),
-(UNHEX(REPLACE(UUID(), '-', '')), 'Pham Van Emp',    'emp@erp.com',   'Junior', 4, 4);
+(UNHEX(REPLACE('9d95a9ff-1539-430f-8364-3c67290363e0', '-', '')), 'Nguyen Van Admin', 'admin@erp.com', 'Senior', 1, 1),
+(UNHEX(REPLACE('feddfe75-ba1e-4085-afd6-b4caac70b481', '-', '')), 'Tran Thi HR',     'hr@erp.com',    'Senior', 2, 2),
+(UNHEX(REPLACE('38164cdc-2557-40e8-8a9e-2876eef5528e', '-', '')), 'Le Van Kho',      'inv@erp.com',   'Mid',    3, 3),
+(UNHEX(REPLACE('7c9ae089-037c-4996-a953-cb0601033bcd', '-', '')), 'Pham Van Emp',    'emp@erp.com',   'Junior', 4, 4);
 
 
 CREATE TABLE department (
