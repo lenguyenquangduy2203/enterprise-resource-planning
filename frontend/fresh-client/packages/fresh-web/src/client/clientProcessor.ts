@@ -1,5 +1,5 @@
 import { z } from "../../deps.ts";
-import { mayParseFirstBody } from "./parsers.ts";
+import { mayParseAdditionalInit } from "./parsers.ts";
 import { buildUrl } from "./urlBuilder.ts";
 import {
 	$URI,
@@ -26,11 +26,11 @@ function walkClientSchema(meta: ClientMeta, shape: ClientRawShape) {
 			async (...args: z.output<typeof fn._def.input>) => {
 				const parsedArgs = z.parse(fn._def.input, args);
 				const url = buildUrl(meta.base, uri, fn, parsedArgs);
-				const reqBody = mayParseFirstBody(fn, args);
+				const finalInit = mayParseAdditionalInit(fn, args, meta.init);
+				console.log(finalInit);
 				const resp = await fetch(url, {
-					...meta.init,
+					...finalInit,
 					method,
-					body: reqBody && JSON.stringify(reqBody),
 				});
 				if (resp.status >= 400) {
 					throw new Error("invalid response status", { cause: resp });

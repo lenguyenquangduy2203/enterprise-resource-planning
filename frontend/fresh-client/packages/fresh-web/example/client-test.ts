@@ -1,6 +1,7 @@
 import { z } from "../deps.ts";
 import {
 	$Client,
+	$Header,
 	$Param,
 	$Query,
 	$QueryModel,
@@ -16,15 +17,25 @@ const UserSchema = z.object({
 
 const UserQuerySchema = UserSchema.partial();
 
+const APITokenHeader = z.string().nonempty();
+
 const UserClientSchema = z.object({
 	getUser: z.function({
 		input: z.tuple([
+			APITokenHeader.register($Header, {
+				_tag: "header",
+				key: "X-API-Key",
+			}),
 			z.uuid().register($Param, { _tag: "param", key: "id" }),
 		]),
 		output: z.promise(UserSchema),
 	}).register($URI, { method: "GET", uri: "/users/{id}" }),
 	findUser: z.function({
 		input: z.tuple([
+			APITokenHeader.register($Header, {
+				_tag: "header",
+				key: "X-API-Key",
+			}),
 			z.string().register($Query, { _tag: "query", key: "username" }),
 			z.email().register($Query, { _tag: "query", key: "email" }),
 		]),
@@ -32,6 +43,10 @@ const UserClientSchema = z.object({
 	}).register($URI, { method: "GET", uri: "/users" }),
 	findUsersMatchUsername: z.function({
 		input: z.tuple([
+			APITokenHeader.register($Header, {
+				_tag: "header",
+				key: "X-API-Key",
+			}),
 			z.array(z.string()).register($Query, {
 				_tag: "query",
 				key: "username",
@@ -41,6 +56,10 @@ const UserClientSchema = z.object({
 	}).register($URI, { method: "GET", uri: "/users" }),
 	findUsersMatch: z.function({
 		input: z.tuple([
+			APITokenHeader.register($Header, {
+				_tag: "header",
+				key: "X-API-Key",
+			}),
 			z.array(z.string()).register($Query, {
 				_tag: "query",
 				key: "username",
@@ -54,6 +73,10 @@ const UserClientSchema = z.object({
 	}).register($URI, { method: "GET", uri: "/users" }),
 	searchUsers: z.function({
 		input: z.tuple([
+			APITokenHeader.register($Header, {
+				_tag: "header",
+				key: "X-API-Key",
+			}),
 			z.number().nonnegative().register($Query, {
 				_tag: "query",
 				key: "page",
@@ -85,15 +108,20 @@ async function safeRun<R>(id: string, fn: () => R) {
 	}
 }
 
-await safeRun("getUser", () => UserClient.getUser(crypto.randomUUID()));
+const MyToken = APITokenHeader.parse("abc-xyz");
+
+await safeRun(
+	"getUser",
+	() => UserClient.getUser(MyToken, crypto.randomUUID()),
+);
 await safeRun(
 	"findUser",
-	() => UserClient.findUser("Landon Park", "guwjeb@famnejim.tj"),
+	() => UserClient.findUser(MyToken, "Landon Park", "guwjeb@famnejim.tj"),
 );
 await safeRun(
 	"findUsersMatchUsername",
 	() =>
-		UserClient.findUsersMatchUsername([
+		UserClient.findUsersMatchUsername(MyToken, [
 			"Scott Warner",
 			"Francis Marshall",
 			"Harriet Peters",
@@ -102,7 +130,7 @@ await safeRun(
 await safeRun(
 	"findUsersMatch",
 	() =>
-		UserClient.findUsersMatch(["Rhoda Dennis", "Ralph Soto"], [
+		UserClient.findUsersMatch(MyToken, ["Rhoda Dennis", "Ralph Soto"], [
 			"bipu@okpa.sa",
 			"aplal@wa.no",
 			"cozmevnag@fa.rw",
@@ -111,7 +139,7 @@ await safeRun(
 await safeRun(
 	"searchUsers",
 	() =>
-		UserClient.searchUsers(0, 20, {
+		UserClient.searchUsers(MyToken, 0, 20, {
 			id: crypto.randomUUID(),
 			email: "deswew@fuuzkar.to",
 			username: "Francis",

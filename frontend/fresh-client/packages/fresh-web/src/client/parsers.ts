@@ -1,6 +1,7 @@
 import { z } from "../../deps.ts";
 import type { ParamMeta, QueryMeta } from "../shared/symbols/metadata.ts";
 import { InputItemHandler } from "../shared/utils/utils.ts";
+import type { ClientInit } from "./utils.ts";
 
 export function parseRequestParam<T>(
 	uri: string,
@@ -52,28 +53,38 @@ export function parseQuery<T>(
 	return `${path}?${queries.join("&")}`;
 }
 
-export function mayParseFirstBody(fn: z.ZodFunction, args: unknown[]) {
+export function mayParseAdditionalInit(
+	fn: z.ZodFunction,
+	args: unknown[],
+	init?: Partial<ClientInit>,
+): Partial<ClientInit> {
+	const finalInit: Partial<ClientInit> = init ?? {};
 	const items = fn._def.input instanceof z.ZodTuple
 		? fn._def.input._zod.def.items
 		: [fn._def.input];
 
 	const itemsMeta = items.map(InputItemHandler);
 	const multiple = Array.isArray(args);
-	let body: null | object = null;
 	for (const [i, meta] of itemsMeta.entries()) {
 		const item = items[i];
-
 		const value = multiple ? args[i] : args;
-
-		if (meta._tag !== "body") {
+		if (meta._tag === "body" && isBody(item, value)) {
+			finalInit.body = JSON.stringify(z.parse(item, value));
 			continue;
 		}
 
-		if (value && typeof value === "object" && item instanceof z.ZodObject) {
-			body = z.parse(item, value);
-			break;
+		if (meta._tag === "header") {
+			const newHeaders = (finalInit.headers ?? {}) as Record<
+				string,
+				string
+			>;
+			newHeaders[meta.key] = String(z.parse(item, value));
 		}
 	}
 
-	return body;
+	return finalInit;
+}
+
+function isBody(item: z.core.$ZodType, value: unknown): boolean {
+	return typeof value === "object" && item instanceof z.ZodObject;
 }

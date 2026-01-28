@@ -1,6 +1,7 @@
 import z from "zod";
 import { AppController } from "../../utils.ts";
 import { $Cookie } from "@fresh-web/mod.ts";
+import { PoliciesSchema } from "../../http-clients/auth/PoliciesClient.ts";
 
 const HomeControllerSchema = z.function({
 	input: z.tuple([
@@ -14,6 +15,7 @@ const HomeControllerSchema = z.function({
 		z.null(),
 		z.undefined(),
 		z.literal(""),
+		z.promise(PoliciesSchema),
 	]),
 });
 
