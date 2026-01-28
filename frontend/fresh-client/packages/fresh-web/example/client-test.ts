@@ -17,7 +17,9 @@ const UserSchema = z.object({
 
 const UserQuerySchema = UserSchema.partial();
 
-const APITokenHeader = z.string().nonempty();
+const APITokenHeader = z.string().nonempty().transform((tok) =>
+	`Bearer ${tok}`
+);
 
 const UserClientSchema = z.object({
 	getUser: z.function({
@@ -108,7 +110,7 @@ async function safeRun<R>(id: string, fn: () => R) {
 	}
 }
 
-const MyToken = APITokenHeader.parse("abc-xyz");
+const MyToken = "abc-xyz";
 
 await safeRun(
 	"getUser",

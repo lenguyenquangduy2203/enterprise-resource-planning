@@ -16,7 +16,6 @@ export function buildUrl(
 		: [fn._def.input];
 
 	const itemsMeta = items.map(InputItemHandler);
-	const multiple = Array.isArray(args);
 
 	for (const [i, meta] of itemsMeta.entries()) {
 		const item = items[i];
@@ -24,7 +23,7 @@ export function buildUrl(
 			? item._zod.def.innerType
 			: item;
 
-		const value = multiple ? args[i] : args;
+		const value = args[i];
 
 		finalUri = processURI(
 			finalUri,

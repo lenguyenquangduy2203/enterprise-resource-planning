@@ -10,19 +10,7 @@ export const PoliciesSchema = z.object({
 const PoliciesClientSchema = z.object({
 	getJwtPolicies: z.function({
 		input: z.tuple([
-			z.string().trim().transform((jwt) => {
-				if (jwt.startsWith("Bearer ")) {
-					return jwt;
-				}
-
-				return `Bearer ${jwt}`;
-			})
-				// .pipe(
-				// 	z.string().regex(
-				// 		/^Bearer\s+[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+$/,
-				// 		"Invalid Bearer JWT",
-				// 	),
-				// )
+			z.jwt().transform((jwt) => `Bearer ${jwt}`)
 				.register(
 					$Header,
 					{

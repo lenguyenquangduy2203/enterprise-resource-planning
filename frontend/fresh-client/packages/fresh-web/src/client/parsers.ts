@@ -64,27 +64,21 @@ export function mayParseAdditionalInit(
 		: [fn._def.input];
 
 	const itemsMeta = items.map(InputItemHandler);
-	const multiple = Array.isArray(args);
 	for (const [i, meta] of itemsMeta.entries()) {
-		const item = items[i];
-		const value = multiple ? args[i] : args;
-		if (meta._tag === "body" && isBody(item, value)) {
-			finalInit.body = JSON.stringify(z.parse(item, value));
+		const value = args[i];
+		if (meta._tag === "body" && typeof value === "object") {
+			finalInit.body = JSON.stringify(value);
 			continue;
 		}
 
 		if (meta._tag === "header") {
-			const newHeaders = (finalInit.headers ?? {}) as Record<
+			const headers = (finalInit.headers ?? {}) as Record<
 				string,
 				string
 			>;
-			newHeaders[meta.key] = String(z.parse(item, value));
+			headers[meta.key] = value as string;
 		}
 	}
 
 	return finalInit;
-}
-
-function isBody(item: z.core.$ZodType, value: unknown): boolean {
-	return typeof value === "object" && item instanceof z.ZodObject;
 }

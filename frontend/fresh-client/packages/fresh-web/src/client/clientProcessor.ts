@@ -1,4 +1,4 @@
-import { z } from "../../deps.ts";
+import type { z } from "../../deps.ts";
 import { mayParseAdditionalInit } from "./parsers.ts";
 import { buildUrl } from "./urlBuilder.ts";
 import {
@@ -10,10 +10,10 @@ import {
 
 export function ProcessClientSchema<T extends z.ZodObject<ClientRawShape>>(
 	schema: T,
-): z.infer<typeof schema> {
+) {
 	const meta = getClientMeta(schema);
 	const client = walkClientSchema(meta, schema._zod.def.shape);
-	return schema.parse(client);
+	return client as z.infer<typeof schema>;
 }
 
 function walkClientSchema(meta: ClientMeta, shape: ClientRawShape) {
@@ -24,10 +24,8 @@ function walkClientSchema(meta: ClientMeta, shape: ClientRawShape) {
 
 		client[key] = fn.implementAsync(
 			async (...args: z.output<typeof fn._def.input>) => {
-				const parsedArgs = z.parse(fn._def.input, args);
-				const url = buildUrl(meta.base, uri, fn, parsedArgs);
+				const url = buildUrl(meta.base, uri, fn, args);
 				const finalInit = mayParseAdditionalInit(fn, args, meta.init);
-				console.log(finalInit);
 				const resp = await fetch(url, {
 					...finalInit,
 					method,
