@@ -1,5 +1,5 @@
 import z from "zod";
-import { AppController } from "../../utils.ts";
+import { AppController } from "@/utils/mod.ts";
 import { $Query, $State } from "@fresh-web/mod.ts";
 
 const CallbackSchema = z.function({

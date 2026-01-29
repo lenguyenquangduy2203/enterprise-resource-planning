@@ -5,12 +5,12 @@ import {
 	extractResource,
 	MODULE_RESOURCE_MAP,
 	ModuleName,
-} from "../utils.ts";
-import { HomeController } from "../controllers/auth/HomeController.ts";
+} from "@/utils/mod.ts";
+import { HomeController } from "@/controllers/auth/HomeController.ts";
 import {
 	PoliciesClient,
 	PoliciesSchema,
-} from "../http-clients/auth/PoliciesClient.ts";
+} from "@/http-clients/auth/PoliciesClient.ts";
 import { PageProps } from "fresh";
 import z from "zod";
 

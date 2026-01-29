@@ -1,16 +1,19 @@
-import { define } from "../utils.ts";
+import { define } from "@/utils/mod.ts";
 
 export default define.page(function App({ Component }) {
-  return (
-    <html>
-      <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>fresh-client</title>
-      </head>
-      <body>
-        <Component />
-      </body>
-    </html>
-  );
+	return (
+		<html>
+			<head>
+				<meta charset="utf-8" />
+				<meta
+					name="viewport"
+					content="width=device-width, initial-scale=1.0"
+				/>
+				<title>fresh-client</title>
+			</head>
+			<body>
+				<Component />
+			</body>
+		</html>
+	);
 });

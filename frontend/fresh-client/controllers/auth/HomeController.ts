@@ -1,7 +1,7 @@
 import z from "zod";
-import { AppController } from "../../utils.ts";
+import { AppController } from "@/utils/mod.ts";
 import { $Cookie } from "@fresh-web/mod.ts";
-import { PoliciesSchema } from "../../http-clients/auth/PoliciesClient.ts";
+import { PoliciesSchema } from "@/http-clients/auth/PoliciesClient.ts";
 
 const HomeControllerSchema = z.function({
 	input: z.tuple([

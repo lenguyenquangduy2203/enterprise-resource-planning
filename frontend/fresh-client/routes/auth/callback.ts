@@ -1,6 +1,6 @@
-import { define, verifier } from "../../utils.ts";
+import { define, verifier } from "@/utils/mod.ts";
 import { setCookie } from "@std/http";
-import { CallbackController } from "../../controllers/auth/OAuth2CallbackController.ts";
+import { CallbackController } from "@/controllers/auth/OAuth2CallbackController.ts";
 
 export const handler = define.handlers({
 	GET: CallbackController(async (code, url) => {

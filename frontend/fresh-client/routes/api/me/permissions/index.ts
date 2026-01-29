@@ -1,4 +1,4 @@
-import { define } from "../../../../utils.ts";
+import { define } from "@/utils/mod.ts";
 import { getCookies } from "@std/http";
 
 export const handler = define.handlers({

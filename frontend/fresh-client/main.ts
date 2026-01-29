@@ -1,5 +1,5 @@
 import { App, Context, staticFiles } from "fresh";
-import { type State } from "./utils.ts";
+import { type State } from "@/utils/mod.ts";
 
 export const app = new App<State>();
 
