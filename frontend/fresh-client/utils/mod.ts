@@ -1,6 +1,7 @@
 export { AppController, define, type State } from "./FreshApp.ts";
 export {
 	extractResource,
+	groupByResource,
 	MODULE_RESOURCE_MAP,
 	type ModuleName,
 } from "./DomainModules.ts";
