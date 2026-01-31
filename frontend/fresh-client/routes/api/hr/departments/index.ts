@@ -1,27 +1,11 @@
 import { define } from "@/utils/mod.ts";
-
-type DepartmentSelectOption = {
-	code: string;
-	name: string;
-};
+import { GetDepartmentOptsController } from "@/controllers/hr/OnboardingControllers.ts";
+import { OnboardingClient } from "@/http-clients/hr/OnboardingClient.ts";
 
 export const handler = define.handlers({
-	GET: () => {
-		const options = [
-			{
-				code: "IT",
-				name: "Information Technology",
-			},
-			{
-				code: "HR",
-				name: "Human Resources",
-			},
-			{
-				code: "INV",
-				name: "Inventory",
-			},
-		] satisfies Array<DepartmentSelectOption>;
+	GET: GetDepartmentOptsController(async (accessToken) => {
+		const opts = await OnboardingClient.getDepartmentOptions(accessToken);
 
-		return new Response(JSON.stringify(options), { status: 200 });
-	},
+		return new Response(JSON.stringify(opts), { status: 200 });
+	}),
 });

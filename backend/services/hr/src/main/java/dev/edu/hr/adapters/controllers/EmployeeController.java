@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class EmployeeController {
     private final EmployeeOnboardingCommandHandler commandHandler;
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<Void> postMethodName(@Valid @RequestBody CreateEmployeeCommand command) {
         command.accept(commandHandler);
         return ResponseEntity.accepted().build();

@@ -7,6 +7,6 @@ import org.springframework.web.service.annotation.HttpExchange;
 import dev.edu.hr.domain.clients.payloads.CreateEmployeeAccountRequest;
 
 public interface AuthClient {
-    @HttpExchange(method = "POST", url = "/auth/accounts")
+    @HttpExchange(method = "POST", url = "/auth/api/accounts")
     public ResponseEntity<Long> registerEmployeeAccount(@RequestBody CreateEmployeeAccountRequest request);
 }

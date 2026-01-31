@@ -2,6 +2,7 @@ package dev.edu.auth.application.impl;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import dev.edu.auth.application.CreateNewEmployeeAccountCommandHandler;
 import dev.edu.auth.application.PrincipalGenerator;
@@ -9,7 +10,6 @@ import dev.edu.auth.application.commands.CreateNewEmployeeAccountCommand;
 import dev.edu.auth.domain.models.Account;
 import dev.edu.auth.infrastructure.persistence.jpa.AccountRepository;
 import dev.edu.auth.infrastructure.persistence.jpa.RoleRepository;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @Component

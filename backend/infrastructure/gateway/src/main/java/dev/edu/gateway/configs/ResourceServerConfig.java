@@ -39,7 +39,7 @@ public class ResourceServerConfig {
                 .pathMatchers(HttpMethod.GET, "/hr/employees/**").hasAuthority("SCOPE_employee.read")
                 .pathMatchers(HttpMethod.POST, "/hr/employees/**").hasAuthority("SCOPE_employee.write")
                 .pathMatchers(HttpMethod.GET, "/hr/departments/**").hasAuthority("SCOPE_department.read")
-                .pathMatchers(HttpMethod.POST, "/auth/accounts/**").hasAuthority("SCOPE_account.write")
+                .pathMatchers(HttpMethod.POST, "/auth/api/accounts/**").hasAuthority("SCOPE_account.write")
                 .anyExchange().authenticated()
             )
             .oauth2ResourceServer(oauth2 ->

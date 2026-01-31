@@ -42,6 +42,17 @@ public class DefaultSecurityConfig {
 
     @Bean
     @Order(2)
+    SecurityFilterChain hrSecurityFilterChain(HttpSecurity http) {
+        http.securityMatcher("/api/**")
+            .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+            .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))
+            .csrf(csrf -> csrf.disable());
+
+        return http.build();
+    }
+
+    @Bean
+    @Order(3)
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) {
         return http
             .authorizeHttpRequests(auth -> auth

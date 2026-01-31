@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Employee {
     @Id
-    @Column(name = "id", columnDefinition = "BINARY(16)")
+    @Column(name = "id", columnDefinition = "BINARY(16)", nullable = false, updatable = false)
     private UUID id;
 
     @Column(name = "fullname", nullable = false, length = 150)
@@ -44,6 +44,7 @@ public class Employee {
         }
     
         var employee = new Employee();
+        employee.id = UUID.randomUUID();
         employee.fullname = fullname;
         employee.email = email;
         employee.level = level;

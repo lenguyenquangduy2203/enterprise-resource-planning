@@ -1,33 +1,14 @@
 import { define } from "@/utils/mod.ts";
-
-type PositionSelectOption = {
-	code: string;
-	name: string;
-};
-
-const DepartmentPositionsRecord: Record<string, PositionSelectOption[]> = {
-	"IT": [{
-		code: "ADMIN",
-		name: "System Admin",
-	}, {
-		code: "EMP",
-		name: "Employee",
-	}],
-	"HR": [{
-		code: "HR_MGR",
-		name: "HR Manager",
-	}],
-	"INV": [{
-		code: "WH_MGR",
-		name: "Warehouse Manager",
-	}],
-};
+import { GetPositionOptsInDepartmentController } from "@/controllers/hr/OnboardingControllers.ts";
+import { OnboardingClient } from "@/http-clients/hr/OnboardingClient.ts";
 
 export const handler = define.handlers({
-	GET: (ctx) => {
-		const code = ctx.params["code"];
-		const options = DepartmentPositionsRecord[code] ?? [];
+	GET: GetPositionOptsInDepartmentController(async (accessToken, code) => {
+		const opts = await OnboardingClient.getPositionOptionsOfDepartment(
+			accessToken,
+			code,
+		);
 
-		return new Response(JSON.stringify(options), { status: 200 });
-	},
+		return new Response(JSON.stringify(opts), { status: 200 });
+	}),
 });

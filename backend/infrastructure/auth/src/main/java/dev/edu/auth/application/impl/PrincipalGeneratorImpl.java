@@ -2,13 +2,13 @@ package dev.edu.auth.application.impl;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dev.edu.auth.application.PrincipalGenerator;
 import dev.edu.auth.domain.models.PrincipalCounter;
 import dev.edu.auth.domain.models.PrincipalCounterId;
 import dev.edu.auth.domain.values.GeneratedPrincipal;
 import dev.edu.auth.infrastructure.persistence.jpa.PrincipalCounterRepository;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -28,11 +28,11 @@ public class PrincipalGeneratorImpl implements PrincipalGenerator {
     }
 
     private GeneratedPrincipal doGenerate(String departmentCode, String positionCode) {
-        PrincipalCounter counter = counterRepository.lockForUpdate(departmentCode, positionCode)
+        PrincipalCounter counter = counterRepository.findById(new PrincipalCounterId(departmentCode, positionCode))
             .orElseGet(() -> createNewCounter(departmentCode, positionCode));
 
-        long seq = counter.getNextValue();
-        counter.setNextValue(seq + 1);
+        long seq = counter.next();
+        counterRepository.saveAndFlush(counter);
 
         String username = buildUsername(departmentCode, positionCode, seq);
         String rawPassword = buildInitialPassword(departmentCode, positionCode, seq);
@@ -43,7 +43,7 @@ public class PrincipalGeneratorImpl implements PrincipalGenerator {
     private PrincipalCounter createNewCounter(String departmentCode, String positionCode) {
         var counter = new PrincipalCounter(
             new PrincipalCounterId(departmentCode, positionCode),
-            1L
+            0L
         );
 
         return counterRepository.save(counter);

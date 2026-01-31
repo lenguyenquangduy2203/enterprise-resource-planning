@@ -30,6 +30,8 @@ resilience4j:
 spring:
   cloud:
     gateway:
+      default-filters:
+        - PreserveHostHeader
       routes:
         - id: hr
           uri: http://hr:8081
@@ -67,6 +69,7 @@ spring:
         ROLE_ADMIN:
           - account.read
           - account.write
+          - department.read
           - employee.read
           - employee.write
           - inventory.read
