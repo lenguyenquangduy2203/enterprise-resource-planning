@@ -1,6 +1,6 @@
 import { define, groupByResource } from "@/utils/mod.ts";
 import { Head } from "fresh/runtime";
-import ModuleContainer from "@/islands/ModuleContainer.tsx";
+import Container from "@/islands/hr/Container.tsx";
 import { HomeController } from "@/controllers/hr/HomeController.ts";
 import {
 	PoliciesClient,
@@ -27,10 +27,7 @@ export default define.page(
 					<title>Human Resource</title>
 				</Head>
 				<main>
-					<ModuleContainer
-						moduleName="Human Resources"
-						resourceActionsRecord={resourceActionsRecord}
-					/>
+					<Container resourceActionsRecord={resourceActionsRecord} />
 				</main>
 			</>
 		);
