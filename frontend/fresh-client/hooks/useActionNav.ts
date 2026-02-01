@@ -14,11 +14,8 @@ export function useActionNav(
 
 	// reset action when resource changes
 	useComputed(() => {
-		const selectedActions = resourceActionsRecord[activeResource.value] ??
-			[]; // dependency
-		if (!selectedActions.includes(activeAction.value)) {
-			activeAction.value = actions.value[0];
-		}
+		const _ = activeResource.value;
+		activeAction.value = actions.value[0];
 	});
 
 	return {

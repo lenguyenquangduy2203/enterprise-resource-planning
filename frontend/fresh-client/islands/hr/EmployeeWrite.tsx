@@ -37,29 +37,18 @@ async function loadPositions(
 }
 
 export default function EmployeeWrite() {
-	// form fields
 	const fullname = useSignal("");
 	const email = useSignal("");
 	const level = useSignal("");
 	const departmentCode = useSignal("");
 	const positionCode = useSignal("");
-
-	// select options
 	const departments = useSignal<DepartmentSelectOption[]>([]);
 	const positions = useSignal<PositionSelectOption[]>([]);
-
 	const isSubmitting = useSignal(false);
 
-	/**
-	 * Fetch departments on mount
-	 */
 	useSignalEffect(() => {
 		loadDepartments(departments);
 	});
-
-	/**
-	 * Fetch positions when department changes
-	 */
 	useSignalEffect(() => {
 		loadPositions(departmentCode, positions, positionCode);
 	});
@@ -67,7 +56,6 @@ export default function EmployeeWrite() {
 	async function submit(e: Event) {
 		e.preventDefault();
 		isSubmitting.value = true;
-
 		try {
 			await fetch("/api/hr/employees", {
 				method: "POST",
@@ -80,8 +68,7 @@ export default function EmployeeWrite() {
 					positionCode: positionCode.value,
 				}),
 			});
-
-			// optional: reset form
+			// Reset logic...
 			fullname.value = "";
 			email.value = "";
 			level.value = "";
@@ -93,116 +80,135 @@ export default function EmployeeWrite() {
 	}
 
 	return (
-		<form
-			onSubmit={submit}
-			class="max-w-3xl space-y-6"
-		>
-			<h2 class="text-lg font-semibold">
-				Create Employee
-			</h2>
+		<div class="flex justify-center w-full py-10">
+			<form
+				onSubmit={submit}
+				class="w-full max-w-2xl bg-white rounded-2xl border border-[rgba(0,0,0,0.05)] shadow-sm p-8 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500"
+			>
+				<header>
+					<h2 class="text-2xl font-bold text-(--color-text)">
+						Onboard New Employee
+					</h2>
+					<p class="text-sm text-(--color-secondary)">
+						Enter the personal and professional details to create a
+						new staff record.
+					</p>
+				</header>
 
-			{/* Full name */}
-			<Field label="Full name" required>
-				<input
-					class="input input-bordered w-full"
-					value={fullname.value}
-					onInput={(e) =>
-						fullname.value = (e.target as HTMLInputElement).value}
-					required
-				/>
-			</Field>
+				<div class="space-y-6">
+					{/* Identification Group */}
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+						<Field label="Full Name" required>
+							<input
+								class="hr-input"
+								placeholder="Jane Doe"
+								value={fullname.value}
+								onInput={(e) =>
+									fullname.value =
+										(e.target as HTMLInputElement).value}
+								required
+							/>
+						</Field>
+						<Field label="Email Address" required>
+							<input
+								type="email"
+								class="hr-input"
+								placeholder="jane.doe@company.com"
+								value={email.value}
+								onInput={(e) =>
+									email.value =
+										(e.target as HTMLInputElement).value}
+								required
+							/>
+						</Field>
+					</div>
 
-			{/* Email */}
-			<Field label="Email" required>
-				<input
-					type="email"
-					class="input input-bordered w-full"
-					value={email.value}
-					onInput={(e) =>
-						email.value = (e.target as HTMLInputElement).value}
-					required
-				/>
-			</Field>
+					<Field label="Seniority Level">
+						<input
+							class="hr-input"
+							placeholder="e.g. Senior Manager"
+							value={level.value}
+							onInput={(e) =>
+								level.value =
+									(e.target as HTMLInputElement).value}
+						/>
+					</Field>
 
-			{/* Level */}
-			<Field label="Level">
-				<input
-					class="input input-bordered w-full"
-					placeholder="e.g. Junior, Senior, Lead"
-					value={level.value}
-					onInput={(e) =>
-						level.value = (e.target as HTMLInputElement).value}
-				/>
-			</Field>
+					{/* Placement Group - Shared row to prevent shifting */}
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 rounded-xl bg-(--color-bg) border border-[rgba(0,0,0,0.03)]">
+						<Field label="Department" required>
+							<select
+								class="hr-input"
+								value={departmentCode.value}
+								onChange={(e) =>
+									departmentCode.value =
+										(e.target as HTMLSelectElement).value}
+								required
+							>
+								<option value="">Select department...</option>
+								{departments.value.map((d) => (
+									<option key={d.code} value={d.code}>
+										{d.name}
+									</option>
+								))}
+							</select>
+						</Field>
 
-			{/* Department */}
-			<Field label="Department" required>
-				<select
-					class="select select-bordered w-full"
-					value={departmentCode.value}
-					onChange={(e) =>
-						departmentCode.value =
-							(e.target as HTMLSelectElement).value}
-					required
-				>
-					<option value="">Select department</option>
-					{departments.value.map((d) => (
-						<option key={d.code} value={d.code}>
-							{d.name}
-						</option>
-					))}
-				</select>
-			</Field>
+						<Field label="Position" required>
+							<select
+								class={`hr-input transition-opacity duration-300 ${
+									departmentCode.value
+										? "opacity-100"
+										: "opacity-40 cursor-not-allowed"
+								}`}
+								value={positionCode.value}
+								onChange={(e) =>
+									positionCode.value =
+										(e.target as HTMLSelectElement).value}
+								required
+								disabled={!departmentCode.value}
+							>
+								<option value="">
+									{departmentCode.value
+										? "Select position..."
+										: "Select department first"}
+								</option>
+								{positions.value.map((p) => (
+									<option key={p.code} value={p.code}>
+										{p.name}
+									</option>
+								))}
+							</select>
+						</Field>
+					</div>
+				</div>
 
-			{/* Position (conditional) */}
-			{departmentCode.value && (
-				<Field label="Position" required>
-					<select
-						class="select select-bordered w-full"
-						value={positionCode.value}
-						onChange={(e) =>
-							positionCode.value =
-								(e.target as HTMLSelectElement).value}
-						required
+				<div class="pt-6 flex items-center justify-end border-t border-[rgba(0,0,0,0.05)]">
+					<button
+						type="submit"
+						class="px-8 py-3 rounded-xl font-bold text-white bg-(--color-primary) hover:opacity-90 shadow-lg shadow-(--color-primary)/20 transition-all active:scale-95 disabled:grayscale"
+						disabled={isSubmitting.value}
 					>
-						<option value="">Select position</option>
-						{positions.value.map((p) => (
-							<option key={p.code} value={p.code}>
-								{p.name}
-							</option>
-						))}
-					</select>
-				</Field>
-			)}
-
-			{/* Actions */}
-			<div class="pt-4 flex gap-2">
-				<button
-					type="submit"
-					class="btn btn-primary"
-					disabled={isSubmitting.value}
-				>
-					{isSubmitting.value ? "Creating..." : "Create employee"}
-				</button>
-			</div>
-		</form>
+						{isSubmitting.value
+							? "Processing..."
+							: "Confirm Onboarding"}
+					</button>
+				</div>
+			</form>
+		</div>
 	);
 }
 
-/* ---------- small helper ---------- */
-
 function Field(
-	{ label, required, children }: Readonly<{
-		label: string;
-		required?: boolean;
-		children: JSX.Element;
-	}>,
+	{ label, required, children }: Readonly<
+		{ label: string; required?: boolean; children: JSX.Element }
+	>,
 ) {
 	return (
-		<div class="space-y-1">
-			<label class="text-sm font-medium">
+		<div class="flex flex-col gap-1.5">
+			<label class="text-xs font-bold uppercase tracking-wide text-(--color-secondary)">
 				{label}
-				{required && <span class="text-red-500 ml-1">*</span>}
+				{required && <span class="text-(--color-primary) ml-1">*</span>}
 			</label>
 			{children}
 		</div>

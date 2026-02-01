@@ -4,6 +4,7 @@ import {
 	define,
 	extractResource,
 	MODULE_RESOURCE_MAP,
+	ModuleMeta,
 	ModuleName,
 } from "@/utils/mod.ts";
 import { HomeController } from "@/controllers/auth/HomeController.ts";
@@ -52,38 +53,77 @@ export default define.page(
 		return (
 			<>
 				<Head>
-					<title>ERP Home</title>
+					<title>Distributed ERP | Unified Workspace</title>
 				</Head>
 
-				<main class="min-h-screen flex flex-col items-center justify-center px-6">
-					<h1 class="text-3xl font-bold mb-2">Welcome</h1>
-					<p class="text-gray-600 mb-8">
-						Modules you have access to
-					</p>
+				<main class="default fresh-gradient min-h-screen flex flex-col items-center justify-start pt-20 px-6">
+					<header class="text-center mb-12">
+						<div class="inline-block px-4 py-1.5 mb-4 text-xs font-semibold tracking-wider text-(--color-primary) uppercase bg-white/50 rounded-full backdrop-blur-sm border border-white/20">
+							Enterprise Resource Planning
+						</div>
+						<h1 class="text-4xl font-extrabold text-(--color-text) tracking-tight mb-3">
+							Welcome back, System User
+						</h1>
+						<p class="text-lg text-(--color-secondary) max-w-md mx-auto">
+							Select a workspace to manage your organization's
+							resources.
+						</p>
+					</header>
 
-					<div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-3xl">
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">
 						{enabledModules.map((module) => (
 							<a
 								key={module}
 								href={`/${module}`}
-								class="block rounded-xl border border-base-300 p-6 
-								hover:shadow-lg hover:border-primary transition"
+								class="group relative block rounded-2xl bg-white/80 border border-white p-8 
+                                shadow-sm backdrop-blur-md transition-all duration-300
+                                hover:-translate-y-1 hover:shadow-xl hover:bg-white"
 							>
-								<h2 class="text-xl font-semibold capitalize mb-2">
-									{module}
+								<div class="flex items-center justify-between mb-4">
+									<span class="text-3xl grayscale group-hover:grayscale-0 transition-all">
+										{ModuleMeta[module]?.icon || "🛠️"}
+									</span>
+									<div class="h-8 w-8 rounded-full bg-(--color-bg) flex items-center justify-center text-(--color-primary) opacity-0 group-hover:opacity-100 transition-opacity">
+										→
+									</div>
+								</div>
+
+								<h2 class="text-xl font-bold capitalize text-(--color-text) mb-2">
+									{module === "inventory"
+										? "Inventory"
+										: module.toUpperCase()}
 								</h2>
-								<p class="text-sm text-gray-500">
-									Open {module} module
+								<p class="text-sm text-(--color-secondary) leading-relaxed">
+									{ModuleMeta[module]?.desc ||
+										`Access the ${module} management tools.`}
 								</p>
+
+								{/* Subtle accent bar on hover */}
+								<div class="absolute bottom-0 left-0 h-1 w-0 bg-(--color-accent) transition-all duration-500 group-hover:w-full rounded-b-2xl">
+								</div>
 							</a>
 						))}
 
 						{enabledModules.length === 0 && (
-							<p class="text-gray-500 col-span-full text-center">
-								You don’t have access to any modules yet.
-							</p>
+							<div class="col-span-full bg-white/50 rounded-2xl border border-dashed border-gray-300 p-12 text-center">
+								<p class="text-gray-500 font-medium">
+									No active modules found for your current
+									permissions.
+								</p>
+								<button
+									class="mt-4 text-sm text-(--color-primary) underline"
+									type="button"
+								>
+									Contact Administrator
+								</button>
+							</div>
 						)}
 					</div>
+
+					<footer class="mt-auto py-8 text-sm text-gray-400">
+						&copy; 2026 ERP Systems Inc. &bull; Secure Session
+						Active
+					</footer>
 				</main>
 			</>
 		);

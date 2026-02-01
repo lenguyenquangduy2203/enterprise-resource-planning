@@ -29,7 +29,7 @@ export default define.page(
 				<Head>
 					<title>Inventory</title>
 				</Head>
-				<main>
+				<main class="inv">
 					<ModuleContainer
 						moduleName="Inventory Management"
 						resourceActionsRecord={resourceActionsRecord}

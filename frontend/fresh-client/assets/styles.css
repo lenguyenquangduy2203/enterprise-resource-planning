@@ -8,3 +8,72 @@
     rgb(254, 249, 195)
   );
 }
+
+/* Peer-checked logic for the sidebar */
+#sidebar-toggle { display: none; }
+
+/* Desktop: Collapse when checked */
+#sidebar-toggle:checked ~ aside {
+  width: 4rem; /* Icon-only width */
+}
+
+/* Mobile: Hide by default, show when checked */
+@media (max-width: 768px) {
+  aside {
+    position: fixed;
+    z-index: 50;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  #sidebar-toggle:checked ~ aside {
+    transform: translateX(0);
+    width: 80%;
+  }
+}
+
+@scope (.default) {
+  :scope {
+    --color-primary: var(--color-indigo-600);
+    --color-secondary: var(--color-slate-500);
+    --color-accent: var(--color-violet-500);
+    --color-bg: var(--color-slate-50);
+    --color-text: var(--color-slate-900);
+  }
+}
+
+@scope (.hr) {
+  :scope {
+    --color-primary: var(--color-rose-600);
+    --color-secondary: var(--color-orange-400);
+    --color-accent: var(--color-pink-500);
+    --color-bg: #fffbfb; /* Subtle warm tint */
+    --color-text: var(--color-stone-900);
+    --color-primary-ring: rgba(225, 29, 72, 0.2);
+  }
+
+  .hr-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(0,0,0,0.1);
+      background: white;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+  }
+  .hr-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 4px var(--color-primary-ring);
+  }
+}
+
+@scope (.inv) {
+  :scope {
+    --color-primary: var(--color-teal-600);
+    --color-secondary: var(--color-sky-500);
+    --color-accent: var(--color-emerald-500);
+    --color-bg: var(--color-zinc-50);
+    --color-text: var(--color-zinc-900);
+  }
+}

@@ -28,22 +28,14 @@ export default function AccountActionsContainer({
 	return (
 		<TopNav>
 			<TopNav.Nav>
-				<div class="flex gap-2">
-					{actions.value.map((action) => (
-						<button
-							type="button"
-							key={action}
-							class={`btn btn-sm ${
-								activeAction.value === action
-									? "btn-primary"
-									: "btn-ghost"
-							}`}
-							onClick={() => selectAction(action)}
-						>
-							{action}
-						</button>
-					))}
-				</div>
+				{actions.value.map((action) => (
+					<TopNav.NavItem
+						active={activeAction.value === action}
+						onClick={() => selectAction(action)}
+					>
+						{action}
+					</TopNav.NavItem>
+				))}
 			</TopNav.Nav>
 			<TopNav.Section>
 				<SelectedSection />

@@ -3,6 +3,7 @@ export {
 	extractResource,
 	groupByResource,
 	MODULE_RESOURCE_MAP,
+	ModuleMeta,
 	type ModuleName,
 } from "./DomainModules.ts";
 

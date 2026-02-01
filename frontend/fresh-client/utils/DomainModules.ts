@@ -12,6 +12,12 @@ export const MODULE_RESOURCE_MAP = {
 
 export type ModuleName = keyof typeof MODULE_RESOURCE_MAP;
 
+export const ModuleMeta: Record<string, { desc: string; icon: string }> = {
+	hr: { desc: "Manage personnel, payroll, and performance.", icon: "👥" },
+	inv: { desc: "Track stock levels, orders, and suppliers.", icon: "📦" },
+	// Add other modules as needed
+};
+
 export function extractResource(permission: string): string | null {
 	// employee.read_own → employee
 	const [resource] = permission.split(".");
