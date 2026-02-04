@@ -1,4 +1,5 @@
 import type { z } from "../../deps.ts";
+import { readResponseBody } from "../shared/utils/utils.ts";
 import { mayParseAdditionalInit } from "./parsers.ts";
 import { buildUrl } from "./urlBuilder.ts";
 import {
@@ -35,29 +36,10 @@ function walkClientSchema(meta: ClientMeta, shape: ClientRawShape) {
 					throw new Error("invalid response status", { cause: resp });
 				}
 
-				return await parseResponse(resp);
+				return await readResponseBody(resp);
 			},
 		);
 	}
 
 	return client;
-}
-
-async function parseResponse(resp: Response) {
-	// No content by definition
-	if (resp.status === 204 || resp.status === 202) {
-		return undefined;
-	}
-
-	const text = await resp.text();
-	if (!text) {
-		return undefined;
-	}
-
-	try {
-		return JSON.parse(text);
-	} catch {
-		// Fallback: return raw body if it's not JSON
-		return text;
-	}
 }

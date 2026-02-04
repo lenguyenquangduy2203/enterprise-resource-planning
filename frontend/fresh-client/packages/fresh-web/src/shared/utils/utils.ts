@@ -10,16 +10,37 @@ export function InputItemHandler<T extends z.core.$ZodType>(item: T): MetaData {
 	throw new Error("Unknown input item");
 }
 
-export async function readResponseBody(res: Response): Promise<unknown> {
+export async function readResponseBody(response: Response): Promise<unknown> {
+	const res = response.clone();
+	// Status codes that forbid bodies by spec
+	if (res.status === 204 || res.status === 205 || res.status === 304) {
+		return undefined;
+	}
+
+	// Read ONCE
+	let text: string;
 	try {
-		return await res.clone().json();
+		text = await res.text();
 	} catch {
+		return undefined;
+	}
+
+	// No bytes were sent
+	if (!text || text.trim() === "") {
+		return undefined;
+	}
+
+	// Opportunistic JSON parse
+	const trimmed = text.trim();
+	if (trimmed.startsWith("{") || trimmed.startsWith("[")) {
 		try {
-			return await res.clone().text();
+			return JSON.parse(trimmed);
 		} catch {
-			return res.clone().body;
+			// fall through
 		}
 	}
+
+	return text;
 }
 
 export async function parseRequestBody(req: Request) {
