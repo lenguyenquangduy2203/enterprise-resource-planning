@@ -24,8 +24,9 @@ function walkClientSchema(meta: ClientMeta, shape: ClientRawShape) {
 
 		client[key] = fn.implementAsync(
 			async (...args: z.output<typeof fn._def.input>) => {
-				const url = buildUrl(meta.base, uri, fn, args);
-				const finalInit = mayParseAdditionalInit(fn, args, meta.init);
+				const { base, init } = structuredClone(meta);
+				const url = buildUrl(base, uri, fn, args);
+				const finalInit = mayParseAdditionalInit(fn, args, init);
 				const resp = await fetch(url, {
 					...finalInit,
 					method,
@@ -34,10 +35,29 @@ function walkClientSchema(meta: ClientMeta, shape: ClientRawShape) {
 					throw new Error("invalid response status", { cause: resp });
 				}
 
-				return await resp.json();
+				return await parseResponse(resp);
 			},
 		);
 	}
 
 	return client;
+}
+
+async function parseResponse(resp: Response) {
+	// No content by definition
+	if (resp.status === 204 || resp.status === 202) {
+		return undefined;
+	}
+
+	const text = await resp.text();
+	if (!text) {
+		return undefined;
+	}
+
+	try {
+		return JSON.parse(text);
+	} catch {
+		// Fallback: return raw body if it's not JSON
+		return text;
+	}
 }

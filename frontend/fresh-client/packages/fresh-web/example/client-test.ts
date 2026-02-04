@@ -31,7 +31,7 @@ const UserClientSchema = z.object({
 			z.uuid().register($Param, { _tag: "param", key: "id" }),
 		]),
 		output: z.promise(UserSchema),
-	}).register($URI, { method: "GET", uri: "/users/{id}" }),
+	}).register($URI, { method: "DELETE", uri: "/users/{id}" }),
 	findUser: z.function({
 		input: z.tuple([
 			APITokenHeader.register($Header, {
@@ -94,7 +94,7 @@ const UserClientSchema = z.object({
 		output: z.promise(z.array(UserSchema)),
 	}).register($URI, { method: "GET", uri: "/users/search" }),
 }).register($Client, {
-	base: "http://localhost:8080",
+	base: "http://localhost:8080/auth",
 	init: {
 		headers: { "Content-Type": "application/json" },
 	},

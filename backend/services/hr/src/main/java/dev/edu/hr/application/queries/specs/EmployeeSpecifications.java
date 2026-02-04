@@ -33,10 +33,13 @@ public final class EmployeeSpecifications {
      */
     private static Specification<Employee> fetchPositionAndDepartment() {
         return (root, query, cb) -> {
-            root.fetch(positionAttr, JoinType.INNER)
-                .fetch(departmentAttr, JoinType.INNER);
+            // Only fetch for entity queries, not count queries
+            if (query.getResultType() == Employee.class) {
+                root.fetch("position", JoinType.INNER)
+                    .fetch("department", JoinType.INNER);
+                query.distinct(true);
+            }
 
-            query.distinct(true);
             return null;
         };
     }

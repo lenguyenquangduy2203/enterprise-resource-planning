@@ -3,9 +3,10 @@ import { useActionNav } from "../../hooks/useActionNav.ts";
 import TopNav from "../../components/layouts/TopNav.tsx";
 import { FunctionalComponent } from "preact";
 import EmployeeWrite from "./EmployeeWrite.tsx";
+import EmployeeRead from "./EmployeeRead.tsx";
 
 const ActionSectionDispatcher: Record<string, FunctionalComponent> = {
-	read: () => <div>Employee.read</div>,
+	read: () => <EmployeeRead />,
 	write: () => <EmployeeWrite />,
 };
 
