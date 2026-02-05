@@ -5,7 +5,7 @@ type SlotProps = {
 };
 
 function Root({ children }: Readonly<SlotProps>) {
-	return <nav class="flex flex-col w-full py-4">{children}</nav>;
+	return <div class="flex flex-col w-full py-4">{children}</div>;
 }
 
 function Header({ children }: Readonly<SlotProps>) {

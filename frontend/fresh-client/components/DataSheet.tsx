@@ -17,7 +17,7 @@ function TableData(
 	if (data.length === 0) {
 		return (
 			<div class="p-12 border-2 border-dashed border-[rgba(0,0,0,0.05)] rounded-2xl text-center text-(--color-secondary)">
-				No records found.
+				No records found matching filters.
 			</div>
 		);
 	}
@@ -25,15 +25,16 @@ function TableData(
 	const headers = Object.keys(data[0].content);
 
 	return (
-		<div class="overflow-hidden rounded-2xl border border-[rgba(0,0,0,0.05)] bg-white shadow-sm">
-			<div class="overflow-x-auto">
+		/* The container now handles the overflow and height */
+		<div class="relative overflow-hidden rounded-2xl border border-[rgba(0,0,0,0.05)] bg-white shadow-sm flex flex-col max-h-[calc(100vh-400px)]">
+			<div class="overflow-auto scroll-smooth">
 				<table class="w-full text-left border-collapse">
-					<thead>
-						<tr class="bg-(--color-bg) border-b border-[rgba(0,0,0,0.05)]">
+					<thead class="sticky top-0 z-10">
+						<tr class="bg-(--color-bg) border-b border-[rgba(0,0,0,0.05)] shadow-[0_1px_0_rgba(0,0,0,0.05)]">
 							{headers.map((header) => (
 								<th
 									key={header}
-									class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-(--color-secondary)"
+									class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-(--color-secondary) bg-(--color-bg)"
 								>
 									{header.replaceAll("_", " ")}
 								</th>
@@ -44,12 +45,12 @@ function TableData(
 						{data.map((row) => (
 							<tr
 								key={row.id}
-								class="hover:bg-(--color-primary)/2 transition-colors"
+								class="hover:bg-(--color-primary)/5 transition-colors group"
 							>
 								{headers.map((header) => (
 									<td
 										key={header}
-										class="px-6 py-4 text-sm text-(--color-text)"
+										class="px-6 py-4 text-sm text-(--color-text) group-hover:text-(--color-primary)"
 									>
 										{row.content[header]}
 									</td>

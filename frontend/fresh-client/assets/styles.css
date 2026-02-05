@@ -13,8 +13,20 @@
 #sidebar-toggle { display: none; }
 
 /* Desktop: Collapse when checked */
+aside {
+  width: 4rem;
+}
+
+aside > nav {
+  display: none;
+}
+
 #sidebar-toggle:checked ~ aside {
-  width: 4rem; /* Icon-only width */
+  width: auto; /* Icon-only width */
+}
+
+#sidebar-toggle:checked ~ aside > nav {
+  display: block;
 }
 
 /* Mobile: Hide by default, show when checked */
