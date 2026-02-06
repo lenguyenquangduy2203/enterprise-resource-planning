@@ -1,9 +1,9 @@
 import { Signal } from "@preact/signals";
-import { useActionNav } from "../../hooks/useActionNav.ts";
-import TopNav from "../../components/layouts/TopNav.tsx";
+import { useActionNav } from "../../../hooks/useActionNav.ts";
+import TopNav from "../../../components/layouts/TopNav.tsx";
 import { FunctionalComponent } from "preact";
-import EmployeeWrite from "./EmployeeWrite.tsx";
-import EmployeeRead from "./EmployeeRead.tsx";
+import EmployeeWrite from "../employee/EmployeeWrite.tsx";
+import EmployeeRead from "../employee/EmployeeRead.tsx";
 
 const ActionSectionDispatcher: Record<string, FunctionalComponent> = {
 	read: () => <EmployeeRead />,

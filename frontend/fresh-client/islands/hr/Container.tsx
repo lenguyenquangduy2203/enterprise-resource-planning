@@ -15,7 +15,7 @@ const ResourceLazyDispatcher: Record<
 	() => Promise<FunctionalComponent<ResourceProps>>
 > = {
 	"employee": async () =>
-		await import("@/islands/hr/EmployeeActionsContainer.tsx")
+		await import("./employee/EmployeeActionsContainer.tsx")
 			.then((m) => m.default),
 	"account": async () =>
 		await import("@/islands/hr/AccountActionsContainer.tsx")

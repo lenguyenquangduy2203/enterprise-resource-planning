@@ -25,7 +25,7 @@ public class DepartmentController {
     private final EmployeeOnboardingQueryHandler queryHandler;
     private final EmployeeOnboardingResultMapper resultMapper;
 
-    @GetMapping
+    @GetMapping("/lookups")
     public ResponseEntity<List<DepartmentSelectOption>> getDepartmentSelections() {
         var result = new GetAllDepartmentsQuery().accept(queryHandler);
         var response = resultMapper.toDepartmentSelectOptionsResponse(result);
@@ -33,7 +33,7 @@ public class DepartmentController {
         return ResponseEntity.ok(response);
     }
     
-    @GetMapping("/{code}/positions")
+    @GetMapping("/{code}/positions/lookups")
     public ResponseEntity<List<PositionSelectOption>> getPositionSelection(@PathVariable String code) {
         var result = new GetPositionsInDepartmentByCodeQuery(code).accept(queryHandler);
         var response = resultMapper.toPositionSelectOptionsResponse(result);

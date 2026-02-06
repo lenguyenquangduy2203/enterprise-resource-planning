@@ -7,6 +7,8 @@ import {
 } from "@/http-clients/hr/SummaryClient.ts";
 import { AppController } from "@/utils/mod.ts";
 
+export type SearchEmployeeQuery = z.infer<typeof SearchEmployeeQuery>;
+
 const EmployeeSummariesControllerSchema = z.function({
 	input: z.tuple([
 		z.jwt().register($Cookie, {

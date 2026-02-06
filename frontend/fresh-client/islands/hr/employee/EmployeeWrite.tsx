@@ -1,57 +1,23 @@
-import { Signal, useSignal, useSignalEffect } from "@preact/signals";
+import { useSignal } from "@preact/signals";
 import { JSX } from "preact";
-
-type DepartmentSelectOption = {
-	code: string;
-	name: string;
-};
-
-type PositionSelectOption = {
-	code: string;
-	name: string;
-};
-
-async function loadDepartments(departments: Signal<DepartmentSelectOption[]>) {
-	const res = await fetch("/api/hr/departments");
-	if (!res.ok) return;
-	departments.value = await res.json();
-}
-
-async function loadPositions(
-	departmentCode: Signal<string>,
-	positions: Signal<PositionSelectOption[]>,
-	positionCode: Signal<string>,
-) {
-	if (!departmentCode.value) {
-		positions.value = [];
-		positionCode.value = "";
-		return;
-	}
-
-	const res = await fetch(
-		`/api/hr/departments/${departmentCode.value}/positions`,
-	);
-	if (!res.ok) return;
-
-	positions.value = await res.json();
-}
+import { useOrgData } from "@/hooks/useOrgData.ts";
 
 export default function EmployeeWrite() {
 	const fullname = useSignal("");
 	const email = useSignal("");
 	const level = useSignal("");
-	const departmentCode = useSignal("");
-	const positionCode = useSignal("");
-	const departments = useSignal<DepartmentSelectOption[]>([]);
-	const positions = useSignal<PositionSelectOption[]>([]);
 	const isSubmitting = useSignal(false);
 
-	useSignalEffect(() => {
-		loadDepartments(departments);
-	});
-	useSignalEffect(() => {
-		loadPositions(departmentCode, positions, positionCode);
-	});
+	// Reuse org logic here
+	const { departmentCode, positionCode, departments, positions, resetOrg } =
+		useOrgData();
+
+	const resetForm = () => {
+		fullname.value = "";
+		email.value = "";
+		level.value = "";
+		resetOrg();
+	};
 
 	async function submit(e: Event) {
 		e.preventDefault();
@@ -68,12 +34,7 @@ export default function EmployeeWrite() {
 					positionCode: positionCode.value,
 				}),
 			});
-			// Reset logic...
-			fullname.value = "";
-			email.value = "";
-			level.value = "";
-			departmentCode.value = "";
-			positionCode.value = "";
+			resetForm();
 		} finally {
 			isSubmitting.value = false;
 		}
@@ -183,7 +144,7 @@ export default function EmployeeWrite() {
 					</div>
 				</div>
 
-				<div class="pt-6 flex items-center justify-end border-t border-[rgba(0,0,0,0.05)]">
+				<div class="pt-6 flex items-center justify-between border-t border-[rgba(0,0,0,0.05)]">
 					<button
 						type="submit"
 						class="px-8 py-3 rounded-xl font-bold text-white bg-(--color-primary) hover:opacity-90 shadow-lg shadow-(--color-primary)/20 transition-all active:scale-95 disabled:grayscale"
@@ -192,6 +153,15 @@ export default function EmployeeWrite() {
 						{isSubmitting.value
 							? "Processing..."
 							: "Confirm Onboarding"}
+					</button>
+					<button
+						type="reset"
+						onClick={resetForm}
+						class="text-sm font-bold text-(--color-secondary) hover:text-(--color-text) transition-colors px-2 py-1"
+						disabled={isSubmitting.value}
+						hidden={isSubmitting.value}
+					>
+						Reset Form
 					</button>
 				</div>
 			</form>
