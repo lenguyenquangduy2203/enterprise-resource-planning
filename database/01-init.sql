@@ -136,9 +136,88 @@ INSERT INTO position (code, name, description, base_wage, department_id) VALUES
 ('WH_MGR',   'Warehouse Manager','Manage warehouse',     2200.00, 3),
 ('EMP',      'Employee',          'General employee',     1200.00, 1);
 
+CREATE DATABASE IF NOT EXISTS catalog;
+USE catalog;
+
+-- =========================
+-- Category
+-- =========================
+CREATE TABLE category (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    code VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
+    description VARCHAR(255)
+);
+
+INSERT INTO category (code, name, description) VALUES
+('ELEC', 'Electronics', 'Electronic devices and accessories'),
+('FURN', 'Furniture', 'Office and home furniture'),
+('STAT', 'Stationery', 'Office stationery supplies');
+
+-- =========================
+-- Manufacturer
+-- =========================
+CREATE TABLE manufacturer (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    code VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(150) NOT NULL,
+    country VARCHAR(100),
+    description VARCHAR(255)
+);
+
+INSERT INTO manufacturer (code, name, country, description) VALUES
+('DELL', 'Dell Inc.', 'USA', 'Computer manufacturer'),
+('GEN',  'Generic Supplier', 'Vietnam', 'Local supplier');
+
+-- =========================
+-- Product (master data)
+-- =========================
+CREATE TABLE product (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    sku VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(150) NOT NULL,
+    unit VARCHAR(50),
+    unit_price DECIMAL(12,2) NOT NULL,
+    description VARCHAR(255),
+    category_id BIGINT NOT NULL, -- logical FK to category(id)
+    manufacturer_id BIGINT NOT NULL -- logical FK to manufacturer(id)
+);
+
+INSERT INTO product (sku, name, unit, unit_price, description, category_id, manufacturer_id) VALUES
+(
+    'SKU-001',
+    'Laptop Dell XPS',
+    'Piece',
+    1800.00,
+    'High-end laptop',
+    (SELECT id FROM category WHERE code = 'ELEC'),
+    (SELECT id FROM manufacturer WHERE code = 'DELL')
+),
+(
+    'SKU-002',
+    'Office Chair',
+    'Piece',
+    120.00,
+    'Ergonomic chair',
+    (SELECT id FROM category WHERE code = 'FURN'),
+    (SELECT id FROM manufacturer WHERE code = 'GEN')
+),
+(
+    'SKU-003',
+    'A4 Paper',
+    'Ream',
+    4.50,
+    '80gsm A4 paper',
+    (SELECT id FROM category WHERE code = 'STAT'),
+    (SELECT id FROM manufacturer WHERE code = 'GEN')
+);
+
 CREATE DATABASE IF NOT EXISTS inv;
 USE inv;
 
+-- =========================
+-- Warehouse
+-- =========================
 CREATE TABLE warehouse (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
@@ -149,7 +228,6 @@ CREATE TABLE warehouse (
     -- logical FK to hr.employee(id)
 );
 
--- Warehouses (manager_id logically maps to hr.employee.id)
 INSERT INTO warehouse (name, location, size, description, manager_id) VALUES
 (
     'Main Warehouse',
@@ -159,38 +237,49 @@ INSERT INTO warehouse (name, location, size, description, manager_id) VALUES
     (SELECT id FROM hr.employee LIMIT 1)
 );
 
-CREATE TABLE product (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    sku VARCHAR(50) NOT NULL UNIQUE,
-    name VARCHAR(150) NOT NULL,
-    category VARCHAR(100),
-    unit VARCHAR(50),
-    unit_price DECIMAL(12,2) NOT NULL,
-    description VARCHAR(255)
-);
-
--- Products
-INSERT INTO product (sku, name, category, unit, unit_price, description) VALUES
-('SKU-001', 'Laptop Dell XPS',   'Electronics', 'Piece', 1800.00, 'High-end laptop'),
-('SKU-002', 'Office Chair',     'Furniture',   'Piece',  120.00, 'Ergonomic chair'),
-('SKU-003', 'A4 Paper',         'Stationery',  'Ream',    4.50,  '80gsm A4 paper');
-
+-- =========================
+-- Stock (current state)
+-- =========================
 CREATE TABLE stock (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    product_id BIGINT NOT NULL,
-    warehouse_id BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,      -- logical FK to catalog.product(id)
+    warehouse_id BIGINT NOT NULL,    -- logical FK to warehouse(id)
     quantity INT NOT NULL,
-    UNIQUE (product_id, warehouse_id),
-    FOREIGN KEY (product_id) REFERENCES product(id),
-    FOREIGN KEY (warehouse_id) REFERENCES warehouse(id)
+    UNIQUE (product_id, warehouse_id)
 );
 
--- Stock
 INSERT INTO stock (product_id, warehouse_id, quantity) VALUES
-(1, 1, 50),
-(2, 1, 200),
-(3, 1, 1000);
+(
+    (SELECT id FROM catalog.product WHERE sku = 'SKU-001'),
+    1,
+    50
+),
+(
+    (SELECT id FROM catalog.product WHERE sku = 'SKU-002'),
+    1,
+    200
+),
+(
+    (SELECT id FROM catalog.product WHERE sku = 'SKU-003'),
+    1,
+    1000
+);
+
+-- =========================
+-- Stock Movement (audit / history)
+-- =========================
+CREATE TABLE stock_movement (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    product_id BIGINT NOT NULL,            -- logical FK to catalog.product(id)
+    from_warehouse_id BIGINT,
+    to_warehouse_id BIGINT,
+    quantity INT NOT NULL,
+    movement_type VARCHAR(50) NOT NULL,   -- TRANSFER, IMPORT, EXPORT, ADJUSTMENT
+    performed_by BINARY(16),               -- logical FK to hr.employee(id)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 GRANT ALL PRIVILEGES ON auth.* TO 'erp_user'@'%';
 GRANT ALL PRIVILEGES ON hr.* TO 'erp_user'@'%';
+GRANT ALL PRIVILEGES ON catalog.* TO 'erp_user'@'%';
 GRANT ALL PRIVILEGES ON inv.* TO 'erp_user'@'%';
