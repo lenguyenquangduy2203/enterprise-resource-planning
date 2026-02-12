@@ -8,6 +8,6 @@ import dev.edu.catalog.domain.entities.persistence.Category;
 import dev.edu.catalog.domain.entities.persistence.Manufacturer;
 
 public interface SelectOptionsMapper {
-    List<CategoryOptionResponse> toCategoryOptionResponse(List<Category> category);
-    List<ManufacturerOptionResponse> toManufacturerOptionResponse(List<Manufacturer> manufacturer);
+    List<CategoryOptionResponse> toCategoryOptionResponse(List<Category> categories);
+    List<ManufacturerOptionResponse> toManufacturerOptionResponse(List<Manufacturer> manufacturers);
 }

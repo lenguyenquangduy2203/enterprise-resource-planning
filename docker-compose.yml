@@ -56,6 +56,11 @@ services:
         condition: service_healthy
       registry:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "sh", "-c", "ps -p 1 > /dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     networks:
       - erp
   auth-server:
@@ -69,6 +74,11 @@ services:
     depends_on:
       configurer:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "sh", "-c", "ps -p 1 > /dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     networks:
       - erp
   fresh-client:
@@ -80,7 +90,10 @@ services:
     ports:
       - "5173:5173"
     depends_on:
-      - auth-server
+      auth-server:
+        condition: service_healthy
+      gateway:
+        condition: service_healthy
     networks:
       - erp
   hr:
@@ -91,6 +104,19 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "8081:8081"
+    depends_on:
+      configurer:
+        condition: service_healthy
+    networks:
+      - erp
+  catalog:
+    build: ./backend/services/catalog
+    image: catalog
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "8082:8082"
     depends_on:
       configurer:
         condition: service_healthy

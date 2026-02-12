@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import dev.edu.catalog.domain.entities.persistence.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
-
+    boolean existsBySku(String sku);
 }

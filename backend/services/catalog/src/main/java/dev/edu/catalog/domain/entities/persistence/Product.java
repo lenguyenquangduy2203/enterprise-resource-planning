@@ -2,6 +2,8 @@ package dev.edu.catalog.domain.entities.persistence;
 
 import java.math.BigDecimal;
 
+import dev.edu.catalog.domain.errors.RegisterWithInactivatedCategory;
+import dev.edu.catalog.domain.errors.RegisterWithInactivatedManufacturer;
 import dev.edu.catalog.domain.values.ProductStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -59,6 +61,32 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "manufacturer_id", nullable = false)
     private Manufacturer manufacturer;
+
+    public static Product register(
+        String sku, String name, String unit, 
+        BigDecimal unitPrice, String description, 
+        Category category, Manufacturer manufacturer
+    ) {
+        if (!category.isActive()) {
+            throw new RegisterWithInactivatedCategory(category.getCode());
+        }
+
+        if (!manufacturer.isActive()) {
+            throw new RegisterWithInactivatedManufacturer(manufacturer.getCode());
+        }
+
+        var product = new Product();
+
+        product.sku = sku;
+        product.name = name;
+        product.unit = unit;
+        product.unitPrice = unitPrice;
+        product.description = description;
+        product.category = category;
+        product.manufacturer = manufacturer;
+
+        return product;
+    }
 
     public void deactivate() {
         this.status = ProductStatus.INACTIVE;
