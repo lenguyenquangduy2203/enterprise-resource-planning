@@ -89,3 +89,14 @@ aside > nav {
     --color-text: var(--color-zinc-900);
   }
 }
+
+@scope (.catalog) {
+  :scope {
+    --color-primary: var(--color-indigo-700); 
+    --color-secondary: var(--color-slate-500);
+    --color-accent: var(--color-orange-500);
+    --color-bg: #f8fafc; 
+    --color-text: #0f172a;
+    --color-primary-ring: rgba(67, 56, 202, 0.15);
+  }
+}

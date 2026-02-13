@@ -5,16 +5,33 @@ export const MODULE_RESOURCE_MAP = {
 		"account",
 	],
 	inventory: [
-		"inventory",
+		"stock",
+		"stock_movement",
 		"warehouse",
+	],
+	catalog: [
+		"product",
+		"category",
+		"manufacturer",
 	],
 } as const;
 
 export type ModuleName = keyof typeof MODULE_RESOURCE_MAP;
 
 export const ModuleMeta: Record<string, { desc: string; icon: string }> = {
-	hr: { desc: "Manage personnel, payroll, and performance.", icon: "👥" },
-	inv: { desc: "Track stock levels, orders, and suppliers.", icon: "📦" },
+	hr: {
+		desc:
+			"Manage employees, organizational structure, and account provisioning.",
+		icon: "👥",
+	},
+	inventory: {
+		desc: "Manage warehouse stock, movements, and inventory levels.",
+		icon: "📦",
+	},
+	catalog: {
+		desc: "Manage product definitions, categories, and manufacturers.",
+		icon: "🏷️",
+	},
 	// Add other modules as needed
 };
 
