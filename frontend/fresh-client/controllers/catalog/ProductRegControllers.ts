@@ -29,7 +29,7 @@ const GetManufacturerOptsSchema = z.function({
 const RegisterProductSchema = z.function({
 	input: z.tuple([
 		AccessTokenCookie,
-		RegisterProductCommand.register($Form, { _tag: "form" }),
+		RegisterProductCommand.clone().register($Form, { _tag: "form" }),
 	]),
 	output: z.promise(z.void()),
 });

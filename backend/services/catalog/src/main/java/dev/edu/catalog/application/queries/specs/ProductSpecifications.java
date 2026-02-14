@@ -81,12 +81,12 @@ public class ProductSpecifications {
     private static Specification<Product> hasMinPrice(BigDecimal minPrice) {
         return (root, query, cb) ->
             minPrice == null ? null :
-            cb.greaterThanOrEqualTo(root.get("price"), minPrice);
+            cb.greaterThanOrEqualTo(root.get("unitPrice"), minPrice);
     }
 
     private static Specification<Product> hasMaxPrice(BigDecimal maxPrice) {
         return (root, query, cb) ->
             maxPrice == null ? null :
-            cb.lessThanOrEqualTo(root.get("price"), maxPrice);
+            cb.lessThanOrEqualTo(root.get("unitPrice"), maxPrice);
     }
 }

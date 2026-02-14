@@ -6,8 +6,8 @@ import {
 	PoliciesSchema,
 } from "@/http-clients/auth/PoliciesClient.ts";
 import { PageProps } from "fresh";
-import ModuleContainer from "@/islands/ModuleContainer.tsx";
 import z from "zod";
+import Container from "@/islands/catalog/Container.tsx";
 
 export const handler = define.handlers({
 	GET: HomeController(async (accessToken) => {
@@ -30,10 +30,7 @@ export default define.page(
 					<title>Catalog</title>
 				</Head>
 				<main class="catalog">
-					<ModuleContainer
-						moduleName="Product Catalog"
-						resourceActionsRecord={resourceActionsRecord}
-					/>
+					<Container resourceActionsRecord={resourceActionsRecord} />
 				</main>
 			</>
 		);

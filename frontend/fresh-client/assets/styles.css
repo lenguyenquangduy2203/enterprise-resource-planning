@@ -44,6 +44,21 @@ aside > nav {
   }
 }
 
+.custom-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: white;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+}
+.custom-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px var(--color-primary-ring);
+}
+
 @scope (.default) {
   :scope {
     --color-primary: var(--color-indigo-600);
@@ -62,21 +77,6 @@ aside > nav {
     --color-bg: #fffbfb; /* Subtle warm tint */
     --color-text: var(--color-stone-900);
     --color-primary-ring: rgba(225, 29, 72, 0.2);
-  }
-
-  .hr-input {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border-radius: 0.75rem;
-      border: 1px solid rgba(0,0,0,0.1);
-      background: white;
-      font-size: 0.875rem;
-      transition: all 0.2s;
-  }
-  .hr-input:focus {
-      outline: none;
-      border-color: var(--color-primary);
-      box-shadow: 0 0 0 4px var(--color-primary-ring);
   }
 }
 

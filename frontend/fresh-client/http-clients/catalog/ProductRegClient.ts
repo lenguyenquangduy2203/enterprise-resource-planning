@@ -26,7 +26,7 @@ export const RegisterProductCommand = z.object({
 	name: z.string().trim().min(1).max(150),
 	unit: z.string().max(50).optional(),
 	unitPrice: z.number().min(0.01).refine(
-		(price) => Number.isInteger(price * 100),
+		(price) => Math.abs(Math.round(price * 100) - price * 100) < 1e-10,
 		"Unit price must have at most 2 decimal places",
 	),
 	description: z.string().max(255).optional().nullable(),
@@ -52,7 +52,7 @@ const ProductRegClientSchema = z.object({
 	registerProduct: z.function({
 		input: z.tuple([
 			JwtAuthHeader,
-			RegisterProductCommand.register($Body, { _tag: "body" }),
+			RegisterProductCommand.clone().register($Body, { _tag: "body" }),
 		]),
 		output: z.promise(z.void()),
 	}).register($URI, {
