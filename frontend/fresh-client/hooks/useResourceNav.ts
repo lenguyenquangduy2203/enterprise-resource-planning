@@ -1,12 +1,18 @@
-import { useSignal } from "@preact/signals";
+import { Signal, useSignal } from "@preact/signals";
 
-export function useResourceNav(
-	resourceActionsRecord: Record<string, string[]>,
-	defaultResource?: string,
-) {
-	const resources = Object.keys(resourceActionsRecord);
+type Nav<Resource extends string | symbol> = {
+	resources: Resource[];
+	activeResource: Signal<Resource>;
+	selectResource: (resource: Resource) => void;
+};
+
+export function useResourceNav<Resource extends string | symbol>(
+	resourceActionsRecord: Record<Resource, string[]>,
+	defaultResource?: Resource & string,
+): Nav<Resource> {
+	const resources = Object.keys(resourceActionsRecord) as Resource[];
 	const activeResource = useSignal(defaultResource || resources[0]);
-	const selectResource = (resource: string) => {
+	const selectResource = (resource: Resource) => {
 		activeResource.value = resource;
 	};
 

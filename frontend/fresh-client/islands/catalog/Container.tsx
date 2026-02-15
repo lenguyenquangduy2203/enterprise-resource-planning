@@ -1,83 +1,21 @@
-import { Signal, useSignal, useSignalEffect } from "@preact/signals";
-import { FunctionalComponent } from "preact";
-import { useResourceNav } from "@/hooks/useResourceNav.ts";
+import DashboardContainerFactory from "@/islands/factories/DashboardContainerFactory.tsx";
 import OverviewContainer from "./OverviewContainer.tsx";
-import LeftAside from "@/components/layouts/LeftAside.tsx";
-import ButtonsList from "@/components/ButtonsList.tsx";
+import { MODULE_RESOURCE_MAP } from "@/utils/mod.ts";
 
-type ResourceProps = {
-	resourceActionsRecord: Record<string, string[]>;
-	activeResource: Signal<string>;
-};
+type Resource = "overview" | typeof MODULE_RESOURCE_MAP.catalog[number];
 
-const ResourceLazyDispatcher: Record<
-	string,
-	() => Promise<FunctionalComponent<ResourceProps>>
-> = {
-	"product": async () =>
+const Container = DashboardContainerFactory<Resource>({
+	overview: async () => await Promise.resolve(OverviewContainer),
+	product: async () =>
 		await import("./product/ProductActionsContainer.tsx")
 			.then((m) => m.default),
-	"category": async () => await Promise.resolve(() => <div>Category</div>),
-	"manufacturer": async () =>
+	category: async () => await Promise.resolve(() => <div>Category</div>),
+	manufacturer: async () =>
 		await Promise.resolve(() => <div>Manufacturer</div>),
-};
-
-type Props = {
-	resourceActionsRecord: Record<string, string[]>;
-};
-
-async function dispatchSection(
-	sectionSig: Signal<FunctionalComponent<ResourceProps>>,
-	activeResource: Signal<string>,
-) {
-	const dispatcher = ResourceLazyDispatcher[activeResource.value];
-	if (!dispatcher) return;
-
-	sectionSig.value = await dispatcher();
-}
-
-export default function Container({
-	resourceActionsRecord,
-}: Readonly<Props>) {
-	const {
-		resources,
-		activeResource,
-		selectResource,
-	} = useResourceNav(resourceActionsRecord, "overview");
-	const sectionSig = useSignal<FunctionalComponent<ResourceProps>>(
-		OverviewContainer,
-	);
-
-	useSignalEffect(() => {
-		dispatchSection(sectionSig, activeResource);
-	});
-
-	const SelectedSection = sectionSig.value;
-
-	return (
-		<LeftAside>
-			<LeftAside.Aside>
-				<ButtonsList>
-					<ButtonsList.Header>
-						Human Resources
-					</ButtonsList.Header>
-					{resources.map((resource) => (
-						<ButtonsList.Item
-							key={resource}
-							active={activeResource.value === resource}
-							onClick={() => selectResource(resource)}
-						>
-							{resource}
-						</ButtonsList.Item>
-					))}
-				</ButtonsList>
-			</LeftAside.Aside>
-			<LeftAside.Section>
-				<SelectedSection
-					resourceActionsRecord={resourceActionsRecord}
-					activeResource={activeResource}
-				/>
-			</LeftAside.Section>
-		</LeftAside>
-	);
-}
+}, {
+	defaultSection: {
+		key: "overview",
+		Component: OverviewContainer,
+	},
+});
+export default Container;
