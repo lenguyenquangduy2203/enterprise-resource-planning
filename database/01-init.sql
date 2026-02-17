@@ -281,7 +281,10 @@ CREATE TABLE stock_movement (
     to_warehouse_id BIGINT,
     quantity INT NOT NULL,
     movement_type VARCHAR(50) NOT NULL,   -- TRANSFER, IMPORT, EXPORT, ADJUSTMENT
+    status VARCHAR(50) NOT NULL,        
+    -- CREATED, INVALID, PENDING, IN_REVIEW, REJECTED, ACCEPTED, EXECUTING, FAILED, COMPLETED, CANCELLED
     performed_by BINARY(16),               -- logical FK to hr.employee(id)
+    reviewed_by BINARY(16),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
