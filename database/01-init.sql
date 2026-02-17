@@ -276,16 +276,31 @@ INSERT INTO stock (product_id, warehouse_id, quantity) VALUES
 -- =========================
 CREATE TABLE stock_movement (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    product_id BIGINT NOT NULL,            -- logical FK to catalog.product(id)
+
+    -- product reference
+    product_id BIGINT NOT NULL,
+    product_sku VARCHAR(50) NOT NULL,
+    product_name VARCHAR(150) NOT NULL,
+
+    -- warehouse reference
     from_warehouse_id BIGINT,
+    from_warehouse_name VARCHAR(100),
     to_warehouse_id BIGINT,
+    to_warehouse_name VARCHAR(100),
+
     quantity INT NOT NULL,
-    movement_type VARCHAR(50) NOT NULL,   -- TRANSFER, IMPORT, EXPORT, ADJUSTMENT
-    status VARCHAR(50) NOT NULL,        
-    -- CREATED, INVALID, PENDING, IN_REVIEW, REJECTED, ACCEPTED, EXECUTING, FAILED, COMPLETED, CANCELLED
-    performed_by BINARY(16),               -- logical FK to hr.employee(id)
+    movement_type VARCHAR(50) NOT NULL,
+    status VARCHAR(50) NOT NULL,
+
+    performed_by BINARY(16),
+    performed_by_name VARCHAR(150),
+
     reviewed_by BINARY(16),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    reviewed_by_name VARCHAR(150),
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
+        ON UPDATE CURRENT_TIMESTAMP
 );
 
 GRANT ALL PRIVILEGES ON auth.* TO 'erp_user'@'%';

@@ -1,0 +1,21 @@
+server:
+  port: 8083
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://registry:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,refresh
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://auth-server:9000
+          
