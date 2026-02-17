@@ -146,13 +146,14 @@ CREATE TABLE category (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     code VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL,
-    description VARCHAR(255)
+    description VARCHAR(255),
+    status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE'
 );
 
-INSERT INTO category (code, name, description) VALUES
-('ELEC', 'Electronics', 'Electronic devices and accessories'),
-('FURN', 'Furniture', 'Office and home furniture'),
-('STAT', 'Stationery', 'Office stationery supplies');
+INSERT INTO category (code, name, description, status) VALUES
+('ELEC', 'Electronics', 'Electronic devices and accessories', 'ACTIVE'),
+('FURN', 'Furniture', 'Office and home furniture', 'ACTIVE'),
+('STAT', 'Stationery', 'Office stationery supplies', 'ACTIVE');
 
 -- =========================
 -- Manufacturer
@@ -162,12 +163,13 @@ CREATE TABLE manufacturer (
     code VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(150) NOT NULL,
     country VARCHAR(100),
-    description VARCHAR(255)
+    description VARCHAR(255),
+    status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE'
 );
 
-INSERT INTO manufacturer (code, name, country, description) VALUES
-('DELL', 'Dell Inc.', 'USA', 'Computer manufacturer'),
-('GEN',  'Generic Supplier', 'Vietnam', 'Local supplier');
+INSERT INTO manufacturer (code, name, country, description, status) VALUES
+('DELL', 'Dell Inc.', 'USA', 'Computer manufacturer', 'ACTIVE'),
+('GEN',  'Generic Supplier', 'Vietnam', 'Local supplier', 'ACTIVE');
 
 -- =========================
 -- Product (master data)
@@ -177,13 +179,14 @@ CREATE TABLE product (
     sku VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(150) NOT NULL,
     unit VARCHAR(50),
-    unit_price DECIMAL(12,2) NOT NULL,
+    unit_price DECIMAL(12,2) NOT NULL CHECK (unit_price > 0),
     description VARCHAR(255),
-    category_id BIGINT NOT NULL, -- logical FK to category(id)
-    manufacturer_id BIGINT NOT NULL -- logical FK to manufacturer(id)
+    category_id BIGINT NOT NULL,
+    manufacturer_id BIGINT NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE'
 );
 
-INSERT INTO product (sku, name, unit, unit_price, description, category_id, manufacturer_id) VALUES
+INSERT INTO product (sku, name, unit, unit_price, description, category_id, manufacturer_id, status) VALUES
 (
     'SKU-001',
     'Laptop Dell XPS',
@@ -191,7 +194,8 @@ INSERT INTO product (sku, name, unit, unit_price, description, category_id, manu
     1800.00,
     'High-end laptop',
     (SELECT id FROM category WHERE code = 'ELEC'),
-    (SELECT id FROM manufacturer WHERE code = 'DELL')
+    (SELECT id FROM manufacturer WHERE code = 'DELL'),
+    'ACTIVE'
 ),
 (
     'SKU-002',
@@ -200,7 +204,8 @@ INSERT INTO product (sku, name, unit, unit_price, description, category_id, manu
     120.00,
     'Ergonomic chair',
     (SELECT id FROM category WHERE code = 'FURN'),
-    (SELECT id FROM manufacturer WHERE code = 'GEN')
+    (SELECT id FROM manufacturer WHERE code = 'GEN'),
+    'ACTIVE'
 ),
 (
     'SKU-003',
@@ -209,7 +214,8 @@ INSERT INTO product (sku, name, unit, unit_price, description, category_id, manu
     4.50,
     '80gsm A4 paper',
     (SELECT id FROM category WHERE code = 'STAT'),
-    (SELECT id FROM manufacturer WHERE code = 'GEN')
+    (SELECT id FROM manufacturer WHERE code = 'GEN'),
+    'ACTIVE'
 );
 
 CREATE DATABASE IF NOT EXISTS inv;

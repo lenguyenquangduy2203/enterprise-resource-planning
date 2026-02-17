@@ -39,6 +39,12 @@ spring:
             - Path=/hr/**
           filters:
             - StripPrefix=1
+        - id: catalog
+          uri: http://catalog:8082
+          predicates:
+            - Path=/catalog/**
+          filters:
+            - StripPrefix=1
         - id: auth
           uri: http://auth-server:9000
           predicates:
@@ -70,11 +76,21 @@ spring:
           - account.read
           - account.write
           - department.read
+          - department.write
           - employee.read
           - employee.write
-          - inventory.read
-          - inventory.write
+          - product.read
+          - product.write
+          - category.read
+          - category.write
+          - manufacturer.read
+          - manufacturer.write
+          - stock.read
+          - stock.write
+          - stock_movement.read
+          - stock_movement.write
           - warehouse.read
+          - warehouse.write
         ROLE_HR_MANAGER:
           - employee.read
           - employee.write
@@ -82,9 +98,13 @@ spring:
           - account.write
           - department.read
         ROLE_WAREHOUSE:
-          - inventory.read
-          - inventory.write_own
+          - stock.read
+          - stock.write
+          - stock_movement.read
+          - stock_movement.write
           - warehouse.read
         ROLE_EMPLOYEE:
           - employee.read_own
-          - inventory.read
+          - stock.read
+          - product.read
+          - category.read

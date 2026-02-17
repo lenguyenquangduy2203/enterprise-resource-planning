@@ -61,7 +61,7 @@ export default function EmployeeRead() {
 				<div class="space-y-4">
 					<Field label="Full Name">
 						<input
-							class="hr-input"
+							class="custom-input"
 							value={fullname.value}
 							onInput={(e) =>
 								fullname.value = e.currentTarget.value}
@@ -70,7 +70,7 @@ export default function EmployeeRead() {
 					</Field>
 					<Field label="Email Address">
 						<input
-							class="hr-input"
+							class="custom-input"
 							value={email.value}
 							onInput={(e) => email.value = e.currentTarget.value}
 							placeholder="Search emails..."
@@ -82,7 +82,7 @@ export default function EmployeeRead() {
 				<div class="space-y-4">
 					<Field label="Department">
 						<select
-							class="hr-input"
+							class="custom-input"
 							value={org.departmentCode.value}
 							onChange={(e) =>
 								org.departmentCode.value =
@@ -96,7 +96,7 @@ export default function EmployeeRead() {
 					</Field>
 					<Field label="Position">
 						<select
-							class={`hr-input transition-all ${
+							class={`custom-input transition-all ${
 								org.departmentCode.value
 									? "border-(--color-primary)/30"
 									: "opacity-50"
@@ -122,7 +122,7 @@ export default function EmployeeRead() {
 				<div class="space-y-4">
 					<Field label="Seniority Level">
 						<input
-							class="hr-input"
+							class="custom-input"
 							value={level.value}
 							onInput={(e) => level.value = e.currentTarget.value}
 							placeholder="e.g. Senior"
@@ -130,7 +130,7 @@ export default function EmployeeRead() {
 					</Field>
 					<Field label="Account Status">
 						<select
-							class="hr-input"
+							class="custom-input"
 							value={accountProvisioningStatus.value}
 							onChange={(e) => {
 								const value = e.currentTarget

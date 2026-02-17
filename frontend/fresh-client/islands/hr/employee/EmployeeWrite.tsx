@@ -23,7 +23,7 @@ export default function EmployeeWrite() {
 		e.preventDefault();
 		isSubmitting.value = true;
 		try {
-			await fetch("/api/hr/employees", {
+			const res = await fetch("/api/hr/employees", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
@@ -34,7 +34,7 @@ export default function EmployeeWrite() {
 					positionCode: positionCode.value,
 				}),
 			});
-			resetForm();
+			if (res.ok) resetForm();
 		} finally {
 			isSubmitting.value = false;
 		}
@@ -61,7 +61,7 @@ export default function EmployeeWrite() {
 					<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 						<Field label="Full Name" required>
 							<input
-								class="hr-input"
+								class="custom-input"
 								placeholder="Jane Doe"
 								value={fullname.value}
 								onInput={(e) =>
@@ -73,7 +73,7 @@ export default function EmployeeWrite() {
 						<Field label="Email Address" required>
 							<input
 								type="email"
-								class="hr-input"
+								class="custom-input"
 								placeholder="jane.doe@company.com"
 								value={email.value}
 								onInput={(e) =>
@@ -86,7 +86,7 @@ export default function EmployeeWrite() {
 
 					<Field label="Seniority Level">
 						<input
-							class="hr-input"
+							class="custom-input"
 							placeholder="e.g. Senior Manager"
 							value={level.value}
 							onInput={(e) =>
@@ -99,7 +99,7 @@ export default function EmployeeWrite() {
 					<div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 rounded-xl bg-(--color-bg) border border-[rgba(0,0,0,0.03)]">
 						<Field label="Department" required>
 							<select
-								class="hr-input"
+								class="custom-input"
 								value={departmentCode.value}
 								onChange={(e) =>
 									departmentCode.value =
@@ -117,7 +117,7 @@ export default function EmployeeWrite() {
 
 						<Field label="Position" required>
 							<select
-								class={`hr-input transition-opacity duration-300 ${
+								class={`custom-input transition-opacity duration-300 ${
 									departmentCode.value
 										? "opacity-100"
 										: "opacity-40 cursor-not-allowed"
