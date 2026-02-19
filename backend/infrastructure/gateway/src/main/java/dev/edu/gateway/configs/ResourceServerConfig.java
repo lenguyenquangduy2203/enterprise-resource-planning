@@ -44,6 +44,8 @@ public class ResourceServerConfig {
                 .pathMatchers(HttpMethod.GET, "/catalog/categories/**").hasAnyAuthority("SCOPE_category.read")
                 .pathMatchers(HttpMethod.GET, "/catalog/manufacturers/**").hasAnyAuthority("SCOPE_manufacturer.read")
                 .pathMatchers(HttpMethod.POST, "/auth/api/accounts/**").hasAuthority("SCOPE_account.write")
+                .pathMatchers(HttpMethod.GET, "/inv/stock-movements/**").hasAnyAuthority("SCOPE_stock_movement.read")
+                .pathMatchers(HttpMethod.POST, "/inv/stock-movements/**").hasAnyAuthority("SCOPE_stock_movement.write")
                 .anyExchange().authenticated()
             )
             .oauth2ResourceServer(oauth2 ->

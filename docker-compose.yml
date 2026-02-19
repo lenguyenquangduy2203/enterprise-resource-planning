@@ -122,6 +122,19 @@ services:
         condition: service_healthy
     networks:
       - erp
+  inv:
+    build: ./backend/services/inventory
+    image: inv
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "8083:8083"
+    depends_on:
+      configurer:
+        condition: service_healthy
+    networks:
+      - erp
 
 volumes:
   mysql_data:

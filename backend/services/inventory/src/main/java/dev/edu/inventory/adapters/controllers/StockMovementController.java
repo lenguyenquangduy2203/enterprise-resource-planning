@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.edu.inventory.adapters.mappers.StockMovementRequestMapper;
 import dev.edu.inventory.adapters.mappers.StockMovementSearchMapper;
+import dev.edu.inventory.adapters.payloads.MovementRequestStatus;
 import dev.edu.inventory.adapters.payloads.StockMovementResponse;
 import dev.edu.inventory.adapters.payloads.StockMovementSearchParams;
 import dev.edu.inventory.application.commands.movement.MovementRequest;
-import dev.edu.inventory.application.results.MovementRequestStatus;
 import dev.edu.inventory.application.services.CreateStockMovementCommandHandler;
 import dev.edu.inventory.application.services.StockMovementsSearchQueryHandler;
 import jakarta.validation.Valid;
@@ -27,12 +28,15 @@ import lombok.AllArgsConstructor;
 public class StockMovementController {
     private final CreateStockMovementCommandHandler commandHandler;
     private final StockMovementsSearchQueryHandler queryHandler;
+    private final StockMovementRequestMapper requestMapper;
     private final StockMovementSearchMapper searchMapper;
 
     @PostMapping
     public ResponseEntity<MovementRequestStatus> create(@Valid @RequestBody MovementRequest request) {
-        var reqStat = request.accept(commandHandler);
-        return ResponseEntity.accepted().body(reqStat);
+        var movement = request.accept(commandHandler);
+        var reqStat = requestMapper.toMovementRequestStatus(movement);
+
+        return ResponseEntity.status(201).body(reqStat);
     }
 
     @GetMapping

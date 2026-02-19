@@ -1,4 +1,4 @@
-package dev.edu.inventory.application.results;
+package dev.edu.inventory.adapters.payloads;
 
 import dev.edu.inventory.domain.values.MovementStatus;
 

@@ -11,7 +11,7 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 @Configuration
 public class HttpClientConfig {
     @Bean
-    AuthClient hrClient(RestClient.Builder builder) {
+    AuthClient authClient(RestClient.Builder builder) {
         var client = builder
             .baseUrl("http://gateway:8080")
             .requestInterceptor((request, body, execution) -> {
