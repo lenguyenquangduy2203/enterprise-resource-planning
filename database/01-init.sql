@@ -226,6 +226,7 @@ USE inv;
 -- =========================
 CREATE TABLE warehouse (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    code VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL,
     location VARCHAR(150),
     size VARCHAR(50),
@@ -234,13 +235,14 @@ CREATE TABLE warehouse (
     -- logical FK to hr.employee(id)
 );
 
-INSERT INTO warehouse (name, location, size, description, manager_id) VALUES
+INSERT INTO warehouse (code, name, location, size, description, manager_id) VALUES
 (
+    'HCM-01',
     'Main Warehouse',
     'HCMC - District 9',
     'Large',
     'Central inventory warehouse',
-    (SELECT id FROM hr.employee LIMIT 1)
+    (SELECT id FROM hr.employee WHERE hr.employee.position_id = 3 LIMIT 1)
 );
 
 -- =========================

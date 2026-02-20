@@ -32,20 +32,23 @@ public class ResourceServerConfig {
                     "/hr/actuator/health",
                     "/auth/actuator/health"
                 ).permitAll()
-                .pathMatchers(HttpMethod.GET, "/hr/employees/*", "/hr/employees/*/**")
-                    .hasAnyAuthority(
-                        "SCOPE_employee.read", 
-                        "SCOPE_employee.read_own")
+                .pathMatchers(HttpMethod.GET, 
+                    "/hr/employees/*", "/hr/employees/*/**")
+                    .hasAnyAuthority("SCOPE_employee.read", "SCOPE_employee.read_own")
                 .pathMatchers(HttpMethod.GET, "/hr/employees/**").hasAuthority("SCOPE_employee.read")
                 .pathMatchers(HttpMethod.POST, "/hr/employees/**").hasAuthority("SCOPE_employee.write")
                 .pathMatchers(HttpMethod.GET, "/hr/departments/**").hasAuthority("SCOPE_department.read")
+
                 .pathMatchers(HttpMethod.GET, "/catalog/products/**").hasAnyAuthority("SCOPE_product.read")
                 .pathMatchers(HttpMethod.POST, "/catalog/products/**").hasAnyAuthority("SCOPE_product.write")
                 .pathMatchers(HttpMethod.GET, "/catalog/categories/**").hasAnyAuthority("SCOPE_category.read")
                 .pathMatchers(HttpMethod.GET, "/catalog/manufacturers/**").hasAnyAuthority("SCOPE_manufacturer.read")
+                
                 .pathMatchers(HttpMethod.POST, "/auth/api/accounts/**").hasAuthority("SCOPE_account.write")
+                
                 .pathMatchers(HttpMethod.GET, "/inv/stock-movements/**").hasAnyAuthority("SCOPE_stock_movement.read")
                 .pathMatchers(HttpMethod.POST, "/inv/stock-movements/**").hasAnyAuthority("SCOPE_stock_movement.write")
+                .pathMatchers(HttpMethod.GET, "/inv/warehouses/**").hasAnyAuthority("SCOPE_warehouse.read")
                 .anyExchange().authenticated()
             )
             .oauth2ResourceServer(oauth2 ->

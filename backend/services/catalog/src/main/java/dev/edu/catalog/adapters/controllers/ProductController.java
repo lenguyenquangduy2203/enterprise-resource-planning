@@ -14,13 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.edu.catalog.adapters.mappers.ProductSearchMapper;
 import dev.edu.catalog.adapters.mappers.StatsMapper;
+import dev.edu.catalog.adapters.payloads.ProductLookupParams;
 import dev.edu.catalog.adapters.payloads.ProductSearchParams;
 import dev.edu.catalog.adapters.payloads.ProductSearchResponse;
 import dev.edu.catalog.adapters.payloads.ProductStats;
 import dev.edu.catalog.application.commands.ProductRegistrationCommand;
+import dev.edu.catalog.application.services.LookupQueryHandler;
 import dev.edu.catalog.application.services.ProductRegistrationCommandHandler;
 import dev.edu.catalog.application.services.SearchProductQueryHandler;
 import dev.edu.catalog.application.services.SimpleProductService;
+import dev.edu.catalog.domain.repositories.projections.ProductSelection;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
@@ -31,6 +34,7 @@ public class ProductController {
     private final ProductRegistrationCommandHandler productRegistrationCommandHandler;
     private final ProductSearchMapper productSearchMapper;
     private final SearchProductQueryHandler searchProductQueryHandler;
+    private final LookupQueryHandler lookupQueryHandler;
     private final SimpleProductService productService;
     private final StatsMapper statsMapper;
 
@@ -48,6 +52,17 @@ public class ProductController {
         var searchProductQuery = productSearchMapper.toSearchProductQuery(params, pageable);
         var products = searchProductQuery.accept(searchProductQueryHandler);
         var resp = productSearchMapper.toProductSearchResponse(products);
+
+        return ResponseEntity.ok(resp);
+    }
+
+    @GetMapping("/lookups")
+    public ResponseEntity<Page<ProductSelection>> lookup(
+        @Valid @ModelAttribute ProductLookupParams params,
+        @PageableDefault(size = 10) Pageable pageable
+    ) {
+        var searchProductQuery = productSearchMapper.toProductLookupQuery(params, pageable);
+        var resp = searchProductQuery.accept(lookupQueryHandler);
 
         return ResponseEntity.ok(resp);
     }

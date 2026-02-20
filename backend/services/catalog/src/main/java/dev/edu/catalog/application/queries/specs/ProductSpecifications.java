@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import dev.edu.catalog.application.queries.ProductLookupQuery;
 import dev.edu.catalog.application.queries.SearchProductQuery;
 import dev.edu.catalog.domain.entities.persistence.Product;
 import dev.edu.catalog.domain.values.ProductStatus;
@@ -15,7 +16,7 @@ public class ProductSpecifications {
 
     private ProductSpecifications() {}
 
-    // == SPECS FACTORY ==
+    // == SPECS FACTORIES ==
     public static Specification<Product> from(SearchProductQuery query) {
         return Specification
             .where(fetchCategoryAndManufacturer())
@@ -25,6 +26,12 @@ public class ProductSpecifications {
             .and(hasStatus(query.status()))
             .and(hasMinPrice(query.minPrice()))
             .and(hasMaxPrice(query.maxPrice()));
+    }
+
+    public static Specification<Product> from(ProductLookupQuery query) {
+        return Specification
+            .where(hasStatus(ProductStatus.ACTIVE))
+            .and(hasSkuPrefix(query.sku()));
     }
 
     // == FETCH ==
@@ -88,5 +95,11 @@ public class ProductSpecifications {
         return (root, query, cb) ->
             maxPrice == null ? null :
             cb.lessThanOrEqualTo(root.get("unitPrice"), maxPrice);
+    }
+
+    public static Specification<Product> hasSkuPrefix(String sku) {
+        return (root, query, cb) ->
+            sku == null ? null :
+            cb.like(root.get("sku"), sku + "%");
     }
 }

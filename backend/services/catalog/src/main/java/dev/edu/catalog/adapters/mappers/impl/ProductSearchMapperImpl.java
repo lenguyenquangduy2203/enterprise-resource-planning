@@ -5,8 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import dev.edu.catalog.adapters.mappers.ProductSearchMapper;
+import dev.edu.catalog.adapters.payloads.ProductLookupParams;
 import dev.edu.catalog.adapters.payloads.ProductSearchParams;
 import dev.edu.catalog.adapters.payloads.ProductSearchResponse;
+import dev.edu.catalog.application.queries.ProductLookupQuery;
 import dev.edu.catalog.application.queries.SearchProductQuery;
 import dev.edu.catalog.domain.entities.persistence.Product;
 import lombok.AllArgsConstructor;
@@ -42,4 +44,8 @@ public class ProductSearchMapperImpl implements ProductSearchMapper {
         );
     }
 
+    @Override
+    public ProductLookupQuery toProductLookupQuery(ProductLookupParams params, Pageable pageable) {
+        return new ProductLookupQuery(params.sku(), pageable);
+    }
 }
