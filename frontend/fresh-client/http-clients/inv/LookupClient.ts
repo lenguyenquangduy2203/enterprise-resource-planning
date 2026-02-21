@@ -15,7 +15,7 @@ export const WarehouseSelectOptions = z.array(z.object({
 }));
 
 const LookupClientSchema = z.object({
-	lookupProductsBySku: z.function({
+	lookupWarehouse: z.function({
 		input: z.tuple([JwtAuthHeader]),
 		output: z.promise(WarehouseSelectOptions),
 	}).register($URI, { method: "GET", uri: "warehouses/lookups" }),

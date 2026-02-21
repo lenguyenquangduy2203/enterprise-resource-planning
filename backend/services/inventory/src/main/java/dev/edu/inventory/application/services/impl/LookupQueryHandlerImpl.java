@@ -17,6 +17,6 @@ public class LookupQueryHandlerImpl implements LookupQueryHandler {
     
     @Override
     public List<WarehouseSelection> handle(WarehouseLookupQuery query) {
-        return warehouseRepository.findAll(WarehouseSelection.class);
+        return warehouseRepository.findAllBy();
     }
 }

@@ -11,7 +11,7 @@ CREATE TABLE principal_counter (
 INSERT INTO principal_counter (department_code, position_code, next_value) VALUES
 ('IT', 'ADMIN', 1),
 ('HR',  'HR_MGR', 1),
-('INV', 'WH_MGR', 1),
+('INV', 'WH_MGR', 2),
 ('IT',  'EMP',    1);
 
 CREATE TABLE account (
@@ -50,8 +50,15 @@ INSERT INTO account (username, password, status, employee_id) VALUES
     '{bcrypt}$2b$10$gs1zpwS9qVwxMudk3ssBluuBw30p6jRM1SlSEDyWEAQI4qvR9EWRi',
     'ACTIVE',
     UNHEX(REPLACE('7c9ae089-037c-4996-a953-cb0601033bcd', '-', ''))
-);
+),
 -- RAW PASSWORD: itemp001
+(
+    'INVWH_MGR002',
+    '{bcrypt}$2b$10$xI8jDj9xb8eOy/pmMLeUmOiOlHqrIDllT3PK77gsxFv.PqGPzKgP6',
+    'ACTIVE',
+    UNHEX(REPLACE('ec43977c-cdb3-42ec-899d-318a0f19694a', '-', ''))
+);
+-- RAW PASSWORD: invwh_mgr002
 
 CREATE TABLE role (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -100,7 +107,8 @@ CREATE TABLE employee (
 INSERT INTO employee (id, fullname, email, level, position_id, account_id) VALUES
 (UNHEX(REPLACE('9d95a9ff-1539-430f-8364-3c67290363e0', '-', '')), 'Nguyen Van Admin', 'admin@erp.com', 'Senior', 1, 1),
 (UNHEX(REPLACE('feddfe75-ba1e-4085-afd6-b4caac70b481', '-', '')), 'Tran Thi HR',     'hr@erp.com',    'Senior', 2, 2),
-(UNHEX(REPLACE('38164cdc-2557-40e8-8a9e-2876eef5528e', '-', '')), 'Le Van Kho',      'inv@erp.com',   'Mid',    3, 3),
+(UNHEX(REPLACE('ec43977c-cdb3-42ec-899d-318a0f19694a', '-', '')), 'Nguyen Van Kho',     'nvinv@erp.com',    'Senior', 3, 5),
+(UNHEX(REPLACE('38164cdc-2557-40e8-8a9e-2876eef5528e', '-', '')), 'Le Van Kho',      'lvkinv@erp.com',   'Mid',    3, 3),
 (UNHEX(REPLACE('7c9ae089-037c-4996-a953-cb0601033bcd', '-', '')), 'Pham Van Emp',    'emp@erp.com',   'Junior', 4, 4);
 
 
@@ -237,13 +245,23 @@ CREATE TABLE warehouse (
 
 INSERT INTO warehouse (code, name, location, size, description, manager_id) VALUES
 (
-    'HCM-01',
+    'HCM-09',
     'Main Warehouse',
     'HCMC - District 9',
     'Large',
+    'Main inventory warehouse',
+    UNHEX(REPLACE('ec43977c-cdb3-42ec-899d-318a0f19694a', '-', '')) 
+),
+-- Nguyen Van Kho
+(
+    'HCM-07',
+    'Central Warehouse',
+    'HCMC - District 7',
+    'Medium',
     'Central inventory warehouse',
-    (SELECT id FROM hr.employee WHERE hr.employee.position_id = 3 LIMIT 1)
+    UNHEX(REPLACE('38164cdc-2557-40e8-8a9e-2876eef5528e', '-', ''))
 );
+-- Le Van Kho
 
 -- =========================
 -- Stock (current state)
@@ -303,6 +321,55 @@ CREATE TABLE stock_movement (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
         ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Mock Stock Movements for UI Review (All in PENDING state)
+INSERT INTO stock_movement (
+    product_id, 
+    product_sku, 
+    product_name, 
+    from_warehouse_id, 
+    from_warehouse_name, 
+    to_warehouse_id, 
+    to_warehouse_name, 
+    quantity, 
+    movement_type, 
+    status, 
+    performed_by, 
+    performed_by_name,
+    created_at
+) VALUES 
+(
+    1, 'SKU-001', 'Laptop Dell XPS', 
+    NULL, NULL, 
+    1, 'Main Warehouse', 
+    25, 'IMPORT', 'PENDING', 
+    UNHEX(REPLACE('ec43977c-cdb3-42ec-899d-318a0f19694a', '-', '')), 'Nguyen Van Kho',
+    NOW() - INTERVAL 2 HOUR
+),
+(
+    2, 'SKU-002', 'Office Chair', 
+    1, 'Main Warehouse', 
+    2, 'Central Warehouse', 
+    15, 'TRANSFER', 'PENDING', 
+    UNHEX(REPLACE('38164cdc-2557-40e8-8a9e-2876eef5528e', '-', '')), 'Le Van Kho',
+    NOW() - INTERVAL 1 HOUR
+),
+(
+    3, 'SKU-003', 'A4 Paper', 
+    2, 'Central Warehouse', 
+    NULL, NULL, 
+    10, 'ADJUSTMENT', 'PENDING', 
+    UNHEX(REPLACE('ec43977c-cdb3-42ec-899d-318a0f19694a', '-', '')), 'Nguyen Van Kho',
+    NOW() - INTERVAL 30 MINUTE
+),
+(
+    1, 'SKU-001', 'Laptop Dell XPS', 
+    1, 'Main Warehouse', 
+    NULL, NULL, 
+    5, 'EXPORT', 'PENDING', 
+    UNHEX(REPLACE('9d95a9ff-1539-430f-8364-3c67290363e0', '-', '')), 'Nguyen Van Admin',
+    NOW() - INTERVAL 15 MINUTE
 );
 
 GRANT ALL PRIVILEGES ON auth.* TO 'erp_user'@'%';

@@ -8,5 +8,5 @@ import dev.edu.inventory.domain.entities.persistence.Warehouse;
 import dev.edu.inventory.domain.repositories.projections.WarehouseSelection;
 
 public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
-    List<WarehouseSelection> findAll(Class<WarehouseSelection> type);
+    List<WarehouseSelection> findAllBy();
 }

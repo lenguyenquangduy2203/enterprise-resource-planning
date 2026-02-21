@@ -1,7 +1,7 @@
 package dev.edu.inventory.domain.repositories.projections;
 
-public interface WarehouseSelection {
-    Long getId();
-    String getCode();
-    String getName();
-}
+public record WarehouseSelection(
+    Long id,
+    String code,
+    String name
+) {}

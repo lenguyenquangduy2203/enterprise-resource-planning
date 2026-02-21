@@ -41,5 +41,5 @@ export default function ActionsContainerFactory<Action extends string | symbol>(
 				</TopNav.Section>
 			</TopNav>
 		);
-	};
+	} as FunctionalComponent<ResourceProps>;
 }

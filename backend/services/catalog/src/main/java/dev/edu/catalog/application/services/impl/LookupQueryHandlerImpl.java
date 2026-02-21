@@ -17,10 +17,7 @@ public class LookupQueryHandlerImpl implements LookupQueryHandler {
 
     @Override
     public Page<ProductSelection> handle(ProductLookupQuery query) {
-        return productRepository.findAll(
-            ProductSpecifications.from(query), 
-            query.pageable(),
-            ProductSelection.class
-        );
+        return productRepository.findAll(ProductSpecifications.from(query), query.pageable())
+            .map(product -> new ProductSelection(product.getId(), product.getSku(), product.getName()));
     }
 }

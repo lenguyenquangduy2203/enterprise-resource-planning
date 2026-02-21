@@ -28,6 +28,12 @@ type DashboardContainerFactoryConfig<Resource extends string | symbol> = {
 	};
 };
 
+export function getSection<Resource extends string | symbol = string>(
+	module: { default: FunctionalComponent<ResourceProps<Resource>> },
+) {
+	return module.default;
+}
+
 export default function DashboardContainerFactory<
 	Resource extends string | symbol,
 >(

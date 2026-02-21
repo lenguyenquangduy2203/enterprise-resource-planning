@@ -130,18 +130,18 @@ public class CreateStockMovementCommandHandlerImpl implements CreateStockMovemen
     private UUID getPerformerIdFromSecurityContext() throws PerformerNotAuthenticatedException {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null || !(authentication.getPrincipal() instanceof JwtAuthenticationToken jwtAuth)) {
+        if (!(authentication instanceof JwtAuthenticationToken jwtAuth)) {
             throw new PerformerNotAuthenticatedException();
         }
 
-        Object employeeIdClaim = jwtAuth.getToken().getClaim("employeeId");
+        String employeeId = jwtAuth.getToken().getClaim("employeeId");
 
-        if (employeeIdClaim == null) {
+        if (employeeId == null) {
             throw new PerformerNotAuthenticatedException();
         }
 
         try {
-            return UUID.fromString(employeeIdClaim.toString());
+            return UUID.fromString(employeeId);
         } catch (IllegalArgumentException _) {
             throw new PerformerNotAuthenticatedException();
         }

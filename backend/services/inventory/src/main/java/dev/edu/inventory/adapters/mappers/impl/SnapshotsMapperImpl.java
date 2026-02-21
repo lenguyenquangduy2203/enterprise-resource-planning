@@ -23,6 +23,13 @@ public class SnapshotsMapperImpl implements SnapshotsMapper {
 
     @Override
     public WarehouseSnapshot toFromWarehouseSnapshot(StockMovement movement) {
+        if (
+            movement.getFromWarehouseId() == null || 
+            movement.getFromWarehouseName() == null
+        ) {
+            return null;
+        }
+
         return new WarehouseSnapshot(
             movement.getFromWarehouseId(),
             movement.getFromWarehouseName()
@@ -31,6 +38,13 @@ public class SnapshotsMapperImpl implements SnapshotsMapper {
 
     @Override
     public WarehouseSnapshot toToWarehouseSnapshot(StockMovement movement) {
+        if (
+            movement.getToWarehouseId() == null ||
+            movement.getToWarehouseName() == null
+        ) {
+            return null;
+        }
+
         return new WarehouseSnapshot(
             movement.getToWarehouseId(), 
             movement.getToWarehouseName()
@@ -47,6 +61,13 @@ public class SnapshotsMapperImpl implements SnapshotsMapper {
 
     @Override
     public EmployeeSnapshot toReviewedBySnapshot(StockMovement movement) {
+        if (
+            movement.getReviewedBy() == null ||
+            movement.getReviewedByName() == null
+        ) {
+            return null;
+        }
+
         return new EmployeeSnapshot(
             movement.getReviewedBy(),
             movement.getReviewedByName()
