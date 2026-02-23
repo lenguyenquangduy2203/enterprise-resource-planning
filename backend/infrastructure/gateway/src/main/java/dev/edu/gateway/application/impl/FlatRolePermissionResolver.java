@@ -7,18 +7,19 @@ import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Component;
 
+import dev.edu.gateway.application.RolePermissionResolver;
 import dev.edu.gateway.configs.props.PolicyOverlayProperties;
 
-@Component
-public class RolePermissionResolver {
+@Deprecated
+public class FlatRolePermissionResolver implements RolePermissionResolver {
     private final PolicyOverlayProperties properties;
 
-    public RolePermissionResolver(PolicyOverlayProperties properties) {
+    public FlatRolePermissionResolver(PolicyOverlayProperties properties) {
         this.properties = properties;
     }
 
+    @Override
     public Set<GrantedAuthority> resolve(Collection<String> roles) {
         if (roles == null || roles.isEmpty()) {
             return Set.of();

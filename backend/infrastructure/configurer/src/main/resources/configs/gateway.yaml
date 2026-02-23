@@ -77,6 +77,43 @@ spring:
         jwt:
           issuer-uri: http://auth-server:9000
     policy-overlay:
+      use-case-permissions:
+        onboarding_employee:
+          - department.read
+          - position.read
+          - employee.write
+          - account.write
+        search_employees:
+          - employee.read
+        register_product:
+          - category.read
+          - manufacturer.read
+          - product.write
+        search_products:
+          - product.read
+        request_stock_movement:
+          - product.read
+          - warehouse.read
+          - stock_movement.write
+        search_stock_movements:
+          - stock_movement.read
+      role-use-cases:
+        ROLE_ADMIN:
+          - onboarding_employee
+          - search_employees
+          - register_product
+          - search_products
+          - request_stock_movement
+          - search_stock_movements
+        ROLE_HR_MANAGER:
+          - onboarding_employee
+          - search_employees
+        ROLE_WAREHOUSE:
+          - request_stock_movement
+          - search_stock_movements
+        ROLE_EMPLOYEE:
+          - search_employees
+          - search_products
       role-permissions:
         ROLE_ADMIN:
           - account.read

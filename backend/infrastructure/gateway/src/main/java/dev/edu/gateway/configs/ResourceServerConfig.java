@@ -15,11 +15,10 @@ import dev.edu.gateway.application.impl.GatewayJwtAuthenticationConverter;
 @EnableWebFluxSecurity
 public class ResourceServerConfig {
     @Bean
-    public SecurityWebFilterChain securityWebFilterChain(
+    SecurityWebFilterChain securityWebFilterChain(
             ServerHttpSecurity http,
             GatewayJwtAuthenticationConverter customConverter
     ) {
-
         return http
             .cors(Customizer.withDefaults())
             .csrf(ServerHttpSecurity.CsrfSpec::disable)
