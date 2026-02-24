@@ -6,11 +6,11 @@ type Resource = "overview" | typeof MODULE_RESOURCE_MAP.inventory[number];
 
 const Container = DashboardContainerFactory<Resource>({
 	overview: async () => await Promise.resolve(OverviewContainer),
-	stock: async () => await Promise.resolve(() => <div>Stock</div>),
-	stock_movement: async () =>
+	stocks: async () => await Promise.resolve(() => <div>Stock</div>),
+	"stock-movements": async () =>
 		await import("./stock_movement/StockMovementActionsContainer.tsx")
 			.then((m) => m.default),
-	warehouse: async () => await Promise.resolve(() => <div>Warehouse</div>),
+	warehouses: async () => await Promise.resolve(() => <div>Warehouse</div>),
 }, {
 	defaultSection: {
 		key: "overview",

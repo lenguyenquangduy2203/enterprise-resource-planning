@@ -79,24 +79,24 @@ spring:
     policy-overlay:
       use-case-permissions:
         onboarding_employee:
-          - department.read
-          - position.read
-          - employee.write
-          - account.write
+          - departments.read
+          - positions.read
+          - employees.write
+          - accounts.write
         search_employees:
-          - employee.read
+          - employees.read
         register_product:
-          - category.read
-          - manufacturer.read
-          - product.write
+          - categories.read
+          - manufacturers.read
+          - products.write
         search_products:
-          - product.read
+          - products.read
         request_stock_movement:
-          - product.read
-          - warehouse.read
-          - stock_movement.write
+          - products.read
+          - warehouses.read
+          - stock-movements.write
         search_stock_movements:
-          - stock_movement.read
+          - stock-movements.read
       role-use-cases:
         ROLE_ADMIN:
           - onboarding_employee

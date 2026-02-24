@@ -6,13 +6,13 @@ type Resource = "overview" | typeof MODULE_RESOURCE_MAP.hr[number];
 
 const Container = DashboardContainerFactory<Resource>({
 	overview: async () => await Promise.resolve(OverviewContainer),
-	employee: async () =>
+	employees: async () =>
 		await import("./employee/EmployeeActionsContainer.tsx")
 			.then((m) => m.default),
-	account: async () =>
+	accounts: async () =>
 		await import("@/islands/hr/AccountActionsContainer.tsx")
 			.then((m) => m.default),
-	department: async () => await Promise.resolve(() => <div>Department</div>),
+	departments: async () => await Promise.resolve(() => <div>Department</div>),
 }, {
 	defaultSection: {
 		key: "overview",

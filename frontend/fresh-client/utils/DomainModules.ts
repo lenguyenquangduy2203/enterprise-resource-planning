@@ -1,18 +1,18 @@
 export const MODULE_RESOURCE_MAP = {
 	hr: [
-		"employee",
-		"department",
-		"account",
+		"employees",
+		"departments",
+		"accounts",
 	],
 	inventory: [
-		"stock",
-		"stock_movement",
-		"warehouse",
+		"stocks",
+		"stock-movements",
+		"warehouses",
 	],
 	catalog: [
-		"product",
-		"category",
-		"manufacturer",
+		"products",
+		"categories",
+		"manufacturers",
 	],
 } as const;
 

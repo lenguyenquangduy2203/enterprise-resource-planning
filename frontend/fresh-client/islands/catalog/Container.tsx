@@ -6,11 +6,11 @@ type Resource = "overview" | typeof MODULE_RESOURCE_MAP.catalog[number];
 
 const Container = DashboardContainerFactory<Resource>({
 	overview: async () => await Promise.resolve(OverviewContainer),
-	product: async () =>
+	products: async () =>
 		await import("./product/ProductActionsContainer.tsx")
 			.then((m) => m.default),
-	category: async () => await Promise.resolve(() => <div>Category</div>),
-	manufacturer: async () =>
+	categories: async () => await Promise.resolve(() => <div>Category</div>),
+	manufacturers: async () =>
 		await Promise.resolve(() => <div>Manufacturer</div>),
 }, {
 	defaultSection: {
