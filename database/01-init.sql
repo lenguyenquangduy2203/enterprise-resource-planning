@@ -73,7 +73,9 @@ INSERT INTO role (code, description, position_id) VALUES
 ('ROLE_ADMIN',      'System administrator', 1),
 ('ROLE_HR_MANAGER', 'HR management role',   2),
 ('ROLE_WAREHOUSE',  'Warehouse manager',    3),
-('ROLE_EMPLOYEE',   'Normal employee',      4);
+('ROLE_EMPLOYEE',   'Normal employee',      4),
+('ROLE_CATALOG_OFFICER', 'Catalog management role', 5),
+('ROLE_BUSINESS_ANALYST', 'Business analysis role', 6);
 
 CREATE TABLE account_role (
     account_id BIGINT NOT NULL,
@@ -125,7 +127,9 @@ CREATE TABLE department (
 INSERT INTO department (code, name, description, manager_id) VALUES
 ('IT', 'Information Technology', 'System & infrastructure', NULL),
 ('HR', 'Human Resources',        'People management',       NULL),
-('INV','Inventory',              'Warehouse & stock',       NULL);
+('INV','Inventory',              'Warehouse & stock',       NULL),
+('CAT', 'Catalog Management', 'Product master data management', NULL),
+('ANL', 'Analytics', 'Business intelligence & reporting', NULL);
 
 CREATE TABLE position (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -142,7 +146,9 @@ INSERT INTO position (code, name, description, base_wage, department_id) VALUES
 ('ADMIN',    'System Admin',      'Full system access',   3000.00, 1),
 ('HR_MGR',   'HR Manager',        'HR operations',        2500.00, 2),
 ('WH_MGR',   'Warehouse Manager','Manage warehouse',     2200.00, 3),
-('EMP',      'Employee',          'General employee',     1200.00, 1);
+('EMP',      'Employee',          'General employee',     1200.00, 1),
+('CAT_OFF', 'Catalog Officer', 'Manage product catalog data', 2000.00, 4),
+('BUS_ANALYST', 'Business Analyst', 'Analyze business data and generate reports', 2600.00, 5);
 
 CREATE DATABASE IF NOT EXISTS catalog;
 USE catalog;

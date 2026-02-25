@@ -97,13 +97,20 @@ spring:
           - stock-movements.write
         search_stock_movements:
           - stock-movements.read
+        search_stocks:
+          - stocks.read
+        workforce_n_salary_structure:
+          - employees.read
+        inventory_capital_distribution:
+          - products.read
+          - stock-movements.read
+        operational_movement_kpi:
+          - products.read
+          - stocks.read
       role-use-cases:
         ROLE_ADMIN:
-          - onboarding_employee
           - search_employees
-          - register_product
           - search_products
-          - request_stock_movement
           - search_stock_movements
         ROLE_HR_MANAGER:
           - onboarding_employee
@@ -114,6 +121,14 @@ spring:
         ROLE_EMPLOYEE:
           - search_employees
           - search_products
+          - search_stock_movements
+        ROLE_CATALOG_OFFICER:
+          - register_product
+          - search_products
+        ROLE_BUSINESS_ANALYST:
+          - workforce_n_salary_structure
+          - inventory_capital_distribution
+          - operational_movement_kpi
       role-permissions:
         ROLE_ADMIN:
           - account.read
