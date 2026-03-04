@@ -9,9 +9,9 @@ const Container = DashboardContainerFactory<Resource>({
 	products: async () =>
 		await import("./product/ProductActionsContainer.tsx")
 			.then((m) => m.default),
-	categories: async () => await Promise.resolve(() => <div>Category</div>),
-	manufacturers: async () =>
-		await Promise.resolve(() => <div>Manufacturer</div>),
+	// categories: async () => await Promise.resolve(() => <div>Category</div>),
+	// manufacturers: async () =>
+	// 	await Promise.resolve(() => <div>Manufacturer</div>),
 }, {
 	defaultSection: {
 		key: "overview",

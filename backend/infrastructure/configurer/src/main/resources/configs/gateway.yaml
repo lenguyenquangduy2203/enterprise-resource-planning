@@ -123,6 +123,7 @@ spring:
         ROLE_WAREHOUSE:
           - request_stock_movement
           - search_stock_movements
+          - search_products
         ROLE_EMPLOYEE:
           - search_employees
           - search_products

@@ -9,10 +9,10 @@ const Container = DashboardContainerFactory<Resource>({
 	employees: async () =>
 		await import("./employee/EmployeeActionsContainer.tsx")
 			.then((m) => m.default),
-	accounts: async () =>
-		await import("@/islands/hr/AccountActionsContainer.tsx")
-			.then((m) => m.default),
-	departments: async () => await Promise.resolve(() => <div>Department</div>),
+	// accounts: async () =>
+	// 	await import("@/islands/hr/AccountActionsContainer.tsx")
+	// 		.then((m) => m.default),
+	// departments: async () => await Promise.resolve(() => <div>Department</div>),
 }, {
 	defaultSection: {
 		key: "overview",
