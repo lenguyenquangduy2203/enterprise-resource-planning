@@ -1,11 +1,11 @@
 package dev.edu.analysis.domain.clients.payloads.movement;
 
-import java.util.Map;
+import java.util.Set;
 
 import jakarta.validation.constraints.NotNull;
 
 public record MovementStatistics(
-    @NotNull Map<MovementType, Integer> typeCount,
-    @NotNull Map<MovementStatus, Integer> statusCount,
-    @NotNull Map<String, Integer> warehouseCount
+    @NotNull Set<MovementTypeCount> typeDistributions,
+    @NotNull Set<MovementStatusCount> statusDistributions,
+    @NotNull Set<WarehouseCount> warehouseDistributions
 ) {}
