@@ -84,14 +84,19 @@ spring:
           - employees.write
           - accounts.write
         search_employees:
+          - departments.read
+          - positions.read
           - employees.read
         register_product:
           - categories.read
           - manufacturers.read
           - products.write
         search_products:
+          - manufacturers.read
+          - categories.read
           - products.read
         request_stock_movement:
+          - employees.read
           - products.read
           - warehouses.read
           - stock-movements.write
