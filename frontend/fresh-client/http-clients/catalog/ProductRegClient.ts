@@ -40,14 +40,14 @@ const ProductRegClientSchema = z.object({
 		output: z.promise(SelectOptions),
 	}).register($URI, {
 		method: "GET",
-		uri: "categories/lookups",
+		uri: "lookups/categories",
 	}),
 	getManufacturerOptions: z.function({
 		input: z.tuple([JwtAuthHeader]),
 		output: z.promise(SelectOptions),
 	}).register($URI, {
 		method: "GET",
-		uri: "manufacturers/lookups",
+		uri: "lookups/manufacturers",
 	}),
 	registerProduct: z.function({
 		input: z.tuple([

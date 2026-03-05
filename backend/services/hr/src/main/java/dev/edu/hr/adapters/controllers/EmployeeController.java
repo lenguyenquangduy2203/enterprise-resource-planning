@@ -35,8 +35,8 @@ public class EmployeeController {
     private final EmployeeOnboardingCommandHandler commandHandler;
     private final SearchEmployeeQueryHandler searchEmployeeQueryHandler;
     private final EmployeeSearchMapper employeeSearchMapper;
-    private final SimpleEmployeeService employeeService;
-    private final StatsMapper statsMapper;
+    // private final SimpleEmployeeService employeeService;
+    // private final StatsMapper statsMapper;
 
     @PostMapping
     public ResponseEntity<Void> onboardEmployee(@Valid @RequestBody CreateEmployeeCommand command) {
@@ -56,11 +56,11 @@ public class EmployeeController {
         return ResponseEntity.ok(summaries);
     }
 
-    @GetMapping("/{employeeId}/stats")
-    public ResponseEntity<EmployeeStats> getStats(@PathVariable UUID employeeId) {
-        var employee = employeeService.getEmployeeById(employeeId);
-        var stats = statsMapper.toEmployeeStats(employee);
+    // @GetMapping("/{employeeId}/stats")
+    // public ResponseEntity<EmployeeStats> getStats(@PathVariable UUID employeeId) {
+    //     var employee = employeeService.getEmployeeById(employeeId);
+    //     var stats = statsMapper.toEmployeeStats(employee);
 
-        return ResponseEntity.ok(stats);
-    }
+    //     return ResponseEntity.ok(stats);
+    // }
 }

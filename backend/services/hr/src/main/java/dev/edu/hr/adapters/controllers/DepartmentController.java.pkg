@@ -25,13 +25,13 @@ public class DepartmentController {
     private final EmployeeOnboardingQueryHandler queryHandler;
     private final EmployeeOnboardingResultMapper resultMapper;
 
-    @GetMapping("/lookups")
-    public ResponseEntity<List<DepartmentSelectOption>> getDepartmentSelections() {
-        var result = new GetAllDepartmentsQuery().accept(queryHandler);
-        var response = resultMapper.toDepartmentSelectOptionsResponse(result);
+    // @GetMapping("/lookups")
+    // public ResponseEntity<List<DepartmentSelectOption>> getDepartmentSelections() {
+    //     var result = new GetAllDepartmentsQuery().accept(queryHandler);
+    //     var response = resultMapper.toDepartmentSelectOptionsResponse(result);
         
-        return ResponseEntity.ok(response);
-    }
+    //     return ResponseEntity.ok(response);
+    // }
     
     @GetMapping("/{code}/positions/lookups")
     public ResponseEntity<List<PositionSelectOption>> getPositionSelection(@PathVariable String code) {

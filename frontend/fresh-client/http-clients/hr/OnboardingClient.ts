@@ -28,7 +28,7 @@ const OnboardingClientSchema = z.object({
 		output: z.promise(SelectOptions),
 	}).register($URI, {
 		method: "GET",
-		uri: "departments/lookups",
+		uri: "lookups/departments",
 	}),
 	getPositionOptionsOfDepartment: z.function({
 		input: z.tuple([
@@ -41,7 +41,7 @@ const OnboardingClientSchema = z.object({
 		output: z.promise(SelectOptions),
 	}).register($URI, {
 		method: "GET",
-		uri: "departments/{code}/positions/lookups",
+		uri: "lookups/departments/{code}/positions",
 	}),
 	onboardEmployee: z.function({
 		input: z.tuple([

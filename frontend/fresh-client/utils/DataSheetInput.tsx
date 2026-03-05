@@ -202,7 +202,7 @@ export const intoStockMovementsDataSheet = (mvm: StockMovement) => ({
 		"Details": (
 			<div class="flex flex-col">
 				<span class="text-sm font-bold text-(--color-text)">
-					{mvm.quantity > 0 ? `+${mvm.quantity}` : mvm.quantity}
+					{mvm.quantity}
 					<span class="ml-1 text-[10px] font-normal text-(--color-secondary)">
 						Qty
 					</span>

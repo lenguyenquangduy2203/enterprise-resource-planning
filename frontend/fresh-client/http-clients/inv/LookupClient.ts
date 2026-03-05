@@ -18,9 +18,9 @@ const LookupClientSchema = z.object({
 	lookupWarehouse: z.function({
 		input: z.tuple([JwtAuthHeader]),
 		output: z.promise(WarehouseSelectOptions),
-	}).register($URI, { method: "GET", uri: "warehouses/lookups" }),
+	}).register($URI, { method: "GET", uri: "warehouses" }),
 }).register($Client, {
-	base: "http://gateway:8080/inv/",
+	base: "http://gateway:8080/inv/lookups/",
 	init: {
 		headers: {
 			"Content-Type": "application/json",

@@ -7,6 +7,6 @@ import org.springframework.web.service.annotation.HttpExchange;
 import dev.edu.inventory.domain.clients.payloads.ProductStats;
 
 public interface CatalogClient {
-    @HttpExchange(method = "GET", url = "/products/{productId}/stats")
+    @HttpExchange(method = "GET", url = "/stats/products/{productId}")
     public ResponseEntity<ProductStats> getProductStatsById(@PathVariable Long productId);
 }
