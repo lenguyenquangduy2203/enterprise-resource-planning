@@ -30,7 +30,10 @@ export default define.page(
 					<title>Inventory</title>
 				</Head>
 				<main class="inv">
-					<Container resourceActionsRecord={resourceActionsRecord} />
+					<Container
+						title="Inventory"
+						resourceActionsRecord={resourceActionsRecord}
+					/>
 				</main>
 			</>
 		);

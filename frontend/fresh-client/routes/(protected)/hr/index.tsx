@@ -27,7 +27,10 @@ export default define.page(
 					<title>Human Resource</title>
 				</Head>
 				<main class="hr">
-					<Container resourceActionsRecord={resourceActionsRecord} />
+					<Container
+						title="Human Resources"
+						resourceActionsRecord={resourceActionsRecord}
+					/>
 				</main>
 			</>
 		);

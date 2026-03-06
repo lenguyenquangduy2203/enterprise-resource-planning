@@ -70,6 +70,25 @@ type StockMovement = {
 	updatedAt: string;
 };
 
+type Option = "start" | "end";
+
+function ISODateToISODateTime(
+	isoDate: string | undefined,
+	timeExtensionOption: Option,
+): string | undefined {
+	if (!isoDate) {
+		return undefined;
+	}
+
+	if (timeExtensionOption === "start") {
+		const localDate = new Date(isoDate + "T00:00:00");
+		return localDate.toISOString();
+	} else {
+		const localDate = new Date(isoDate + "T23:59:59");
+		return localDate.toISOString();
+	}
+}
+
 export default function useStockMovementSearch(
 	filter: SignalizeAttributes<Query>,
 ) {
@@ -108,8 +127,11 @@ export default function useStockMovementSearch(
 			fromWarehouseId: filter.fromWarehouseId.value?.toString() || "",
 			toWarehouseId: filter.toWarehouseId.value?.toString() || "",
 			performedBy: filter.performedBy.value || "",
-			createdFrom: filter.createdFrom.value || "",
-			createdTo: filter.createdTo.value || "",
+			createdFrom:
+				ISODateToISODateTime(filter.createdFrom.value, "start") ||
+				"",
+			createdTo: ISODateToISODateTime(filter.createdTo.value, "end") ||
+				"",
 		};
 
 		const controller = new AbortController();

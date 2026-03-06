@@ -18,6 +18,7 @@ type ResourceLazyDispatcher<Resource extends string | symbol> = Record<
 >;
 
 type DashboardProps = {
+	title: string;
 	resourceActionsRecord: Record<string, string[]>;
 };
 
@@ -50,7 +51,9 @@ export default function DashboardContainerFactory<
 		sectionSig.value = await section();
 	}
 
-	return function ({ resourceActionsRecord }: Readonly<DashboardProps>) {
+	return function (
+		{ title, resourceActionsRecord }: Readonly<DashboardProps>,
+	) {
 		const {
 			resources,
 			activeResource,
@@ -73,7 +76,7 @@ export default function DashboardContainerFactory<
 				<LeftAside.Aside>
 					<ButtonsList>
 						<ButtonsList.Header>
-							Human Resources
+							{title}
 						</ButtonsList.Header>
 						{resources.map((resource) => (
 							<ButtonsList.Item

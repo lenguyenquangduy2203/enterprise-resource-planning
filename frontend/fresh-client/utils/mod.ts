@@ -6,6 +6,7 @@ export {
 	ModuleMeta,
 	type ModuleName,
 } from "./DomainModules.ts";
+export { ISODateToISODateTime } from "./mappers.ts";
 
 import { generatePkCE } from "./PkCE.ts";
 
