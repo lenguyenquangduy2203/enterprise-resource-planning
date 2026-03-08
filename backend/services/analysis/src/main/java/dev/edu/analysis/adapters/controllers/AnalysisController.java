@@ -27,19 +27,19 @@ public class AnalysisController {
     private final CapitalDistributionQueryResolver capitalDistributionQueryResolver;
     private final CapitalDistributionQueryHandler capitalDistributionQueryHandler;
 
-    @GetMapping("/departments/workforce")
+    @GetMapping("/workforce")
     public ResponseEntity<Workforce> getDepartmentsWorkforce() {
         var workforce = new OrganizationStructureQuery().accept(organizationStructureQueryHandler);
         return ResponseEntity.ok(workforce);
     }
 
-    @GetMapping("/stock-movements/kpi")
+    @GetMapping("/kpi")
     public ResponseEntity<MovementStatistics> getOperationKPI(@Valid @ModelAttribute StockMovementStatsQuery query) {
         var statistics = query.accept(stockMovementStatsQueryHandler);
         return ResponseEntity.ok(statistics);
     }
 
-    @GetMapping("/stocks/capital")
+    @GetMapping("/capital")
     public ResponseEntity<CapitalDistributionResult> getStockCapitalDistribution(@RequestParam GroupBy groupBy) {
         var query = capitalDistributionQueryResolver.resolve(groupBy);
         var result = query.accept(capitalDistributionQueryHandler);

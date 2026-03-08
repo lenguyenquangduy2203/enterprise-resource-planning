@@ -79,30 +79,19 @@ spring:
     policy-overlay:
       use-case-permissions:
         onboarding_employee:
-          # - departments.read
-          # - positions.read
           - lookups.read
           - employees.write
           - accounts.write
         search_employees:
-          # - departments.read
-          # - positions.read
           - lookups.read
           - employees.read
         register_product:
-          # - categories.read
-          # - manufacturers.read
           - lookups.read
           - products.write
         search_products:
-          # - manufacturers.read
-          # - categories.read
           - lookups.read
           - products.read
         request_stock_movement:
-          # - employees.read
-          # - products.read
-          # - warehouses.read
           - lookups.read
           - stats.read
           - stock-movements.write
@@ -111,13 +100,11 @@ spring:
         search_stocks:
           - stocks.read
         workforce_n_salary_structure:
-          - employees.read
+          - workforce.read
         inventory_capital_distribution:
-          - products.read
-          - stock-movements.read
+          - capital.read
         operational_movement_kpi:
-          - products.read
-          - stocks.read
+          - kpi.read
       role-use-cases:
         ROLE_ADMIN:
           - search_employees

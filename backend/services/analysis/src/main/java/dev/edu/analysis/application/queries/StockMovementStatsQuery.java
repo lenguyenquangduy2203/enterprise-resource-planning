@@ -1,6 +1,6 @@
 package dev.edu.analysis.application.queries;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,10 +14,10 @@ import jakarta.validation.constraints.NotNull;
 public record StockMovementStatsQuery(
     @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    OffsetDateTime createdFrom,
+    LocalDateTime createdFrom,
     @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    OffsetDateTime createdTo
+    LocalDateTime createdTo
 ) implements Query<StockMovementStatsQueryHandler, MovementStatistics> {
     @Override
     public MovementStatistics accept(StockMovementStatsQueryHandler handler) {
