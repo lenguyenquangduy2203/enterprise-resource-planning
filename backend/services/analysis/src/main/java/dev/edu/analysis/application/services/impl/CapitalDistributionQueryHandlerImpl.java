@@ -19,7 +19,6 @@ import dev.edu.analysis.domain.clients.InvClient;
 import dev.edu.analysis.domain.clients.payloads.capital.Product;
 import dev.edu.analysis.domain.clients.payloads.capital.Stock;
 import dev.edu.analysis.domain.entities.aggregates.InStockProduct;
-import dev.edu.analysis.domain.values.GroupBy;
 import lombok.AllArgsConstructor;
 
 @Component
@@ -38,7 +37,7 @@ public class CapitalDistributionQueryHandlerImpl implements CapitalDistributionQ
             ));
 
         return new CapitalDistributionResult(
-            GroupBy.WAREHOUSE, 
+            query.groupBy(), 
             capitalDistribution
         );
     }
@@ -53,7 +52,7 @@ public class CapitalDistributionQueryHandlerImpl implements CapitalDistributionQ
             ));
 
         return new CapitalDistributionResult(
-            GroupBy.CATEGORY, 
+            query.groupBy(), 
             capitalDistribution
         );
     }
