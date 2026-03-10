@@ -6,5 +6,5 @@ import jakarta.validation.constraints.Positive;
 
 public record LevelCount(
     @NotNull @NotBlank String level,
-    @NotNull @Positive Integer total
+    @NotNull @Positive Long total
 ) {}

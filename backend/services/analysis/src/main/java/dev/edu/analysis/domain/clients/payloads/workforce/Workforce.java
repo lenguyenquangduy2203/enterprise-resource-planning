@@ -5,6 +5,5 @@ import java.util.Set;
 import jakarta.validation.constraints.NotNull;
 
 public record Workforce(
-    @NotNull Set<DepartmentStructure> departments,
-    @NotNull Set<LevelCount> levelDistributions
+    @NotNull Set<DepartmentStructure> departments
 ) {}
