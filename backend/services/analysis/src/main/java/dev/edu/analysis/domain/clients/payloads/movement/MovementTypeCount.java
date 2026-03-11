@@ -5,5 +5,5 @@ import jakarta.validation.constraints.Positive;
 
 public record MovementTypeCount(
     @NotNull MovementType type,
-    @NotNull @Positive Integer totalMovements
+    @NotNull @Positive Long totalMovements
 ) {}
