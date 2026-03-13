@@ -7,16 +7,16 @@ import jakarta.validation.ConstraintValidatorContext;
 public class PeriodValidator implements ConstraintValidator<ValidDateTimePeriod, MovementKpiQuery> {
     @Override
     public boolean isValid(MovementKpiQuery query, ConstraintValidatorContext context) {
-        if (query.startDate() == null || query.endDate() == null) {
+        if (query.createdFrom() == null || query.createdTo() == null) {
             return true; // let @NotNull handle this
         }
 
-        if (query.startDate().isAfter(query.endDate())) {
+        if (query.createdFrom().isAfter(query.createdTo())) {
             return false;
         }
 
         // Optional: limit max range to 1 year
-        if (query.startDate().plusYears(1).isBefore(query.endDate())) {
+        if (query.createdFrom().plusYears(1).isBefore(query.createdTo())) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(
                 "Period cannot exceed 1 year"

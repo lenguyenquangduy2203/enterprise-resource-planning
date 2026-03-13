@@ -1,0 +1,22 @@
+import { define } from "@/utils/mod.ts";
+import { StockCapitalDistributionController } from "@/controllers/analysis/StockCapitalDistribution.ts";
+import { AnalysisClient } from "@/http-clients/analysis/AnalysisClient.ts";
+
+export const handler = define.handlers({
+	GET: StockCapitalDistributionController(async (accessToken, groupBy) => {
+		const result = await AnalysisClient.getStockCapitalDistribution(
+			accessToken,
+			groupBy,
+		);
+
+		if (groupBy !== result.groupBy) {
+			throw new TypeError(
+				`Inconsistent group. Requesting ${groupBy} but received ${result.groupBy}`,
+			);
+		}
+
+		return new Response(JSON.stringify(result.distributions), {
+			status: 200,
+		});
+	}),
+});

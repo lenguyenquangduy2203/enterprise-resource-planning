@@ -12,7 +12,7 @@ import dev.edu.hr.domain.repositories.projections.DepartmentWorkforceMetric;
 
 public interface EmployeeRepository extends JpaRepository<Employee, UUID>, JpaSpecificationExecutor<Employee> {
     @Query("""
-        SELECT new DepartmentWorkforceMetric(
+        SELECT new dev.edu.hr.domain.repositories.projections.DepartmentWorkforceMetric(
             d.code,
             d.name,
             e.level,
