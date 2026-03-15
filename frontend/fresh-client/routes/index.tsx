@@ -42,7 +42,7 @@ export default define.page(
 	({ data }: PageProps<z.infer<typeof PoliciesSchema>>) => {
 		const permissions: string[] = data.permissions ?? [];
 		const resources = new Set(
-			permissions.map(extractResource).filter(Boolean),
+			permissions.map((pem) => extractResource(pem)).filter(Boolean),
 		);
 		const enabledModules = Object.entries(MODULE_RESOURCE_MAP)
 			.filter(([_, moduleResources]) =>
@@ -89,9 +89,7 @@ export default define.page(
 								</div>
 
 								<h2 class="text-xl font-bold capitalize text-(--color-text) mb-2">
-									{module === "inventory"
-										? "Inventory"
-										: module.toUpperCase()}
+									{module.toUpperCase()}
 								</h2>
 								<p class="text-sm text-(--color-secondary) leading-relaxed">
 									{ModuleMeta[module]?.desc ||

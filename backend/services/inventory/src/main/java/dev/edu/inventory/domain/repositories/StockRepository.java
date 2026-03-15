@@ -16,7 +16,7 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
             s.quantity AS quantity,
             w.code AS warehouseCode
         FROM Stock s
-        JOIN s.Warehouse w
+        JOIN s.warehouse w
         WHERE s.quantity > 0
     """)
     List<InStockCapitalSnapshot> findInStockCapitalSnapshots();

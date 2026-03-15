@@ -1,5 +1,5 @@
 import { define } from "@/utils/mod.ts";
-import { StockCapitalDistributionController } from "@/controllers/analysis/StockCapitalDistribution.ts";
+import { StockCapitalDistributionController } from "@/controllers/analysis/StockCapitalDistributionController.ts";
 import { AnalysisClient } from "@/http-clients/analysis/AnalysisClient.ts";
 
 export const handler = define.handlers({

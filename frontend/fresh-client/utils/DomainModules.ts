@@ -14,11 +14,16 @@ export const MODULE_RESOURCE_MAP = {
 		// "categories",
 		// "manufacturers",
 	],
+	analysis: [
+		"workforce",
+		"capital",
+		"kpi",
+	],
 } as const;
 
 export type ModuleName = keyof typeof MODULE_RESOURCE_MAP;
 
-export const ModuleMeta: Record<string, { desc: string; icon: string }> = {
+export const ModuleMeta: Record<ModuleName, { desc: string; icon: string }> = {
 	hr: {
 		desc:
 			"Manage employees, organizational structure, and account provisioning.",
@@ -32,7 +37,11 @@ export const ModuleMeta: Record<string, { desc: string; icon: string }> = {
 		desc: "Manage product definitions, categories, and manufacturers.",
 		icon: "🏷️",
 	},
-	// Add other modules as needed
+	analysis: {
+		desc:
+			"Strategic intelligence and performance tracking across human, financial, and operational resources.",
+		icon: "📊",
+	},
 };
 
 export function extractResource(permission: string): string | null {
