@@ -2,6 +2,9 @@ import { JSX } from "preact";
 import DepartmentWorkforce from "./insights/DepartmentWorkforce.tsx";
 import OperationalKPI from "./insights/OperationalKPI.tsx";
 import StockCapitalDistributions from "./insights/StockCapitalDistributions.tsx";
+import { MODULE_RESOURCE_MAP } from "@/utils/mod.ts";
+
+type InsightKey = typeof MODULE_RESOURCE_MAP["analysis"][number];
 
 type Props = {
 	resourceActionsRecord: Record<string, string[]>;
@@ -9,45 +12,45 @@ type Props = {
 
 type InsightComponent = (props: Readonly<Props>) => JSX.Element | null;
 
-const DemoInsight = () => <div>Demo</div>;
-const NullInsight = () => null;
-const AvailableInsights: InsightComponent[] = [
-	DepartmentWorkforce,
-	DemoInsight,
-	OperationalKPI,
-	NullInsight,
-	DemoInsight,
-	NullInsight,
-	StockCapitalDistributions,
-	DemoInsight,
-	DemoInsight,
-	DemoInsight,
-];
+const InsightsMap = {
+	workforce: DepartmentWorkforce,
+	capital: StockCapitalDistributions,
+	kpi: OperationalKPI,
+} satisfies Record<InsightKey, InsightComponent>;
 
 export default function Container({ resourceActionsRecord }: Readonly<Props>) {
-	const PermittedInsights = AvailableInsights
-		.map((Insight) => Insight({ resourceActionsRecord }))
-		.filter((Insight) => Insight !== null);
-	const insightsNo = PermittedInsights.length;
+	// 1. Identify which keys are actually permitted based on "read" access
+	const permittedKeys = (Object.keys(InsightsMap) as InsightKey[]).filter((
+		key,
+	) => (resourceActionsRecord[key] || []).includes("read"));
+
+	const insightsNo = permittedKeys.length;
+	if (insightsNo === 0) return <div>No insights available.</div>;
+
 	const cols = Math.ceil(Math.sqrt(insightsNo));
-	const rows = [];
-	for (let i = 0; i < PermittedInsights.length; i += cols) {
-		rows.push(PermittedInsights.slice(i, i + cols));
+
+	// 2. Chunk the permitted keys into rows for the grid
+	const rows: InsightKey[][] = [];
+	for (let i = 0; i < permittedKeys.length; i += cols) {
+		rows.push(permittedKeys.slice(i, i + cols));
 	}
 
 	return (
 		<div class="flex flex-col gap-6 w-full">
 			{rows.map((row, rowIndex) => (
-				<div class="flex flex-wrap md:flex-nowrap gap-6 w-full">
-					{row.map((Insight, colIndex) => {
-						// Global index for the color calculation
+				<div
+					class="flex flex-wrap md:flex-nowrap gap-6 w-full"
+					key={`row-${row.join("-")}`}
+				>
+					{row.map((key, colIndex) => {
+						const Insight = InsightsMap[key];
 						const globalIndex = rowIndex * cols + colIndex;
 						const lightness = 95 - (globalIndex * 5);
 
 						return (
 							<div
-								key={globalIndex}
-								class="flex-1 min-w-[250px] animate-in fade-in slide-in-from-bottom-2"
+								key={key} // Use the unique key for stable reconciliation
+								class="flex-1 min-w-[300px] animate-in fade-in slide-in-from-bottom-2"
 								style={{
 									backgroundColor:
 										`hsl(0, 80%, ${lightness}%)`,
@@ -57,7 +60,10 @@ export default function Container({ resourceActionsRecord }: Readonly<Props>) {
 									transition: "all 0.2s ease",
 								}}
 							>
-								{Insight}
+								{/* 3. Call as a Component to preserve signal-based updates */}
+								<Insight
+									resourceActionsRecord={resourceActionsRecord}
+								/>
 							</div>
 						);
 					})}

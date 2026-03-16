@@ -24,7 +24,7 @@ public record DepartmentStructure(
             var levelCount = new LevelCount(metric.level(), metric.levelCount());
             
             totalEmployee += levelCount.total();
-            totalSalaryCost.add(metric.totalSalaryCost());
+            totalSalaryCost = totalSalaryCost.add(metric.totalSalaryCost());
             levelDistributions.add(levelCount);
         }
         

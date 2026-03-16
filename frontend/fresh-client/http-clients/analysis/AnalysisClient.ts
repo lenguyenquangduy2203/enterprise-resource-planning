@@ -2,11 +2,11 @@ import { z } from "zod";
 import {
 	$Client,
 	$Header,
-	$Param,
 	$QueryModel,
 	$URI,
 	ProcessClientSchema,
 } from "@fresh-web/mod.ts";
+import { $Query } from "@fresh-web/src/shared/mod.ts";
 
 const JwtAuthHeader = z.jwt()
 	.transform((jwt) => `Bearer ${jwt}`)
@@ -22,9 +22,9 @@ export const StockMovementStatsQuery = z.object({
 	_tag: "query-model",
 });
 
-export const GroupBy = z.literal(["WAREHOUSE", "CATEGORY"]).register($Param, {
-	_tag: "param",
-	key: "GroupBy",
+export const GroupBy = z.literal(["WAREHOUSE", "CATEGORY"]).register($Query, {
+	_tag: "query",
+	key: "groupBy",
 });
 
 const LevelCount = z.object({
@@ -36,10 +36,10 @@ const DepartmentStructure = z.object({
 	departmentName: z.string().nonempty().nonoptional(),
 	totalEmployee: z.number().positive().nonoptional(),
 	totalSalaryCost: z.number().multipleOf(0.01).positive().nonoptional(),
-	levelDistributions: z.set(LevelCount).nonoptional(),
+	levelDistributions: z.array(LevelCount).nonoptional(),
 });
 export const Workforce = z.object({
-	departments: z.set(DepartmentStructure).nonoptional(),
+	departments: z.array(DepartmentStructure).nonoptional(),
 });
 
 const MovementTypeCount = z.object({
@@ -65,14 +65,14 @@ const WarehouseCount = z.object({
 	totalMovements: z.number().positive().nonoptional(),
 });
 export const MovementStatistics = z.object({
-	typeDistributions: z.set(MovementTypeCount).nonoptional(),
-	statusDistributions: z.set(MovementStatusCount).nonoptional(),
-	warehouseDistributions: z.set(WarehouseCount).nonoptional(),
+	typeDistributions: z.array(MovementTypeCount).nonoptional(),
+	statusDistributions: z.array(MovementStatusCount).nonoptional(),
+	warehouseDistributions: z.array(WarehouseCount).nonoptional(),
 });
 
 export const CapitalDistributionResult = z.object({
 	groupBy: GroupBy,
-	distributions: z.map(z.string().nonempty(), z.number().positive()),
+	distributions: z.record(z.string().nonempty(), z.number().positive()),
 });
 
 const AnalysisClientSchema = z.object({

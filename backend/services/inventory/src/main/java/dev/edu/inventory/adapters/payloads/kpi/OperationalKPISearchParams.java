@@ -4,10 +4,10 @@ import java.time.OffsetDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import dev.edu.inventory.adapters.validators.ValidDateRange;
+import dev.edu.inventory.adapters.validators.ValidDateTimePeriod;
 import jakarta.validation.constraints.NotNull;
 
-@ValidDateRange
+@ValidDateTimePeriod
 public record OperationalKPISearchParams(
     @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)

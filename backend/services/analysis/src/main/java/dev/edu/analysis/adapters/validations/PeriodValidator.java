@@ -1,12 +1,12 @@
 package dev.edu.analysis.adapters.validations;
 
-import dev.edu.analysis.domain.clients.payloads.movement.query.MovementKpiQuery;
+import dev.edu.analysis.application.queries.StockMovementStatsQuery;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class PeriodValidator implements ConstraintValidator<ValidDateTimePeriod, MovementKpiQuery> {
+public class PeriodValidator implements ConstraintValidator<ValidDateTimePeriod, StockMovementStatsQuery> {
     @Override
-    public boolean isValid(MovementKpiQuery query, ConstraintValidatorContext context) {
+    public boolean isValid(StockMovementStatsQuery query, ConstraintValidatorContext context) {
         if (query.createdFrom() == null || query.createdTo() == null) {
             return true; // let @NotNull handle this
         }
