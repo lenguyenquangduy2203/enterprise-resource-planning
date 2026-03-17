@@ -18,6 +18,14 @@ const InsightsMap = {
 	kpi: OperationalKPI,
 } satisfies Record<InsightKey, InsightComponent>;
 
+const InsightDescriptions: Record<InsightKey, string> = {
+	workforce:
+		"Comprehensive analysis of personnel distribution, salary costs, and departmental seniority levels.",
+	capital:
+		"Financial valuation of inventory assets grouped by physical location or product category.",
+	kpi: "Operational velocity tracking, including movement types, workflow status, and warehouse load.",
+};
+
 export default function Container({ resourceActionsRecord }: Readonly<Props>) {
 	// 1. Identify which keys are actually permitted based on "read" access
 	const permittedKeys = (Object.keys(InsightsMap) as InsightKey[]).filter((
@@ -25,7 +33,14 @@ export default function Container({ resourceActionsRecord }: Readonly<Props>) {
 	) => (resourceActionsRecord[key] || []).includes("read"));
 
 	const insightsNo = permittedKeys.length;
-	if (insightsNo === 0) return <div>No insights available.</div>;
+	if (insightsNo === 0) {
+		return (
+			<div class="p-12 text-center rounded-2xl border-2 border-dashed border-(--color-secondary)/20 text-(--color-secondary)">
+				No analysis insights available for your current permission
+				level.
+			</div>
+		);
+	}
 
 	const cols = Math.ceil(Math.sqrt(insightsNo));
 
@@ -36,34 +51,39 @@ export default function Container({ resourceActionsRecord }: Readonly<Props>) {
 	}
 
 	return (
-		<div class="flex flex-col gap-6 w-full">
+		<div class="flex flex-col gap-6 w-full animate-in fade-in duration-700">
 			{rows.map((row, rowIndex) => (
 				<div
-					class="flex flex-wrap md:flex-nowrap gap-6 w-full"
+					class="flex flex-wrap lg:flex-nowrap gap-6 w-full"
 					key={`row-${row.join("-")}`}
 				>
 					{row.map((key, colIndex) => {
 						const Insight = InsightsMap[key];
+						const description = InsightDescriptions[key];
+						// Calculate an opacity step (0.05, 0.1, 0.15...) for a subtle "layered" look
 						const globalIndex = rowIndex * cols + colIndex;
-						const lightness = 95 - (globalIndex * 5);
+						const opacity = 0.03 + (globalIndex * 0.02);
 
 						return (
 							<div
-								key={key} // Use the unique key for stable reconciliation
-								class="flex-1 min-w-[300px] animate-in fade-in slide-in-from-bottom-2"
+								key={key}
+								class="flex-1 min-w-[320px] p-8 rounded-2xl border border-(--color-primary)/10 transition-all hover:shadow-xl hover:shadow-(--color-primary)/5 hover:-translate-y-1 group"
 								style={{
 									backgroundColor:
-										`hsl(0, 80%, ${lightness}%)`,
-									textAlign: "center",
-									padding: "1.5rem",
-									borderRadius: "0.75rem",
-									transition: "all 0.2s ease",
+										`rgba(51, 65, 85, ${opacity})`,
 								}}
 							>
-								{/* 3. Call as a Component to preserve signal-based updates */}
-								<Insight
-									resourceActionsRecord={resourceActionsRecord}
-								/>
+								<div class="flex flex-col h-full">
+									{/* Header Decorator with Tooltip */}
+									<div
+										data-tip={description}
+										class="w-full h-1.5 rounded-full bg-(--color-accent) mb-6 opacity-40 group-hover:opacity-100 transition-opacity cursor-help"
+									/>
+
+									<Insight
+										resourceActionsRecord={resourceActionsRecord}
+									/>
+								</div>
 							</div>
 						);
 					})}

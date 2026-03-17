@@ -18,9 +18,28 @@ const JwtAuthHeader = z.jwt()
 export const StockMovementStatsQuery = z.object({
 	createdFrom: z.iso.datetime().nonoptional(),
 	createdTo: z.iso.datetime().nonoptional(),
-}).register($QueryModel, {
-	_tag: "query-model",
-});
+}).refine((data) => new Date(data.createdFrom) <= new Date(data.createdTo), {
+	when: (payload) => payload.issues.length === 0,
+	message: "The start date cannot be after the end date",
+	path: ["createdFrom"],
+}).refine((data) => {
+	const toDate = new Date(data.createdTo);
+	const now = new Date();
+
+	// Set 'now' to the very end of today (23:59:59.999) to be inclusive
+	now.setHours(23, 59, 59, 999);
+
+	return toDate <= now;
+}, {
+	when: (payload) => payload.issues.length === 0,
+	message: "Cannot search for movements in the future",
+	path: ["createdTo"],
+}).register(
+	$QueryModel,
+	{
+		_tag: "query-model",
+	},
+);
 
 export const GroupBy = z.literal(["WAREHOUSE", "CATEGORY"]).register($Query, {
 	_tag: "query",

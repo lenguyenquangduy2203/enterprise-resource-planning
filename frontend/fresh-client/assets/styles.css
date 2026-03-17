@@ -59,6 +59,34 @@ aside > nav {
     box-shadow: 0 0 0 4px var(--color-primary-ring);
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  /* Uses a subtle version of your primary slate color */
+  background: linear-gradient(
+    90deg,
+    rgba(51, 65, 85, 0.05) 25%,
+    rgba(51, 65, 85, 0.1) 50%,
+    rgba(51, 65, 85, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 0.5rem;
+  display: inline-block;
+}
+
+canvas {
+    max-width: 100% !important;
+    max-height: 100% !important;
+}
+
 @scope (.default) {
   :scope {
     --color-primary: var(--color-indigo-600);
@@ -98,5 +126,79 @@ aside > nav {
     --color-bg: #f8fafc; 
     --color-text: #0f172a;
     --color-primary-ring: rgba(67, 56, 202, 0.15);
+  }
+}
+
+@scope (.analysis) {
+  :scope {
+    /* Primary: A deep, authoritative slate for navigation and headers */
+    --color-primary: #334155;        /* Slate-700 */
+    --color-primary-ring: rgba(51, 65, 85, 0.1);
+
+    /* Secondary: Muted cool grey for meta-text and labels */
+    --color-secondary: #64748b;      /* Slate-500 */
+
+    /* Accent: A "Warning/Gold" amber to highlight trends or critical KPIs */
+    --color-accent: #f59e0b;         /* Amber-500 */
+
+    /* Layout */
+    --color-bg: #f8fafc;             /* Slate-50 */
+    --color-text: #0f172a;           /* Slate-900 */
+    
+    /* Analysis-specific: Signal colors for Trend indicators */
+    --color-positive: #10b981;       /* Emerald-500 */
+    --color-negative: #ef4444;       /* Red-500 */
+
+    --chart-height: 300px; 
+    --card-max-height: 750px;
+  }
+
+  /* Tooltip Container */
+  [data-tip] {
+    position: relative;
+    cursor: help;
+  }
+
+  /* The Tooltip Bubble */
+  [data-tip]::before {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: var(--color-primary);
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 50;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  /* The Little Arrow */
+  [data-tip]::after {
+    content: '';
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--color-primary);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease;
+  }
+
+  /* Hover State */
+  [data-tip]:hover::before,
+  [data-tip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) scale(1);
   }
 }

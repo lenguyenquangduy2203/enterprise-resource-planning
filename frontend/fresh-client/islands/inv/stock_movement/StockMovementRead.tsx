@@ -1,7 +1,7 @@
 import { useSignal } from "@preact/signals";
 import { ComponentChild } from "preact";
-import DataSheet from "../../../components/DataSheet.tsx";
-import useStockMovementSearch from "../../../hooks/useStockMovementSearch.ts";
+import DataSheet from "@/components/DataSheet.tsx";
+import useStockMovementSearch from "@/hooks/useStockMovementSearch.ts";
 
 const MovementStatus = [
 	"PENDING",
@@ -53,6 +53,8 @@ export default function StockMovementRead() {
 		createdFrom.value = "";
 		createdTo.value = "";
 	};
+
+	const today = new Date().toISOString().split("T")[0];
 
 	return (
 		<div class="space-y-6">
@@ -167,6 +169,7 @@ export default function StockMovementRead() {
 								type="date"
 								class="custom-input"
 								value={createdFrom.value}
+								max={createdTo.value}
 								onChange={(e) =>
 									createdFrom.value = e.currentTarget.value}
 							/>
@@ -176,6 +179,8 @@ export default function StockMovementRead() {
 								type="date"
 								class="custom-input"
 								value={createdTo.value}
+								min={createdFrom.value}
+								max={today}
 								onChange={(e) =>
 									createdTo.value = e.currentTarget.value}
 							/>
