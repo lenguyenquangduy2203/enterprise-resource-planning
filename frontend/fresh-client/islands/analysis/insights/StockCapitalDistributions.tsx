@@ -131,6 +131,26 @@ function WarehouseCapitalConfig(data: Map<string, number>): ChartProps<"bar"> {
 	};
 }
 
+function getCategoryColor(id: string): string {
+	let hash = 0;
+	for (let i = 0; i < id.length; i++) {
+		hash = (id.codePointAt(i) || 0) + ((hash << 5) - hash);
+	}
+
+	// 1. Hue: Still using the Golden Ratio for best spread
+	const h = (Math.abs(hash) * 0.618033988749895 * 360) % 360;
+
+	// 2. Saturation: Stay between 65% (Clean) and 90% (Punchy)
+	// This removes the "dim/grey" feeling.
+	const s = (Math.abs(hash >> 2) % 2 === 0) ? 65 : 90;
+
+	// 3. Lightness: Stay between 55% and 70%
+	// This ensures no color is too "heavy" or "blackish."
+	const l = (Math.abs(hash >> 4) % 2 === 0) ? 55 : 70;
+
+	return `hsla(${h}, ${s}%, ${l}%, 0.85)`;
+}
+
 function CategoryCapitalConfig(data: Map<string, number>): ChartProps<"pie"> {
 	const entries = Array.from(data.entries());
 
@@ -141,9 +161,7 @@ function CategoryCapitalConfig(data: Map<string, number>): ChartProps<"pie"> {
 			datasets: [{
 				label: "Capital Distribution",
 				data: entries.map(([, value]) => value),
-				backgroundColor: entries.map((_, i) =>
-					`hsla(${i * 137.5}, 65%, 55%, 0.8)`
-				),
+				backgroundColor: entries.map(([id, _]) => getCategoryColor(id)),
 			}],
 		},
 		options: {
