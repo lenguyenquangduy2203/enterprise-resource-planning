@@ -1,4 +1,4 @@
-import { type Context, type HandlerFn, z } from "../../deps.ts";
+import type { Context, HandlerFn, z } from "../../deps.ts";
 import {
 	InputItemHandler,
 	parseRequestBody,
@@ -78,42 +78,20 @@ export function WithAppContext<State extends Record<string, unknown>>() {
 			ctx.data = await parseRequestBody(ctx.req);
 			const mux = (meta: MetaData) =>
 				getDefaultMetaHandlerMux<State>(ctx)(meta._tag)(meta);
+
 			const args = keys.map(mux);
-			const parsed = await input.safeParseAsync(args);
+			const parsed = input.parse(args);
 
-			if (!parsed.success) {
-				console.log(z.prettifyError(parsed.error));
-				return new Response(
-					JSON.stringify({ message: "Bad Request" }),
-					{
-						status: 400,
-						headers: { "Content-Type": "application/json" },
-					},
-				);
-			}
+			const result = await impl(...parsed);
 
-			const result = await impl(...parsed.data);
 			let body: unknown;
-			let errMsg: string;
 			if (result instanceof Response) {
 				body = await readResponseBody(result);
-				errMsg = "Invalid response body";
 			} else {
 				body = result.data;
-				errMsg = "Invalid page response";
 			}
 
-			const outputParsed = await schema._def.output.safeParseAsync(body);
-			if (!outputParsed.success) {
-				console.log(z.prettifyError(outputParsed.error));
-				return new Response(
-					JSON.stringify({ message: errMsg }),
-					{
-						status: 500,
-						headers: { "Content-Type": "application/json" },
-					},
-				);
-			}
+			const _ = await schema._def.output.parseAsync(body);
 
 			return result;
 		};

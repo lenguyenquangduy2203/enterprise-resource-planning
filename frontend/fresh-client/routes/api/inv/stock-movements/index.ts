@@ -3,7 +3,10 @@ import {
 	RequestMovementController,
 	SearchMovementController,
 } from "@/controllers/inv/StockMovementControllers.ts";
-import { StockMovementClient } from "@/http-clients/inv/StockMovementClient.ts";
+import {
+	PageSortCodec,
+	StockMovementClient,
+} from "@/http-clients/inv/StockMovementClient.ts";
 
 export const handler = define.handlers({
 	POST: RequestMovementController(async (accessToken, movement) => {
@@ -17,7 +20,13 @@ export const handler = define.handlers({
 	GET: SearchMovementController(async (accessToken, query) => {
 		const summaries = await StockMovementClient.searchMovement(
 			accessToken,
-			query,
+			{
+				...query,
+				sort: PageSortCodec.decode({
+					orderBy: query.orderBy,
+					sort: query.sort,
+				}),
+			},
 		);
 
 		return new Response(JSON.stringify(summaries), { status: 200 });

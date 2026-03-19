@@ -48,7 +48,7 @@ export const handler = define.handlers({
 		});
 
 		// Redirect back to home
-		headers.set("Location", new URL("/", url).toString());
+		headers.set("Location", new URL("/hub", url).toString());
 
 		return new Response(null, {
 			status: 302,

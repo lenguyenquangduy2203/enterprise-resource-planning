@@ -91,6 +91,28 @@ export const EmployeeSnapshot = z.object({
 	name: z.string().trim().nonempty(),
 });
 
+const PageSort = z.object({
+	orderBy: z.enum(["createdAt", "updatedAt"]).default("createdAt"),
+	sort: z.enum(["asc", "desc"]).default("desc"),
+});
+export const PageSortCodec = z.codec(
+	PageSort,
+	z.string(),
+	{
+		decode: ({ orderBy, sort }) => `${orderBy},${sort}`,
+		encode: (pageSort) => {
+			const defaultOrderBy = "createdAt";
+			const defaultDirection = "desc";
+			const parts = pageSort.split(",") ||
+				[defaultOrderBy, defaultDirection];
+			const orderBy = parts.at(0) || defaultOrderBy;
+			const sort = parts.at(-1) || defaultDirection;
+
+			return PageSort.parse({ orderBy, sort });
+		},
+	},
+);
+
 export const StockMovementSearchQuery = z.object({
 	productSku: z.string().trim().max(50).optional(),
 	movementType: MovementType.optional(),
@@ -102,8 +124,7 @@ export const StockMovementSearchQuery = z.object({
 	createdTo: z.iso.datetime().optional(),
 	page: z.number().nonnegative().default(0),
 	size: z.number().nonnegative().default(20),
-	orderBy: z.enum(["createdAt", "updatedAt"]).default("createdAt"),
-	sort: z.enum(["asc", "desc"]).default("desc"),
+	sort: z.string(),
 }).refine((data) => {
 	// 1. Logic: Start must be before End
 	if (!data.createdFrom || !data.createdTo) return true;

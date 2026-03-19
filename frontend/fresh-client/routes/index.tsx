@@ -1,129 +1,149 @@
 import { Head } from "fresh/runtime";
-import {
-	challenge,
-	define,
-	extractResource,
-	MODULE_RESOURCE_MAP,
-	ModuleMeta,
-	ModuleName,
-} from "@/utils/mod.ts";
-import { HomeController } from "@/controllers/auth/HomeController.ts";
-import {
-	PoliciesClient,
-	PoliciesSchema,
-} from "@/http-clients/auth/PoliciesClient.ts";
-import { PageProps } from "fresh";
-import z from "zod";
+import { define } from "@/utils/mod.ts";
 
-export const handler = define.handlers({
-	GET: HomeController(async (accessToken) => {
-		if (!accessToken) {
-			const authUrl = `http://localhost:9000/oauth2/authorize` +
-				`?response_type=code` +
-				`&client_id=fresh-client` +
-				`&redirect_uri=${
-					encodeURIComponent(`http://0.0.0.0:5173/auth/callback`)
-				}` +
-				`&scope=openid` +
-				`&state=erp` +
-				"&code_challenge=" + challenge +
-				"&code_challenge_method=S256";
+export default define.page(() => {
+	return (
+		<div class="min-h-screen bg-white">
+			<Head>
+				<title>ERP System | Logistic Management</title>
+			</Head>
 
-			return Response.redirect(authUrl, 302);
-		}
+			{/* Navigation Bar */}
+			<nav class="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50">
+				<div class="flex items-center gap-2">
+					<img src="/logo.svg" width="32" height="32" alt="Logo" />
+					<span class="text-xl font-bold text-gray-800 tracking-tight">
+						ERP<span class="text-green-600">Core</span>
+					</span>
+				</div>
+				<div class="flex items-center gap-6">
+					<a
+						href="#features"
+						class="text-sm font-medium text-gray-600 hover:text-green-600 transition"
+					>
+						Features
+					</a>
+					<a
+						href="/hub"
+						class="px-5 py-2 text-sm font-bold text-white bg-green-600 rounded-lg hover:bg-green-700 transition shadow-md shadow-green-200"
+					>
+						Access Hub
+					</a>
+				</div>
+			</nav>
 
-		const policies = await PoliciesClient.getJwtPolicies(accessToken);
+			{/* Hero Section */}
+			<header class="fresh-gradient px-4 py-20 flex flex-col items-center text-center">
+				<div class="max-w-4xl mx-auto">
+					<h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight">
+						Next-Gen{" "}
+						<span class="text-green-600">Logistic ERP</span> <br />
+						for Microservice Architectures
+					</h1>
+					<p class="mt-6 text-xl text-gray-600 max-w-2xl mx-auto">
+						A secure, loosely-coupled prototype designed to manage
+						products, warehouse stocks, and workforce data with
+						centralized Vietnamese regulation compliance.
+					</p>
+					<div class="mt-10 flex gap-4 justify-center">
+						<a
+							href="/hub"
+							class="px-8 py-3 bg-gray-900 text-white font-bold rounded-xl hover:bg-gray-800 transition"
+						>
+							Get Started
+						</a>
+						<a
+							href="#features"
+							class="px-8 py-3 bg-white text-gray-700 font-bold rounded-xl border border-gray-200 hover:bg-gray-50 transition"
+						>
+							View Modules
+						</a>
+					</div>
+				</div>
+			</header>
 
-		return { data: policies };
-	}),
-});
+			{/* Features Grid */}
+			<section id="features" class="max-w-6xl mx-auto px-4 py-24">
+				<div class="text-center mb-16">
+					<h2 class="text-3xl font-bold text-gray-900">
+						Core ERP Domains
+					</h2>
+					<p class="text-gray-500 mt-2">
+						Validated architectural and security decisions across
+						four critical services.
+					</p>
+				</div>
 
-export default define.page(
-	({ data }: PageProps<z.infer<typeof PoliciesSchema>>) => {
-		const permissions: string[] = data.permissions ?? [];
-		const resources = new Set(
-			permissions.map((pem) => extractResource(pem)).filter(Boolean),
-		);
-		const enabledModules = Object.entries(MODULE_RESOURCE_MAP)
-			.filter(([_, moduleResources]) =>
-				moduleResources.some((r) => resources.has(r))
-			)
-			.map(([module]) => module as ModuleName);
-
-		return (
-			<>
-				<Head>
-					<title>Distributed ERP | Unified Workspace</title>
-				</Head>
-
-				<main class="default fresh-gradient min-h-screen flex flex-col items-center justify-start pt-20 px-6">
-					<header class="text-center mb-12">
-						<div class="inline-block px-4 py-1.5 mb-4 text-xs font-semibold tracking-wider text-(--color-primary) uppercase bg-white/50 rounded-full backdrop-blur-sm border border-white/20">
-							Enterprise Resource Planning
-						</div>
-						<h1 class="text-4xl font-extrabold text-(--color-text) tracking-tight mb-3">
-							Welcome back, System User
-						</h1>
-						<p class="text-lg text-(--color-secondary) max-w-md mx-auto">
-							Select a workspace to manage your organization's
-							resources.
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+					{/* Auth Module */}
+					<div class="p-8 bg-white rounded-2xl border border-gray-100 shadow-sm hover:border-green-200 transition">
+						<div class="text-3xl mb-4">🔐</div>
+						<h3 class="font-bold text-lg mb-2">Auth & Policy</h3>
+						<p class="text-sm text-gray-500 leading-relaxed">
+							Centralized Auth server enforcing RBAC and secure
+							JWT policies across all distributed modules.
 						</p>
-					</header>
-
-					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">
-						{enabledModules.map((module) => (
-							<a
-								key={module}
-								href={`/${module}`}
-								class="group relative block rounded-2xl bg-white/80 border border-white p-8 
-                                shadow-sm backdrop-blur-md transition-all duration-300
-                                hover:-translate-y-1 hover:shadow-xl hover:bg-white"
-							>
-								<div class="flex items-center justify-between mb-4">
-									<span class="text-3xl grayscale group-hover:grayscale-0 transition-all">
-										{ModuleMeta[module]?.icon || "🛠️"}
-									</span>
-									<div class="h-8 w-8 rounded-full bg-(--color-bg) flex items-center justify-center text-(--color-primary) opacity-0 group-hover:opacity-100 transition-opacity">
-										→
-									</div>
-								</div>
-
-								<h2 class="text-xl font-bold capitalize text-(--color-text) mb-2">
-									{module.toUpperCase()}
-								</h2>
-								<p class="text-sm text-(--color-secondary) leading-relaxed">
-									{ModuleMeta[module]?.desc ||
-										`Access the ${module} management tools.`}
-								</p>
-
-								{/* Subtle accent bar on hover */}
-								<div class="absolute bottom-0 left-0 h-1 w-0 bg-(--color-accent) transition-all duration-500 group-hover:w-full rounded-b-2xl">
-								</div>
-							</a>
-						))}
-
-						{enabledModules.length === 0 && (
-							<div class="col-span-full bg-white/50 rounded-2xl border border-dashed border-gray-300 p-12 text-center">
-								<p class="text-gray-500 font-medium">
-									No active modules found for your current
-									permissions.
-								</p>
-								<button
-									class="mt-4 text-sm text-(--color-primary) underline"
-									type="button"
-								>
-									Contact Administrator
-								</button>
-							</div>
-						)}
 					</div>
 
-					<footer class="mt-auto py-8 text-sm text-gray-400">
-						&copy; 2026 ERP Systems Inc. &bull; Secure Session
-						Active
-					</footer>
-				</main>
-			</>
-		);
-	},
-);
+					{/* HR Module */}
+					<div class="p-8 bg-white rounded-2xl border border-gray-100 shadow-sm hover:border-green-200 transition">
+						<div class="text-3xl mb-4">👥</div>
+						<h3 class="font-bold text-lg mb-2">Human Resources</h3>
+						<p class="text-sm text-gray-500 leading-relaxed">
+							Manage employee profiles and organizational roles
+							integrated directly with centralized security.
+						</p>
+					</div>
+
+					{/* Inventory Module */}
+					<div class="p-8 bg-white rounded-2xl border border-gray-100 shadow-sm hover:border-green-200 transition">
+						<div class="text-3xl mb-4">📦</div>
+						<h3 class="font-bold text-lg mb-2">
+							Inventory Control
+						</h3>
+						<p class="text-sm text-gray-500 leading-relaxed">
+							Real-time stock tracking and product management with
+							role-restricted warehouse operations.
+						</p>
+					</div>
+
+					{/* Analysis Module */}
+					<div class="p-8 bg-white rounded-2xl border border-gray-100 shadow-sm hover:border-green-200 transition">
+						<div class="text-3xl mb-4">📊</div>
+						<h3 class="font-bold text-lg mb-2">Data Analytics</h3>
+						<p class="text-sm text-gray-500 leading-relaxed">
+							Decision support using Chart.js visualizations
+							aggregated from cross-service data sources.
+						</p>
+					</div>
+				</div>
+			</section>
+
+			{/* Vietnamese Regulation Section */}
+			<section class="bg-gray-50 py-20">
+				<div class="max-w-4xl mx-auto px-4 text-center">
+					<div class="inline-block px-4 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+						Compliance Ready
+					</div>
+					<h2 class="text-3xl font-bold mb-6">
+						Built for Vietnamese Enterprise Standards
+					</h2>
+					<p class="text-gray-600 leading-relaxed">
+						Our architecture satisfies local data localization laws
+						and Vietnamese regulatory requirements through secure
+						on-premise cloud deployment, robust audit logging, and
+						Gateway-enforced trust boundaries.
+					</p>
+				</div>
+			</section>
+
+			{/* Footer */}
+			<footer class="py-12 border-t border-gray-100 text-center">
+				<p class="text-sm text-gray-400">
+					© {new Date().getFullYear()}{" "}
+					ERP Core Prototype. Built with Fresh & Microservices.
+				</p>
+			</footer>
+		</div>
+	);
+});
