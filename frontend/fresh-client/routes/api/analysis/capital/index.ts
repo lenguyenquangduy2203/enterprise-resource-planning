@@ -1,6 +1,7 @@
 import { define } from "@/utils/mod.ts";
 import { StockCapitalDistributionController } from "@/controllers/analysis/StockCapitalDistributionController.ts";
 import { AnalysisClient } from "@/http-clients/analysis/AnalysisClient.ts";
+import { ResponseEntity } from "@fresh-web/mod.ts";
 
 export const handler = define.handlers({
 	GET: StockCapitalDistributionController(async (accessToken, groupBy) => {
@@ -15,8 +16,6 @@ export const handler = define.handlers({
 			);
 		}
 
-		return new Response(JSON.stringify(result.distributions), {
-			status: 200,
-		});
+		return ResponseEntity.ok(result.distributions);
 	}),
 });

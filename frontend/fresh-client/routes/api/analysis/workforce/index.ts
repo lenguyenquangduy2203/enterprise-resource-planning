@@ -1,6 +1,7 @@
 import { define } from "@/utils/mod.ts";
 import { DepartmentWorkforceController } from "@/controllers/analysis/DepartmentWorkforceController.ts";
 import { AnalysisClient } from "@/http-clients/analysis/AnalysisClient.ts";
+import { ResponseEntity } from "@fresh-web/mod.ts";
 
 export const handler = define.handlers({
 	GET: DepartmentWorkforceController(async (accessToken) => {
@@ -8,8 +9,6 @@ export const handler = define.handlers({
 			accessToken,
 		);
 
-		return new Response(JSON.stringify(workforce.departments), {
-			status: 200,
-		});
+		return ResponseEntity.ok(workforce.departments);
 	}),
 });

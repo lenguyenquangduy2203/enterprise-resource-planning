@@ -1,11 +1,11 @@
 import { define, verifier } from "@/utils/mod.ts";
-import { setCookie } from "@std/http";
 import { CallbackController } from "@/controllers/auth/OAuth2CallbackController.ts";
+import { ResponseEntity } from "@fresh-web/mod.ts";
 
 export const handler = define.handlers({
 	GET: CallbackController(async (code, url) => {
 		if (!code) {
-			return new Response("Missing code", { status: 400 });
+			return ResponseEntity.badRequest("Missing code");
 		}
 
 		// Exchange code for token
@@ -33,26 +33,17 @@ export const handler = define.handlers({
 		const token = await tokenResponse.json();
 
 		if (!token.access_token) {
-			return new Response("Token exchange failed", { status: 401 });
+			return ResponseEntity.unauthorized("Token exchange failed");
 		}
 
-		// Store token in cookie (HttpOnly!)
-		const headers = new Headers();
-		setCookie(headers, {
-			name: "access_token",
-			value: token.access_token,
-			httpOnly: true,
-			sameSite: "Lax",
-			secure: false, // true in prod
-			path: "/",
-		});
-
-		// Redirect back to home
-		headers.set("Location", new URL("/hub", url).toString());
-
-		return new Response(null, {
-			status: 302,
-			headers,
-		});
+		return ResponseEntity.redirect(new URL("/hub", url).toString())
+			.withCookie({
+				name: "access_token",
+				value: token.access_token,
+				httpOnly: true,
+				sameSite: "Lax",
+				secure: false, // true in prod
+				path: "/",
+			});
 	}),
 });

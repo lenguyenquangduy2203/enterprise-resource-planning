@@ -8,11 +8,9 @@ const CallbackSchema = z.function({
 		z.string().register($State, { _tag: "state", key: "url" }),
 	]),
 	output: z.promise(z.union([
-		z.string(),
-		z.object(),
+		z.object({ error: z.union([z.string(), z.object()]) }),
+		z.object({ message: z.string() }),
 		z.null(),
-		z.undefined(),
-		z.literal(""),
 	])),
 });
 

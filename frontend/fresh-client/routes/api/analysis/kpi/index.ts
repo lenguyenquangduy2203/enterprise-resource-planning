@@ -1,6 +1,7 @@
 import { define } from "@/utils/mod.ts";
 import { OperationalKPIController } from "@/controllers/analysis/OperationalKPIController.ts";
 import { AnalysisClient } from "@/http-clients/analysis/AnalysisClient.ts";
+import { ResponseEntity } from "@fresh-web/mod.ts";
 
 export const handler = define.handlers({
 	GET: OperationalKPIController(async (accessToken, query) => {
@@ -9,8 +10,6 @@ export const handler = define.handlers({
 			query,
 		);
 
-		return new Response(JSON.stringify(statistics), {
-			status: 200,
-		});
+		return ResponseEntity.ok(statistics);
 	}),
 });

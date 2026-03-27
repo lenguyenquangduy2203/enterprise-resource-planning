@@ -3,6 +3,7 @@ import { RegisterProductController } from "@/controllers/catalog/ProductRegContr
 import { ProductRegClient } from "@/http-clients/catalog/ProductRegClient.ts";
 import { ProductDetailsController } from "@/controllers/catalog/ProductDetailsController.ts";
 import { ProductSearchClient } from "@/http-clients/catalog/ProductSearchClient.ts";
+import { ResponseEntity } from "@fresh-web/mod.ts";
 
 export const handler = define.handlers({
 	POST: RegisterProductController(async (accessToken, product) => {
@@ -16,6 +17,6 @@ export const handler = define.handlers({
 			query,
 		);
 
-		return new Response(JSON.stringify(summaries), { status: 200 });
+		return ResponseEntity.ok(summaries);
 	}),
 });

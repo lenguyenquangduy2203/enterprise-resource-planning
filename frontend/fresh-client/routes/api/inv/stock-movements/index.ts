@@ -7,6 +7,7 @@ import {
 	PageSortCodec,
 	StockMovementClient,
 } from "@/http-clients/inv/StockMovementClient.ts";
+import { ResponseEntity } from "@fresh-web/mod.ts";
 
 export const handler = define.handlers({
 	POST: RequestMovementController(async (accessToken, movement) => {
@@ -15,7 +16,7 @@ export const handler = define.handlers({
 			movement,
 		);
 
-		return new Response(JSON.stringify(resp), { status: 201 });
+		return ResponseEntity.created(resp);
 	}),
 	GET: SearchMovementController(async (accessToken, query) => {
 		const summaries = await StockMovementClient.searchMovement(
@@ -29,6 +30,6 @@ export const handler = define.handlers({
 			},
 		);
 
-		return new Response(JSON.stringify(summaries), { status: 200 });
+		return ResponseEntity.ok(summaries);
 	}),
 });

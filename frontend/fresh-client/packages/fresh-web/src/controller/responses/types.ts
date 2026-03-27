@@ -69,11 +69,11 @@ export class ResponseEntity<T> {
 		});
 
 	/** 400 Bad Request with Error Object */
-	static readonly badRequest = (
-		error: string | object,
-	): ResponseEntity<string | object> =>
+	static readonly badRequest = <T extends string | object>(
+		error: T,
+	): ResponseEntity<{ error: T }> =>
 		new ResponseEntity({
-			body: typeof error === "string" ? { error } : error,
+			body: { error },
 			headersInit: { ...CommonHeaders.Json },
 			status: HttpStatus.BadRequest,
 		});
