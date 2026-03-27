@@ -1,6 +1,8 @@
 import { ControllerRegistries } from "../symbols/registry.ts";
 import type { MetaData } from "../symbols/metadata.ts";
 import type { z } from "../../../deps.ts";
+import { CookiePolicies } from "../../controller/responses/consts/mod.ts";
+import type { Cookie } from "@std/http";
 
 export function InputItemHandler<T extends z.core.$ZodType>(item: T): MetaData {
 	for (const $Registry of ControllerRegistries) {
@@ -61,3 +63,13 @@ export async function parseRequestBody(req: Request) {
 		}
 	}
 }
+
+export const CreateCookie = (
+	name: string,
+	value: string,
+	policy: keyof typeof CookiePolicies = "StrictSession",
+): Cookie => ({
+	name,
+	value,
+	...CookiePolicies[policy],
+});

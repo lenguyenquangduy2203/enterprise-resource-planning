@@ -12,6 +12,8 @@ import type {
 	PageResponse,
 } from "../shared/symbols/metadata.ts";
 import { getCookies } from "../../deps.ts";
+import { ResponseEntity } from "./responses/mod.ts";
+import { setCookie } from "@std/http";
 
 function getDefaultMetaHandlerMux<
 	State extends Record<string, unknown> = Record<string, unknown>,
@@ -59,8 +61,9 @@ function getDefaultMetaHandlerMux<
 
 type ControllerOutput<T> =
 	| Response
+	| ResponseEntity<T>
 	| PageResponse<T>
-	| Promise<Response | PageResponse<T>>;
+	| Promise<Response | ResponseEntity<T> | PageResponse<T>>;
 
 export function WithAppContext<State extends Record<string, unknown>>() {
 	return <Input extends z.ZodTuple, Output extends z.ZodType>(
@@ -84,6 +87,11 @@ export function WithAppContext<State extends Record<string, unknown>>() {
 
 			const result = await impl(...parsed);
 
+			if (result instanceof ResponseEntity) {
+				const _ = await schema._def.output.parseAsync(result.body);
+				return toResponse(result);
+			}
+
 			let body: unknown;
 			if (result instanceof Response) {
 				body = await readResponseBody(result);
@@ -96,4 +104,34 @@ export function WithAppContext<State extends Record<string, unknown>>() {
 			return result;
 		};
 	};
+}
+
+function toResponse<T extends z.ZodType>(
+	{ body, cookies, headersInit, status }: ResponseEntity<z.input<T>>,
+) {
+	const headers = new Headers(headersInit);
+	const code = status?.code ?? 200;
+
+	const isBodyForbidden = [101, 204, 205, 304].includes(code);
+
+	if (cookies) {
+		cookies.forEach((c) => setCookie(headers, c));
+	}
+
+	let finalBody: string | null | undefined;
+	if (isBodyForbidden) {
+		headers.delete("Content-Type");
+		headers.delete("Content-Length");
+	} else {
+		finalBody = JSON.stringify(body);
+		if (finalBody !== undefined && !headers.has("Content-Type")) {
+			headers.set("Content-Type", "application/json");
+		}
+	}
+
+	return new Response(finalBody, {
+		headers,
+		status: code,
+		statusText: status?.text,
+	});
 }

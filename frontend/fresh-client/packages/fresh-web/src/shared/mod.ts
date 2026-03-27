@@ -8,3 +8,4 @@ export {
 	$QueryModel,
 	$State,
 } from "./symbols/registry.ts";
+export { CreateCookie } from "./utils/utils.ts";
