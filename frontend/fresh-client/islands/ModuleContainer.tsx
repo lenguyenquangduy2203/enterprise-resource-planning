@@ -1,8 +1,8 @@
 import LeftAside from "@/components/layouts/LeftAside.tsx";
 import ButtonsList from "@/components/ButtonsList.tsx";
 import TopNav from "@/components/layouts/TopNav.tsx";
-import { useResourceNav } from "@/hooks/useResourceNav.ts";
-import { useActionNav } from "@/hooks/useActionNav.ts";
+import { useResourceNav } from "../hooks/navigation/useResourceNav.ts";
+import { useActionNav } from "../hooks/navigation/useActionNav.ts";
 
 type Props = {
 	moduleName: string;

@@ -1,6 +1,6 @@
 import useOperationalKPI, {
 	type KPI,
-} from "@/hooks/analytic/useOperationalKPI.ts";
+} from "@/hooks/analysis/useOperationalKPI.ts";
 import Chart, { type ChartProps } from "@/islands/Chart.tsx";
 
 type Props = {

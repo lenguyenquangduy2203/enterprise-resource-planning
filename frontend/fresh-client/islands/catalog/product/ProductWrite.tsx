@@ -1,6 +1,6 @@
 import { useSignal } from "@preact/signals";
-import { useProductCategory } from "@/hooks/useProductCategory.ts";
-import { useProductManufacturer } from "@/hooks/useProductManufacturer.ts";
+import { useProductCategory } from "../../../hooks/catalog/useProductCategory.ts";
+import { useProductManufacturer } from "../../../hooks/catalog/useProductManufacturer.ts";
 import { JSX } from "preact/jsx-runtime";
 
 export default function ProductWrite() {

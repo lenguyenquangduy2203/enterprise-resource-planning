@@ -1,6 +1,6 @@
 import useStockCapitalDistribution, {
 	type GroupBy,
-} from "@/hooks/analytic/useStockCapitalDistribution.ts";
+} from "@/hooks/analysis/useStockCapitalDistribution.ts";
 import Chart, { type ChartProps } from "@/islands/Chart.tsx";
 
 type Props = {

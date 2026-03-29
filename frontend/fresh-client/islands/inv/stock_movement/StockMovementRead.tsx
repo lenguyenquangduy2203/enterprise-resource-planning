@@ -1,7 +1,7 @@
 import { useSignal } from "@preact/signals";
 import { ComponentChild } from "preact";
 import DataSheet from "@/components/DataSheet.tsx";
-import useStockMovementSearch from "@/hooks/useStockMovementSearch.ts";
+import useStockMovementSearch from "../../../hooks/inventory/useStockMovementSearch.ts";
 
 const MovementStatus = [
 	"PENDING",

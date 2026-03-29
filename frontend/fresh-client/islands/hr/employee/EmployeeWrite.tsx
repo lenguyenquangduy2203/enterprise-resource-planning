@@ -1,6 +1,6 @@
 import { useSignal } from "@preact/signals";
 import { JSX } from "preact";
-import { useOrgData } from "@/hooks/useOrgData.ts";
+import { useOrgData } from "../../../hooks/hr/useOrgData.ts";
 
 export default function EmployeeWrite() {
 	const fullname = useSignal("");

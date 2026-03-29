@@ -1,6 +1,6 @@
 import { FunctionalComponent } from "preact";
 import { ResourceProps } from "./DashboardContainerFactory.tsx";
-import { useActionNav } from "../../hooks/useActionNav.ts";
+import { useActionNav } from "../../hooks/navigation/useActionNav.ts";
 import TopNav from "../../components/layouts/TopNav.tsx";
 
 type ActionsLazyDispatcher<Action extends string | symbol> = Record<

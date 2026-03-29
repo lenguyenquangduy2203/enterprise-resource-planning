@@ -1,7 +1,7 @@
 import { Signal } from "@preact/signals";
 import { FunctionalComponent } from "preact";
 import TopNav from "../../components/layouts/TopNav.tsx";
-import { useActionNav } from "../../hooks/useActionNav.ts";
+import { useActionNav } from "../../hooks/navigation/useActionNav.ts";
 
 const ActionSectionDispatcher: Record<string, FunctionalComponent> = {
 	read: () => <div>Account.read</div>,

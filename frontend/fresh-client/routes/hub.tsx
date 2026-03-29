@@ -14,6 +14,7 @@ import {
 } from "@/http-clients/auth/PoliciesClient.ts";
 import { PageProps } from "fresh";
 import z from "zod";
+import { ResponseEntity } from "@fresh-web/mod.ts";
 
 export const handler = define.handlers({
 	GET: HomeController(async (accessToken) => {
@@ -29,7 +30,7 @@ export const handler = define.handlers({
 				"&code_challenge=" + challenge +
 				"&code_challenge_method=S256";
 
-			return Response.redirect(authUrl, 302);
+			return ResponseEntity.redirect(authUrl);
 		}
 
 		const policies = await PoliciesClient.getJwtPolicies(accessToken);

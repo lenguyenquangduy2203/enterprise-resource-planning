@@ -1,8 +1,8 @@
 import { useSignal } from "@preact/signals";
 import { ComponentChild } from "preact";
 import DataSheet from "@/components/DataSheet.tsx";
-import { useOrgData } from "@/hooks/useOrgData.ts";
-import { useEmployeeSearch } from "@/hooks/useEmployeeSearch.ts";
+import { useOrgData } from "../../../hooks/hr/useOrgData.ts";
+import { useEmployeeSearch } from "../../../hooks/hr/useEmployeeSearch.ts";
 
 const ProvisionStatus = [
 	"PROVISIONED",

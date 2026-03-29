@@ -1,9 +1,9 @@
 import { useSignal } from "@preact/signals";
-import useProductSearch from "../../../hooks/useProductSearch.ts";
+import useProductSearch from "../../../hooks/catalog/useProductSearch.ts";
 import DataSheet from "../../../components/DataSheet.tsx";
 import { ComponentChild } from "preact";
-import { useProductCategory } from "../../../hooks/useProductCategory.ts";
-import { useProductManufacturer } from "../../../hooks/useProductManufacturer.ts";
+import { useProductCategory } from "../../../hooks/catalog/useProductCategory.ts";
+import { useProductManufacturer } from "../../../hooks/catalog/useProductManufacturer.ts";
 
 const ProductStatus = [
 	"ACTIVE",

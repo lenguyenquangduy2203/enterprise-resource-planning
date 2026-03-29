@@ -53,11 +53,11 @@ export function parseQuery<T>(
 	return `${path}?${queries.join("&")}`;
 }
 
-export function mayParseAdditionalInit(
+export async function mayParseAdditionalInit(
 	fn: z.ZodFunction,
 	args: unknown[],
 	init?: Partial<ClientInit>,
-): Partial<ClientInit> {
+): Promise<Partial<ClientInit>> {
 	const finalInit: Partial<ClientInit> = init ?? {};
 	const items = fn._def.input instanceof z.ZodTuple
 		? fn._def.input._zod.def.items
@@ -65,9 +65,18 @@ export function mayParseAdditionalInit(
 
 	const itemsMeta = items.map(InputItemHandler);
 	for (const [i, meta] of itemsMeta.entries()) {
-		const value = args[i];
-		if (meta._tag === "body" && typeof value === "object") {
-			finalInit.body = JSON.stringify(value);
+		const value = items[i] instanceof z.ZodDefault ||
+				(items[i] instanceof z.ZodPipe &&
+					items[i].def.in instanceof z.ZodDefault)
+			? await z.parseAsync(items[i], args[i])
+			: args[i];
+		if (meta._tag === "body") {
+			if (isUnSerializableBodyType(value)) {
+				finalInit.body = value;
+			} else {
+				finalInit.body = JSON.stringify(value);
+			}
+
 			continue;
 		}
 
@@ -77,8 +86,17 @@ export function mayParseAdditionalInit(
 				string
 			>;
 			headers[meta.key] = value as string;
+			finalInit.headers = headers;
 		}
 	}
 
 	return finalInit;
+}
+
+function isUnSerializableBodyType(value: unknown) {
+	return value instanceof URLSearchParams ||
+		value instanceof FormData ||
+		value instanceof ReadableStream ||
+		value instanceof Blob ||
+		value instanceof ArrayBuffer;
 }

@@ -1,7 +1,7 @@
 import { useComputed, useSignal } from "@preact/signals";
 import { JSX } from "preact";
-import { useProductLookup } from "@/hooks/useProductLookup.ts";
-import { useWarehouseLookup } from "@/hooks/useWarehouseLookup.ts";
+import { useProductLookup } from "../../../hooks/catalog/useProductLookup.ts";
+import { useWarehouseLookup } from "../../../hooks/inventory/useWarehouseLookup.ts";
 
 type MovementType = "TRANSFER" | "IMPORT" | "EXPORT" | "ADJUSTMENT";
 

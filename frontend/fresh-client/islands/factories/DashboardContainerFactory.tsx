@@ -1,6 +1,6 @@
 import { Signal, useSignal, useSignalEffect } from "@preact/signals";
 import { FunctionalComponent } from "preact";
-import { useResourceNav } from "@/hooks/useResourceNav.ts";
+import { useResourceNav } from "../../hooks/navigation/useResourceNav.ts";
 import ButtonsList from "@/components/ButtonsList.tsx";
 import LeftAside from "@/components/layouts/LeftAside.tsx";
 

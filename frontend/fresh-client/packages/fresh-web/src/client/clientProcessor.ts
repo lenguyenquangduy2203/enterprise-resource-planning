@@ -27,7 +27,7 @@ function walkClientSchema(meta: ClientMeta, shape: ClientRawShape) {
 			async (...args: z.output<typeof fn._def.input>) => {
 				const { base, init } = structuredClone(meta);
 				const url = buildUrl(base, uri, fn, args);
-				const finalInit = mayParseAdditionalInit(fn, args, init);
+				const finalInit = await mayParseAdditionalInit(fn, args, init);
 				const resp = await fetch(url, {
 					...finalInit,
 					method,

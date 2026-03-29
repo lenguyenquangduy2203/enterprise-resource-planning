@@ -1,6 +1,6 @@
 import useDepartmentWorkforce, {
 	type Department,
-} from "@/hooks/analytic/useDepartmentWorkforce.ts";
+} from "@/hooks/analysis/useDepartmentWorkforce.ts";
 import Chart, { type ChartProps } from "@/islands/Chart.tsx";
 
 type Props = {
