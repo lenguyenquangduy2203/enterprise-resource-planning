@@ -25,6 +25,14 @@ export const handler = define.handlers({
 					sameSite: "Lax",
 					secure: false, // true in prod
 					path: "/",
+				})
+				.withCookie({
+					name: "id_token",
+					value: token.id_token,
+					httpOnly: true,
+					sameSite: "Lax",
+					secure: false, // true in prod
+					path: "/",
 				});
 		} catch (error) {
 			if (error instanceof z.ZodError) {
@@ -49,5 +57,5 @@ function isJWTIssue(issue?: InferredIssue<"invalid_type" | "invalid_format">) {
 	const isJwtFormatIssue = issue?.code === "invalid_format" &&
 		issue.format === "jwt";
 
-	return isStringTypeIssue || isJwtFormatIssue;
+	return isStringTypeIssue && isJwtFormatIssue;
 }

@@ -37,6 +37,7 @@ const GetTokenContentTypeHeader = z.string().default(
 
 const TokenResponse = z.object({
 	access_token: z.jwt(),
+	id_token: z.string().nonempty(),
 }).loose();
 
 const AuthenticationClientSchema = z.object({

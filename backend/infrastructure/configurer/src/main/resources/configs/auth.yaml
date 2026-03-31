@@ -44,5 +44,7 @@ spring:
               redirect-uris:
                 - http://0.0.0.0:5173/login/oauth2/code/fresh-client-oidc
                 - http://0.0.0.0:5173/auth/callback
+              post-logout-redirect-uris:
+                - http://0.0.0.0:5173/
               scopes:
                 - openid

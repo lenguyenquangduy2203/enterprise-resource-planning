@@ -25,5 +25,5 @@ function isJWTIssue(issue?: InferredIssue<"invalid_type" | "invalid_format">) {
 	const isJwtFormatIssue = issue?.code === "invalid_format" &&
 		issue.format === "jwt";
 
-	return isStringTypeIssue || isJwtFormatIssue;
+	return isStringTypeIssue && isJwtFormatIssue;
 }

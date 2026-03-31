@@ -57,6 +57,26 @@ export default define.page(
 					<title>Distributed ERP | Unified Workspace</title>
 				</Head>
 
+				{/* 🔹 Top Navigation */}
+				<nav class="w-full fixed top-0 left-0 z-50 bg-white/70 backdrop-blur-md border-b border-white/20">
+					<div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+						{/* Left: Brand */}
+						<div class="font-bold text-(--color-text) tracking-tight">
+							ERP Workspace
+						</div>
+
+						{/* Right: Logout */}
+						<form method="POST" action="/auth/logout">
+							<button
+								type="submit"
+								class="px-4 py-2 rounded-lg text-sm font-medium text-gray-800 bg-(--color-primary) hover:opacity-90 transition"
+							>
+								Logout
+							</button>
+						</form>
+					</div>
+				</nav>
+
 				<main class="default fresh-gradient min-h-screen flex flex-col items-center justify-start pt-20 px-6">
 					<header class="text-center mb-12">
 						<div class="inline-block px-4 py-1.5 mb-4 text-xs font-semibold tracking-wider text-(--color-primary) uppercase bg-white/50 rounded-full backdrop-blur-sm border border-white/20">
