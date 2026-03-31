@@ -51,7 +51,7 @@ const AuthenticationClientSchema = z.object({
 				_tag: "header",
 				key: "Content-Type",
 			}),
-		]),
+		]).rest(z.undefined()),
 		output: z.promise(TokenResponse),
 	}).register($URI, { method: "POST", uri: "token" }),
 }).register($Client, { base: "http://auth-server:9000/oauth2/" });

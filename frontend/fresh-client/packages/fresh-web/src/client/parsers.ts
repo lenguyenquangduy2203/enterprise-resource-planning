@@ -65,11 +65,29 @@ export async function mayParseAdditionalInit(
 
 	const itemsMeta = items.map(InputItemHandler);
 	for (const [i, meta] of itemsMeta.entries()) {
-		const value = items[i] instanceof z.ZodDefault ||
-				(items[i] instanceof z.ZodPipe &&
-					items[i].def.in instanceof z.ZodDefault)
-			? await z.parseAsync(items[i], args[i])
-			: args[i];
+		const item = items[i];
+		/**
+		 * WORKAROUND: Zod Tuple Skip Bug
+		 * * In Zod's ZodTuple.ts, 'optStart' is calculated using findIndex.
+		 * If a tuple contains a mix of required and optional/defaulted items,
+		 * Zod may calculate an optStart that causes the iterator to 'continue' (skip)
+		 * any trailing items if the input array length is shorter than the tuple.
+		 * * Because Zod skips the index entirely, inner .default() or .transform()
+		 * logic inside a ZodPipe or ZodDefault is never executed.
+		 * * We manually force a parse on undefined arguments for Pipe/Defaulted items
+		 * to ensure defaults are populated and transforms are applied.
+		 */
+		let value = args[i];
+		if (value === undefined) {
+			if (
+				item instanceof z.ZodPipe ||
+				item instanceof z.ZodDefault ||
+				item instanceof z.ZodPrefault
+			) {
+				value = await z.parseAsync(item, undefined);
+			}
+		}
+
 		if (meta._tag === "body") {
 			if (isUnSerializableBodyType(value)) {
 				finalInit.body = value;
