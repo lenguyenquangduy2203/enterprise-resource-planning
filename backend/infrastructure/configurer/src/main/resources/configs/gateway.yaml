@@ -102,6 +102,7 @@ spring:
           - stats.read
           - stock-movements.write
         search_stock_movements:
+          - lookups.read
           - stock-movements.read
         search_stocks:
           - stocks.read

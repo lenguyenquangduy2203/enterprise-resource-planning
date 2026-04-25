@@ -1,4 +1,4 @@
-import { useSignal } from "@preact/signals";
+import { useSignal, useSignalEffect } from "@preact/signals";
 import { ComponentChild } from "preact";
 import DataSheet from "@/components/DataSheet.tsx";
 import useStockMovementSearch from "../../../hooks/inventory/useStockMovementSearch.ts";
@@ -15,8 +15,16 @@ const MovementStatus = [
 ] as const;
 const MovementType = ["TRANSFER", "IMPORT", "EXPORT", "ADJUSTMENT"] as const;
 
+type PerformerOption = {
+	id: string;
+	fullname: string;
+};
+
 export default function StockMovementRead() {
 	// 1. Signals for Search Query
+	const performerSearch = useSignal(""); // The text user types
+	const performers = useSignal<PerformerOption[]>([]);
+
 	const productSku = useSignal("");
 	const movementType = useSignal<typeof MovementType[number] | undefined>(
 		undefined,
@@ -31,6 +39,35 @@ export default function StockMovementRead() {
 	const createdTo = useSignal(""); // ISO string
 
 	// 2. Fetch Logic
+	useSignalEffect(() => {
+		const query = performerSearch.value.trim();
+		if (query.length < 2) {
+			performers.value = [];
+			return;
+		}
+
+		const timer = setTimeout(async () => {
+			try {
+				// Hard-coding the INV and HEAD constraints in the URL
+				const params = new URLSearchParams({
+					matchName: query,
+					departmentCode: "INV", // Hard-coded constraint
+					positionCode: "HEAD", // Hard-coded constraint
+				});
+				const resp = await fetch(
+					`/api/hr/performers/lookups?${params.toString()}`,
+				);
+				if (resp.ok) {
+					performers.value = await resp.json();
+				}
+			} catch (err) {
+				console.error("Performer lookup failed", err);
+			}
+		}, 300); // 300ms debounce
+
+		return () => clearTimeout(timer);
+	});
+
 	const { movements, pageNumber, totalPages, totalElements, pageSize } =
 		useStockMovementSearch({
 			productSku,
@@ -44,6 +81,8 @@ export default function StockMovementRead() {
 		});
 
 	const resetAll = () => {
+		performerSearch.value = "";
+		performers.value = [];
 		productSku.value = "";
 		movementType.value = undefined;
 		status.value = undefined;
@@ -125,14 +164,49 @@ export default function StockMovementRead() {
 							))}
 						</select>
 					</Field>
-					<Field label="Performed By (UUID)">
-						<input
-							class="custom-input text-xs"
-							value={performedBy.value}
-							onInput={(e) =>
-								performedBy.value = e.currentTarget.value}
-							placeholder="00000000-0000..."
-						/>
+					<Field label="Performer's Name">
+						<div class="relative">
+							<input
+								type="text"
+								list="performer-suggestions"
+								class="custom-input text-xs font-medium"
+								placeholder="Search Inventory Managers..."
+								value={performerSearch.value}
+								onInput={(e) => {
+									const inputVal = e.currentTarget.value;
+									performerSearch.value = inputVal;
+
+									// Map Name back to UUID
+									const match = performers.value.find(
+										(p) => p.fullname === inputVal,
+									);
+
+									if (match) {
+										performedBy.value = match.id; // Set the actual UUID
+									} else if (!inputVal) {
+										// Keep current value if still typing, or clear if empty
+										performedBy.value = "";
+									}
+								}}
+							/>
+
+							<datalist id="performer-suggestions">
+								{performers.value.map((p) => (
+									<option value={p.fullname}>
+										ID: {p.id.split("-")[0]}...
+									</option>
+								))}
+							</datalist>
+
+							{/* Visual Indicator: Show Badge when UUID is resolved */}
+							{!!performedBy.value && (
+								<div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+									<span class="text-[9px] font-black text-white bg-(--color-accent) px-1.5 py-0.5 rounded uppercase tracking-tighter">
+										Verified
+									</span>
+								</div>
+							)}
+						</div>
 					</Field>
 				</div>
 

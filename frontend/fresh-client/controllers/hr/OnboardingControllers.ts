@@ -1,10 +1,7 @@
 import z from "zod";
 import { AppController } from "@/utils/mod.ts";
-import {
-	AcceptResponse,
-	SelectOptions,
-} from "@/http-clients/hr/OnboardingClient.ts";
-import { $Cookie, $Form, $Param } from "@fresh-web/mod.ts";
+import { AcceptResponse } from "@/http-clients/hr/OnboardingClient.ts";
+import { $Cookie, $Form } from "@fresh-web/mod.ts";
 
 const AccessTokenCookie = z.string()
 	.register($Cookie, {
@@ -12,22 +9,6 @@ const AccessTokenCookie = z.string()
 		key: "access_token",
 	});
 
-const GetDepartmentOptsSchema = z.function({
-	input: z.tuple([
-		AccessTokenCookie,
-	]),
-	output: z.promise(SelectOptions),
-});
-const GetPositionOptsInDepartmentSchema = z.function({
-	input: z.tuple([
-		AccessTokenCookie,
-		z.string().trim().nonempty().register($Param, {
-			_tag: "param",
-			key: "code",
-		}),
-	]),
-	output: z.promise(SelectOptions),
-});
 const OnboardEmployeeSchema = z.function({
 	input: z.tuple([
 		AccessTokenCookie,
@@ -42,10 +23,4 @@ const OnboardEmployeeSchema = z.function({
 	output: z.promise(AcceptResponse),
 });
 
-export const GetDepartmentOptsController = AppController(
-	GetDepartmentOptsSchema,
-);
-export const GetPositionOptsInDepartmentController = AppController(
-	GetPositionOptsInDepartmentSchema,
-);
 export const OnboardEmployeeController = AppController(OnboardEmployeeSchema);
