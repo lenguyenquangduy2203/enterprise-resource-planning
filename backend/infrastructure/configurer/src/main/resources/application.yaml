@@ -9,5 +9,10 @@ spring:
                 native:
                     search-locations: classpath:/configs
 
+eureka:
+    client:
+        service-url:
+            defaultZone: http://registry:8761/eureka/
+
 server:
     port: 8888

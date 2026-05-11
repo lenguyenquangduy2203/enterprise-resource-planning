@@ -12,6 +12,11 @@ management:
       exposure:
         include: health,refresh
 
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+
 resilience4j:
   circuitbreaker:
     configs:

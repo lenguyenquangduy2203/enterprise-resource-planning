@@ -22,8 +22,17 @@ services:
   configurer:
     build: ./backend/infrastructure/configurer
     image: configurer
+    # environment:
+    #   # Tell Spring Cloud Config to search in the mounted folder
+    #   - SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS=file:/app/resources/configurations/
+    #   - SPRING_PROFILES_ACTIVE=native
+    #   - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry:8761/eureka/
     ports:
       - "8888:8888"
+    volumes:
+      # Map local folder to the container's classpath or config folder
+      # FORMAT: [host_path]:[container_path]
+      - ./backend/infrastructure/configurer/src/main/resources/configs:/app/resources/configs
     healthcheck:
       test: ["CMD", "sh", "-c", "ps -p 1 > /dev/null"]
       interval: 10s
