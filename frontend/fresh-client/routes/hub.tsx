@@ -1,24 +1,13 @@
 import { Head } from "fresh/runtime";
-import {
-	define,
-	extractResource,
-	MODULE_RESOURCE_MAP,
-	ModuleMeta,
-	ModuleName,
-} from "@/utils/mod.ts";
+import { define } from "@/utils/mod.ts";
 import { HomeController } from "@/controllers/auth/HomeController.ts";
-import {
-	PoliciesClient,
-	PoliciesSchema,
-} from "@/http-clients/auth/PoliciesClient.ts";
-import { page, PageProps } from "fresh";
-import z from "zod";
+import { page } from "fresh";
 import { ResponseEntity } from "@fresh-web/mod.ts";
 import ModulesContainer from "@/islands/ModulesContainer.tsx";
 import { challenge } from "@/utils/PkCE.ts";
 
 export const handler = define.handlers({
-	GET: HomeController(async (accessToken) => {
+	GET: HomeController((accessToken) => {
 		if (!accessToken) {
 			const authUrl = `http://localhost:9000/oauth2/authorize` +
 				`?response_type=code` +
@@ -34,24 +23,12 @@ export const handler = define.handlers({
 			return ResponseEntity.redirect(authUrl);
 		}
 
-		// const policies = await PoliciesClient.getJwtPolicies(accessToken);
-
 		return page();
 	}),
 });
 
 export default define.page(
 	() => {
-		// const permissions: string[] = data.permissions ?? [];
-		// const resources = new Set(
-		// 	permissions.map((pem) => extractResource(pem)).filter(Boolean),
-		// );
-		// const enabledModules = Object.entries(MODULE_RESOURCE_MAP)
-		// 	.filter(([_, moduleResources]) =>
-		// 		moduleResources.some((r) => resources.has(r))
-		// 	)
-		// 	.map(([module]) => module as ModuleName);
-
 		return (
 			<>
 				<Head>
