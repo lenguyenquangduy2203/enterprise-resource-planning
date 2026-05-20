@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 
 import dev.edu.gateway.configs.props.PolicyOverlayProperties;
 
 @Service
+@RefreshScope
 public class RolePolicyRegistry {
     private final Map<String, Set<String>> effectiveRolePermissions;
 

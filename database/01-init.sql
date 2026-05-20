@@ -509,7 +509,7 @@ INSERT INTO stock_movement (
     50, 'IMPORT', 'COMPLETED',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
-    '2026-01-01 08:00:00'
+    '2026-03-01 08:00:00'
 ),
 (
     3, 'DELL-U2723QE', 'Dell UltraSharp 27" 4K',
@@ -517,7 +517,7 @@ INSERT INTO stock_movement (
     30, 'IMPORT', 'COMPLETED',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
-    '2026-01-03 08:00:00'
+    '2026-03-03 08:00:00'
 ),
 (
     7, 'LOGI-MX-MAS3', 'Logitech MX Master 3S',
@@ -525,7 +525,7 @@ INSERT INTO stock_movement (
     100, 'IMPORT', 'COMPLETED',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
-    '2026-01-07 08:00:00'
+    '2026-03-07 08:00:00'
 ),
 (
     9, 'LOGI-C920', 'Logitech C920 HD Pro',
@@ -533,7 +533,7 @@ INSERT INTO stock_movement (
     45, 'IMPORT', 'COMPLETED',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
-    '2026-01-09 08:00:00'
+    '2026-03-09 08:00:00'
 ),
 (
     19, 'HMIL-AERON-B', 'Herman Miller Aeron Chair',
@@ -541,7 +541,7 @@ INSERT INTO stock_movement (
     20, 'IMPORT', 'COMPLETED',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
-    '2026-01-19 08:00:00'
+    '2026-03-19 08:00:00'
 ),
 (
     21, 'HMIL-MOTIA', 'Motia Sit-to-Stand Desk',
@@ -549,7 +549,7 @@ INSERT INTO stock_movement (
     15, 'IMPORT', 'COMPLETED',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
-    '2026-01-21 08:00:00'
+    '2026-03-21 08:00:00'
 ),
 (
     27, 'SAMS-LS32', 'Samsung 32" Smart Monitor',
@@ -557,7 +557,7 @@ INSERT INTO stock_movement (
     40, 'IMPORT', 'COMPLETED',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
-    '2026-01-27 08:00:00'
+    '2026-03-27 08:00:00'
 ),
 (
     29, 'SAMS-RF28', 'Samsung Smart Fridge',
@@ -565,7 +565,7 @@ INSERT INTO stock_movement (
     5, 'IMPORT', 'COMPLETED',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
-    '2026-01-29 08:00:00'
+    '2026-03-29 08:00:00'
 ),
 (
     2, 'DELL-OPT-7090', 'Dell OptiPlex 7090 Micro',
@@ -573,7 +573,7 @@ INSERT INTO stock_movement (
     25, 'IMPORT', 'COMPLETED',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
-    '2026-01-02 08:00:00'
+    '2026-03-02 08:00:00'
 ),
 (
     4, 'DELL-PWE-R750', 'Dell PowerEdge R750',
@@ -581,7 +581,7 @@ INSERT INTO stock_movement (
     10, 'IMPORT', 'COMPLETED',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
-    '2026-01-04 08:00:00'
+    '2026-03-04 08:00:00'
 ),
 (
     13, 'CSCO-C9200L', 'Cisco Catalyst 9200L',
@@ -589,7 +589,7 @@ INSERT INTO stock_movement (
     15, 'IMPORT', 'COMPLETED',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
-    '2026-01-13 08:00:00'
+    '2026-03-13 08:00:00'
 ),
 (
     14, 'CSCO-ISR-4331', 'Cisco ISR 4331 Router',
@@ -597,7 +597,7 @@ INSERT INTO stock_movement (
     8, 'IMPORT', 'COMPLETED',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
-    '2026-1-14 08:00:00'
+    '2026-03-14 08:00:00'
 ),
 (
     16, 'CSCO-MER-MS12', 'Cisco Meraki MS120',
@@ -605,7 +605,7 @@ INSERT INTO stock_movement (
     20, 'IMPORT', 'COMPLETED',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
-    '2026-01-16 08:00:00'
+    '2026-03-16 08:00:00'
 ),
 (
     18, 'CSCO-WAP-9120', 'Cisco Catalyst 9120 AP',
@@ -613,7 +613,7 @@ INSERT INTO stock_movement (
     30, 'IMPORT', 'COMPLETED',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
-    '2026-01-18 08:00:00'
+    '2026-03-18 08:00:00'
 ),
 (
     25, 'SAMS-980-1TB', 'Samsung 980 Pro 1TB SSD',
@@ -621,7 +621,7 @@ INSERT INTO stock_movement (
     200, 'IMPORT', 'COMPLETED',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
-    '2026-01-25 08:00:00'
+    '2026-03-25 08:00:00'
 ),
 (
     30, 'SAMS-RAM-32G', 'Samsung 32GB DDR5 RAM',
@@ -629,7 +629,7 @@ INSERT INTO stock_movement (
     150, 'IMPORT', 'COMPLETED',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
-    '2026-01-30 08:00:00'
+    '2026-03-30 08:00:00'
 ),
 (
     1, 'DELL-LAT-5420', 'Dell Latitude 5420 Laptop',
@@ -637,7 +637,7 @@ INSERT INTO stock_movement (
     10, 'IMPORT', 'COMPLETED',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
-    '2026-01-01 08:00:00'
+    '2026-03-01 08:00:00'
 ),
 (
     5, 'DELL-WD19S', 'Dell USB-C Docking Station',
@@ -645,7 +645,7 @@ INSERT INTO stock_movement (
     25, 'IMPORT', 'COMPLETED',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
-    '2026-01-05 08:00:00'
+    '2026-03-05 08:00:00'
 ),
 (
     6, 'DELL-KB216', 'Dell Wired Keyboard',
@@ -653,7 +653,7 @@ INSERT INTO stock_movement (
     50, 'IMPORT', 'COMPLETED',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
-    '2026-01-06 08:00:00'
+    '2026-03-06 08:00:00'
 ),
 (
     8, 'LOGI-K860', 'Logitech Ergo Keyboard',
@@ -661,7 +661,7 @@ INSERT INTO stock_movement (
     30, 'IMPORT', 'COMPLETED',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
-    '2026-01-08 08:00:00'
+    '2026-03-08 08:00:00'
 ),
 (
     10, 'LOGI-R500', 'Logitech Laser Presenter',
@@ -669,7 +669,7 @@ INSERT INTO stock_movement (
     15, 'IMPORT', 'COMPLETED',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
-    '2026-01-10 08:00:00'
+    '2026-03-10 08:00:00'
 ),
 (
     11, 'LOGI-H390', 'Logitech USB Headset',
@@ -677,7 +677,7 @@ INSERT INTO stock_movement (
     40, 'IMPORT', 'COMPLETED',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
-    '2026-01-11 08:00:00'
+    '2026-03-11 08:00:00'
 ),
 (
     15, 'CSCO-CB-10FT', 'Cisco Console Cable 10ft',
@@ -685,7 +685,7 @@ INSERT INTO stock_movement (
     100, 'IMPORT', 'COMPLETED',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
-    '2026-01-15 08:00:00'
+    '2026-03-15 08:00:00'
 ),
 (
     26, 'SAMS-T7-2TB', 'Samsung T7 Portable SSD',
@@ -693,7 +693,7 @@ INSERT INTO stock_movement (
     60, 'IMPORT', 'COMPLETED',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
-    '2026-01-26 08:00:00'
+    '2026-03-26 08:00:00'
 ),
 (
     12, 'LOGI-BOLT-RX', 'Logitech Bolt Receiver',
@@ -701,7 +701,7 @@ INSERT INTO stock_movement (
     200, 'IMPORT', 'COMPLETED',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
-    '2026-01-12 08:00:00'
+    '2026-03-12 08:00:00'
 ),
 (
     12, 'LOGI-BOLT-RX', 'Logitech Bolt Receiver',
@@ -709,7 +709,7 @@ INSERT INTO stock_movement (
     150, 'IMPORT', 'COMPLETED',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
-    '2026-01-12 08:00:00'
+    '2026-03-12 08:00:00'
 ),
 (
     12, 'LOGI-BOLT-RX', 'Logitech Bolt Receiver',
@@ -717,7 +717,7 @@ INSERT INTO stock_movement (
     50, 'IMPORT', 'COMPLETED',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
-    '2026-01-12 08:00:00'
+    '2026-03-12 08:00:00'
 ),
 (
     17, 'CSCO-FP-1010', 'Cisco Firepower 1010',
@@ -725,7 +725,7 @@ INSERT INTO stock_movement (
     5, 'IMPORT', 'COMPLETED',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
     UNHEX('6EA1CA4094E1437FA386AB1A0F24C226'), 'Charlie Day',
-    '2026-01-17 08:00:00'
+    '2026-03-17 08:00:00'
 ),
 (
     22, 'HMIL-FILE-2D', 'Tu Metal Filing Cabinet',
@@ -733,7 +733,7 @@ INSERT INTO stock_movement (
     10, 'IMPORT', 'COMPLETED',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
-    '2026-01-22 08:00:00'
+    '2026-03-22 08:00:00'
 ),
 (
     23, 'HMIL-LOG-TRAY', 'HM Branded Desk Tray',
@@ -741,7 +741,7 @@ INSERT INTO stock_movement (
     100, 'IMPORT', 'COMPLETED',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
-    '2026-01-23 08:00:00'
+    '2026-03-23 08:00:00'
 ),
 (
     24, 'HMIL-FLO-ARM', 'Flo Monitor Arm',
@@ -749,7 +749,7 @@ INSERT INTO stock_movement (
     12, 'IMPORT', 'COMPLETED',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
     UNHEX('E01EEBB1AED44E27BC52517FE36F5A5D'), 'Bob Builder',
-    '2026-01-24 08:00:00'
+    '2026-03-24 08:00:00'
 ),
 (
     28, 'SAMS-TAB-S8', 'Samsung Galaxy Tab S8',
@@ -757,7 +757,7 @@ INSERT INTO stock_movement (
     15, 'IMPORT', 'COMPLETED',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
     UNHEX('987574B4490B4CB8BB26DE659969274A'), 'Frank Reynolds',
-    '2026-01-28 08:00:00'
+    '2026-03-28 08:00:00'
 );
 
 INSERT INTO stock_movement (
@@ -772,42 +772,42 @@ INSERT INTO stock_movement (
 1, 'HCMEAST', 
 3, 'DANANGCENT', 
 5, 'TRANSFER', 'PENDING', 
-UNHEX(REPLACE('e01eebb1-aed4-4e27-bc52-517fe36f5a5d', '-', '')), 'Bob Builder', '2026-03-10 10:00:00'),
+UNHEX(REPLACE('e01eebb1-aed4-4e27-bc52-517fe36f5a5d', '-', '')), 'Bob Builder', '2026-04-10 10:00:00'),
 
 -- Export: Shipping to a customer from Hanoi
 (2, 'DELL-OPT-7090', 'Dell OptiPlex 7090 Micro', 
 2, 'HANOINORTH', 
 NULL, NULL, 
 2, 'EXPORT', 'PENDING', 
-UNHEX(REPLACE('6ea1ca40-94e1-437f-a386-ab1a0f24c226', '-', '')), 'Charlie Day', '2026-03-12 16:20:00'),
+UNHEX(REPLACE('6ea1ca40-94e1-437f-a386-ab1a0f24c226', '-', '')), 'Charlie Day', '2026-04-12 16:20:00'),
 
 -- Adjustment: Damaged stock found in HCM
 (27, 'SAMS-LS32', 'Samsung 32" Smart Monitor', 
 1, 'HCMEAST', 
 NULL, NULL, 
 1, 'ADJUSTMENT', 'PENDING', 
-UNHEX(REPLACE('e01eebb1-aed4-4e27-bc52-517fe36f5a5d', '-', '')), 'Bob Builder', '2026-03-14 09:45:00'),
+UNHEX(REPLACE('e01eebb1-aed4-4e27-bc52-517fe36f5a5d', '-', '')), 'Bob Builder', '2026-04-14 09:45:00'),
 
 -- Pending Import: New shipment arriving in Hanoi
 (30, 'SAMS-RAM-32G', 'Samsung 32GB DDR5 RAM', 
 NULL, NULL, 
 2, 'HANOINORTH', 
 50, 'IMPORT', 'PENDING', 
-UNHEX(REPLACE('6ea1ca40-94e1-437f-a386-ab1a0f24c226', '-', '')), 'Charlie Day', '2026-03-18 10:00:00'),
+UNHEX(REPLACE('6ea1ca40-94e1-437f-a386-ab1a0f24c226', '-', '')), 'Charlie Day', '2026-04-18 10:00:00'),
 
 -- In Review: Transfer request from Da Nang to HCM
 (28, 'SAMS-TAB-S8', 'Samsung Galaxy Tab S8', 
 3, 'DANANGCENT', 
 1, 'HCMEAST', 
 2, 'TRANSFER', 'PENDING', 
-UNHEX(REPLACE('987574b4-490b-4cb8-bb26-de659969274a', '-', '')), 'Frank Reynolds', '2026-03-18 11:30:00'),
+UNHEX(REPLACE('987574b4-490b-4cb8-bb26-de659969274a', '-', '')), 'Frank Reynolds', '2026-04-18 11:30:00'),
 
 -- Failed Export: Shipping issue
 (4, 'DELL-PWE-R750', 'Dell PowerEdge R750', 
 2, 'HANOINORTH', 
 NULL, NULL, 
 1, 'EXPORT', 'PENDING', 
-UNHEX(REPLACE('6ea1ca40-94e1-437f-a386-ab1a0f24c226', '-', '')), 'Charlie Day', '2026-03-17 14:00:00');
+UNHEX(REPLACE('6ea1ca40-94e1-437f-a386-ab1a0f24c226', '-', '')), 'Charlie Day', '2026-04-17 14:00:00');
 
 GRANT ALL PRIVILEGES ON auth.* TO 'erp_user'@'%';
 GRANT ALL PRIVILEGES ON hr.* TO 'erp_user'@'%';
