@@ -1,4 +1,4 @@
-export async function generatePkCE() {
+async function generatePkCE() {
 	const verifier = base64UrlEncode(
 		crypto.getRandomValues(new Uint8Array(32)),
 	);
@@ -17,3 +17,8 @@ function base64UrlEncode(buffer: Uint8Array) {
 		.replaceAll("/", "_")
 		.replace(/=+$/, "");
 }
+
+export const {
+	verifier,
+	challenge,
+} = await generatePkCE();

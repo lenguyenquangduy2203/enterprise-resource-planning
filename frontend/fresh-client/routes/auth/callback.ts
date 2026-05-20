@@ -1,8 +1,9 @@
-import { define, InferredIssue, verifier, WantedIssue } from "@/utils/mod.ts";
+import { define, InferredIssue, WantedIssue } from "@/utils/mod.ts";
 import { CallbackController } from "@/controllers/auth/OAuth2CallbackController.ts";
 import { AuthenticationClient } from "@/http-clients/auth/AuthenticateClient.ts";
 import { ResponseEntity } from "@fresh-web/mod.ts";
 import { z } from "zod";
+import { verifier } from "@/utils/PkCE.ts";
 
 export const handler = define.handlers({
 	GET: CallbackController(async (code, url) => {
