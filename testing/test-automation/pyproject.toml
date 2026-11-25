@@ -1,0 +1,22 @@
+[project]
+name = "test-automation"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "heineken", email = "lenguyenquanduy@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "mysql-connector-python>=26.10.0",
+    "python-dotenv>=1.2.4",
+    "requests>=2.34.2",
+    "selenium>=4.54.0",
+]
+
+[project.scripts]
+test-automation = "test_automation:main"
+
+[build-system]
+requires = ["uv_build>=0.12.19,<0.13.0"]
+build-backend = "uv_build"

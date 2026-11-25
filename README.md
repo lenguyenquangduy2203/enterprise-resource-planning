@@ -22,6 +22,10 @@ docker build -f ./dev/base/Dockerfile.25-jdk-base-run \
 cd ./frontend/fresh-client && deno task build
 ```
 
+```bash
+docker build -t erp-test-runner:latest -f testing/test-automation/Dockerfile testing/test-automation
+```
+
 ### 2. Build and start services
 
 ```bash
@@ -39,6 +43,15 @@ DOCKER_BUILDKIT=1 docker compose up -d --build
 ```bash
 docker compose down -v
 docker compose up --build
+```
+
+### 4. Running Gray Box Test Runner
+
+```bash
+until curl -sf http://localhost:4444/status > /dev/null; do sleep 1; done && \
+docker run --rm --network enterprise-resource-planning_erp \
+    --env-file .env \
+    erp-test-runner:latest
 ```
 
 ### Notes

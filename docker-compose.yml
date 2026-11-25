@@ -154,7 +154,16 @@ services:
         condition: service_healthy
     networks:
       - erp
-
+  selenium:
+    image: selenium/standalone-chrome:latest
+    shm_size: "2gb"
+    ports:
+      - "4444:4444"
+    depends_on:
+      fresh-client:
+        condition: service_started
+    networks:
+      - erp
 volumes:
   mysql_data:
 
